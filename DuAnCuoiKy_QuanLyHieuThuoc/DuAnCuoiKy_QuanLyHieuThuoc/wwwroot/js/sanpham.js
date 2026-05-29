@@ -1,4 +1,17 @@
 ﻿// Logic xử lý trang Sản phẩm MedVault
+$(document).ready(function () {
+    // Logic ẩn/hiện các trường thông tin theo Loại sản phẩm
+    $('#selectLoaiSP').change(function () {
+        var loai = $(this).val();
+        if (loai === "THUOC") {
+            $('#divThuoc').removeClass('d-none');
+            $('#divVatTu').addClass('d-none');
+        } else {
+            $('#divThuoc').addClass('d-none');
+            $('#divVatTu').removeClass('d-none');
+        }
+    });
+});
 
 $(document).ready(function () {
     console.log("Trang Sản phẩm đã sẵn sàng!");

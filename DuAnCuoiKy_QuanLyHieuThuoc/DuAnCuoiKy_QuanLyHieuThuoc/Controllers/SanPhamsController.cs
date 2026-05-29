@@ -1,36 +1,133 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
+using DuAnCuoiKy_QuanLyHieuThuoc.Business;
+using DuAnCuoiKy_QuanLyHieuThuoc.Enums;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
+    [Authorize(Roles = "QuanLy,DuocSi")] // Cả 2 quyền đều có thể vào xem danh sách
     public class SanPhamsController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductService _productService;
+        private readonly HieuThuocDbContext _context;
+
+        public SanPhamsController(IProductService productService, HieuThuocDbContext context)
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            _productService = productService;
+            _context = context;
+        }
 
-            ViewBag.TongThuoc = "1,245";
-            ViewBag.SapHetHang = 48;
-            ViewBag.HetHan30Ngay = 15;
+        // ============================================================
+        // 1. TRANG DANH SÁCH SẢN PHẨM (ẢNH 3)
+        // ============================================================
+        [HttpGet]
+        public async Task<IActionResult> Index(string search, string loai)
+        {
+            // Lấy dữ liệu thống kê và danh sách từ SQL View thông qua Service
+            var data = await _productService.GetProductIndexDataAsync(search, loai);
 
-            // Phân loại dữ liệu: THUOC và VATTU (Khớp với SQL LoaiSP)
-            var dsSanPham = new List<dynamic>
+            // Gửi dữ liệu tìm kiếm hiện tại ra View để giữ trạng thái ô nhập
+            ViewBag.CurrentSearch = search;
+            ViewBag.CurrentLoai = loai;
+
+            // Đổ dữ liệu vào các Dropdown trong Modal Thêm mới (Lấy từ SQL)
+            ViewData["MaDvt"] = new SelectList(_context.DonViTinhs, "MaDvt", "TenDvt");
+            ViewData["MaLoai"] = new SelectList(_context.LoaiThuocs, "MaLoai", "TenLoai");
+            ViewData["MaLoaiVt"] = new SelectList(_context.LoaiVatTus, "MaLoaiVt", "TenLoaiVt");
+
+            return View(data);
+        }
+
+        // ============================================================
+        // 2. XỬ LÝ THÊM SẢN PHẨM MỚI (HÀNH ĐỘNG TỪ MODAL)
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "QuanLy")] // Chỉ Quản lý mới được thêm sản phẩm
+        public async Task<IActionResult> Create(AddProductViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                // Nhóm THUỐC
-                new { Ma = "TH-0001", Ten = "Amoxicillin 500mg", PhânLoai = "THUỐC", ChiTiet = "Kháng sinh", DVT = "Viên", Gia = "4,500", Ton = 100, CanToa = true, Status = "success" },
-                new { Ma = "TH-0002", Ten = "Paracetamol 500mg", PhânLoai = "THUỐC", ChiTiet = "Giảm đau", DVT = "Viên", Gia = "1,200", Ton = 45, CanToa = false, Status = "warning" },
-                
-                // Nhóm VẬT TƯ Y TẾ
-                new { Ma = "VT-0001", Ten = "Gạc y tế 10x10cm", PhânLoai = "VẬT TƯ", ChiTiet = "Băng gạc", DVT = "Gói", Gia = "2,000", Ton = 300, CanToa = false, Status = "success" },
-                new { Ma = "VT-0006", Ten = "Nhiệt kế điện tử", PhânLoai = "VẬT TƯ", ChiTiet = "Thiết bị nhỏ", DVT = "Hộp", Gia = "75,000", Ton = 5, CanToa = false, Status = "danger" },
-                new { Ma = "VT-0007", Ten = "Máy đo huyết áp", PhânLoai = "VẬT TƯ", ChiTiet = "Thiết bị nhỏ", DVT = "Hộp", Gia = "450,000", Ton = 10, CanToa = false, Status = "warning" }
-            };
+                TempData["Error"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại các trường bắt buộc.";
+                return RedirectToAction(nameof(Index));
+            }
 
-            ViewBag.DanhSachSP = dsSanPham;
-            ViewBag.LoaiSP = new SelectList(new[] { "THUỐC", "VẬT TƯ" });
+            // GỌI BUSINESS LAYER: Xử lý lưu vào SanPham và bảng con (Thuoc/VatTu)
+            bool result = await _productService.AddProductAsync(model);
 
-            return View();
+            if (result)
+            {
+                TempData["Success"] = $"Thêm sản phẩm '{model.TenSp}' thành công!";
+            }
+            else
+            {
+                TempData["Error"] = "Lỗi hệ thống: Không thể lưu sản phẩm vào Database.";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ============================================================
+        // 3. THAY ĐỔI TRẠNG THÁI KINH DOANH (NGỪNG BÁN/ĐANG BÁN)
+        // ============================================================
+        [HttpPost]
+        [Authorize(Roles = "QuanLy")]
+        public async Task<IActionResult> ToggleStatus(string id)
+        {
+            var sp = await _context.SanPhams.FindAsync(id);
+            if (sp == null) return NotFound();
+
+            sp.TrangThai = !sp.TrangThai; // Đảo ngược trạng thái bit
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Đã cập nhật trạng thái kinh doanh của sản phẩm.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ============================================================
+        // 4. XÓA SẢN PHẨM (KIỂM TRA RÀNG BUỘC SQL)
+        // ============================================================
+        [HttpPost]
+        [Authorize(Roles = "QuanLy")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                var sp = await _context.SanPhams.FindAsync(id);
+                if (sp == null) return NotFound();
+
+                // Kiểm tra xem sản phẩm đã có trong Lô hàng hay Hóa đơn chưa
+                bool hasHistory = await _context.LoHangs.AnyAsync(l => l.MaSp == id) ||
+                                  await _context.ChiTietHoaDons.AnyAsync(c => c.SoLoNavigation.MaSp == id);
+
+                if (hasHistory)
+                {
+                    TempData["Error"] = "Không thể xóa sản phẩm đã có lịch sử nhập xuất. Hãy sử dụng chức năng 'Ngừng kinh doanh'.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // Xóa bảng con trước (Do ràng buộc khóa ngoại trong SQL)
+                var thuoc = await _context.Thuocs.FindAsync(id);
+                if (thuoc != null) _context.Thuocs.Remove(thuoc);
+
+                var vtyt = await _context.VatTuYtes.FindAsync(id);
+                if (vtyt != null) _context.VatTuYtes.Remove(vtyt);
+
+                _context.SanPhams.Remove(sp);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Đã xóa sản phẩm khỏi hệ thống.";
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Lỗi xung đột dữ liệu SQL. Không thể xóa.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
