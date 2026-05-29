@@ -1,62 +1,290 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class PhieuNhapsController : Controller
     {
+        private readonly HieuThuocDbContext _context;
+
+        public PhieuNhapsController(HieuThuocDbContext context)
+        {
+            _context = context;
+        }
+
+        // =====================================================
+        // DANH SÁCH PHIẾU NHẬP
+        // =====================================================
+
         public IActionResult Index()
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            var dsPhieu = new List<dynamic>
+            {
+                new {
+                    Ma = "PN-20231024-01",
+                    Ngay = "24/10/2023 09:30",
+                    NCC = "Công ty Dược phẩm Trung ương I",
+                    SoMatHang = 15,
+                    TongTien = "125,400,000",
+                    Status = "Đã nhập kho",
+                    Class = "success"
+                },
 
-            // Danh sách phiếu nhập mẫu
-            var dsPhieu = new List<dynamic> {
-                new { Ma = "PN-20231024-01", Ngay = "24/10/2023 09:30", NCC = "Công ty Dược phẩm Trung ương I", SoMatHang = 15, TongTien = "125,400,000", Status = "Đã nhập kho", Class = "success" },
-                new { Ma = "PN-20231024-02", Ngay = "24/10/2023 14:15", NCC = "Nhà phân phối Thuốc Việt", SoMatHang = 8, TongTien = "45,200,000", Status = "Chờ duyệt", Class = "warning" },
-                new { Ma = "PN-20231023-01", Ngay = "23/10/2023 10:00", NCC = "Dược Hậu Giang", SoMatHang = 42, TongTien = "310,500,000", Status = "Đã nhập kho", Class = "success" },
-                new { Ma = "PN-20231022-03", Ngay = "22/10/2023 16:45", NCC = "Công ty TNHH Dược phẩm Đông Á", SoMatHang = 5, TongTien = "12,000,000", Status = "Đã hủy", Class = "danger" },
-                new { Ma = "PN-20231021-01", Ngay = "21/10/2023 08:15", NCC = "Traphaco", SoMatHang = 20, TongTien = "89,600,000", Status = "Đã nhập kho", Class = "success" }
+                new {
+                    Ma = "PN-20231024-02",
+                    Ngay = "24/10/2023 14:15",
+                    NCC = "Nhà phân phối Thuốc Việt",
+                    SoMatHang = 8,
+                    TongTien = "45,200,000",
+                    Status = "Chờ duyệt",
+                    Class = "warning"
+                },
+
+                new {
+                    Ma = "PN-20231023-01",
+                    Ngay = "23/10/2023 10:00",
+                    NCC = "Dược Hậu Giang",
+                    SoMatHang = 42,
+                    TongTien = "310,500,000",
+                    Status = "Đã nhập kho",
+                    Class = "success"
+                },
+
+                new {
+                    Ma = "PN-20231022-03",
+                    Ngay = "22/10/2023 16:45",
+                    NCC = "Công ty TNHH Dược phẩm Đông Á",
+                    SoMatHang = 5,
+                    TongTien = "12,000,000",
+                    Status = "Đã hủy",
+                    Class = "danger"
+                },
+
+                new {
+                    Ma = "PN-20231021-01",
+                    Ngay = "21/10/2023 08:15",
+                    NCC = "Traphaco",
+                    SoMatHang = 20,
+                    TongTien = "89,600,000",
+                    Status = "Đã nhập kho",
+                    Class = "success"
+                }
             };
 
             ViewBag.DsPhieuNhap = dsPhieu;
 
-            // Dữ liệu cho các bộ lọc (Filter)
-            ViewBag.NhaCungCap = new SelectList(new[] { "Tất cả NCC", "Dược phẩm TW1", "Dược Hậu Giang", "Traphaco" });
-            ViewBag.TrangThai = new SelectList(new[] { "Tất cả trạng thái", "Đã nhập kho", "Chờ duyệt", "Đã hủy" });
+            ViewBag.NhaCungCap = new SelectList(new[]
+            {
+                "Tất cả NCC",
+                "Dược phẩm TW1",
+                "Dược Hậu Giang",
+                "Traphaco"
+            });
+
+            ViewBag.TrangThai = new SelectList(new[]
+            {
+                "Tất cả trạng thái",
+                "Đã nhập kho",
+                "Chờ duyệt",
+                "Đã hủy"
+            });
 
             return View();
         }
 
+        // =====================================================
+        // GET CREATE
+        // =====================================================
+
+        [HttpGet]
         public IActionResult Create()
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            var model = new PhieuNhapCreateViewModel();
 
-            // 1. Danh sách Nhà cung cấp để chọn
-            ViewBag.MaNCC = new SelectList(new[] {
-                new { Ma = "NCC001", Ten = "Dược phẩm Trung ương 1" },
-                new { Ma = "NCC002", Ten = "Dược Hậu Giang" },
-                new { Ma = "NCC003", Ten = "Traphaco" }
-            }, "Ma", "Ten");
+            // NCC
+            model.DsNhaCungCap = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "NCC001",
+                    Text = "Dược phẩm Trung ương 1"
+                },
 
-            // 2. Danh sách sản phẩm mẫu để chọn nhập
-            ViewBag.DsSanPham = new List<dynamic> {
-                new { Ma = "TH-0001", Ten = "Amoxicillin 500mg", DVT = "Hộp 10 vỉ x 10 viên" },
-                new { Ma = "TH-0002", Ten = "Paracetamol 500mg", DVT = "Vỉ 10 viên" }
+                new SelectListItem
+                {
+                    Value = "NCC002",
+                    Text = "Dược Hậu Giang"
+                },
+
+                new SelectListItem
+                {
+                    Value = "NCC003",
+                    Text = "Traphaco"
+                }
             };
 
-            // 3. Danh sách phiếu nhập gần đây (Cột bên phải Ảnh 15)
-            ViewBag.PhieuGanDay = new List<dynamic> {
-                new { Ma = "PN-231024-01", NCC = "Dược phẩm TW1", Ngay = "24/10", Status = "HOÀN THÀNH" },
-                new { Ma = "PN-231022-03", NCC = "Dược Hậu Giang", Ngay = "22/10", Status = "HOÀN THÀNH" }
+            // SẢN PHẨM
+            model.DsSanPham = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "TH001",
+                    Text = "Amoxicillin 500mg"
+                },
+
+                new SelectListItem
+                {
+                    Value = "TH002",
+                    Text = "Paracetamol 500mg"
+                },
+
+                new SelectListItem
+                {
+                    Value = "TH003",
+                    Text = "Vitamin C 1000mg"
+                }
             };
 
-            /* [NOTE SQL]: 
-               ViewBag.MaNCC = new SelectList(_context.NhaCungCaps, "MaNCC", "TenNCC");
-               ViewBag.MaNV = User.FindFirst("MaNV")?.Value;
+            // TẠO 3 DÒNG NHẬP SẴN
+            model.DanhSachLoHang = new List<LoHangNhapVM>
+            {
+                new LoHangNhapVM
+                {
+                    HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(12))
+                },
+
+                new LoHangNhapVM
+                {
+                    HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(12))
+                },
+
+                new LoHangNhapVM
+                {
+                    HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(12))
+                }
+            };
+
+            return View(model);
+        }
+
+        // =====================================================
+        // POST CREATE
+        // =====================================================
+
+        [HttpPost]
+        public IActionResult Create(PhieuNhapCreateViewModel model)
+        {
+            // VALIDATION HSD
+            foreach (var lo in model.DanhSachLoHang)
+            {
+                if (lo.HanSuDung <= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    ModelState.AddModelError(
+                        "",
+                        $"Lô {lo.SoLo}: Hạn sử dụng phải lớn hơn ngày hiện tại."
+                    );
+                }
+
+                if (lo.GiaNhap <= 0)
+                {
+                    ModelState.AddModelError(
+                        "",
+                        $"Lô {lo.SoLo}: Giá nhập phải > 0."
+                    );
+                }
+            }
+
+            // LOAD LẠI DROPDOWN NẾU LỖI
+            if (!ModelState.IsValid)
+            {
+                model.DsNhaCungCap = new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Value = "NCC001",
+                        Text = "Dược phẩm Trung ương 1"
+                    },
+
+                    new SelectListItem
+                    {
+                        Value = "NCC002",
+                        Text = "Dược Hậu Giang"
+                    },
+
+                    new SelectListItem
+                    {
+                        Value = "NCC003",
+                        Text = "Traphaco"
+                    }
+                };
+
+                model.DsSanPham = new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Value = "TH001",
+                        Text = "Amoxicillin 500mg"
+                    },
+
+                    new SelectListItem
+                    {
+                        Value = "TH002",
+                        Text = "Paracetamol 500mg"
+                    },
+
+                    new SelectListItem
+                    {
+                        Value = "TH003",
+                        Text = "Vitamin C 1000mg"
+                    }
+                };
+
+                return View(model);
+            }
+
+            // =================================================
+            // HARDCODE DEMO
+            // =================================================
+
+            TempData["Success"] =
+                "Tạo phiếu nhập thành công!";
+
+            return RedirectToAction(nameof(Create));
+
+            /*
+            // SQL THỰC TẾ
+
+            var phieuNhap = new PhieuNhap
+            {
+                MaPhieuNhap = "PN001",
+                MaNcc = model.MaNcc,
+                MaNv = "NV001",
+                NgayNhap = DateTime.Now
+            };
+
+            _context.PhieuNhaps.Add(phieuNhap);
+            _context.SaveChanges();
+
+            foreach (var item in model.DanhSachLoHang)
+            {
+                var loHang = new LoHang
+                {
+                    SoLo = item.SoLo,
+                    MaSp = item.MaSp,
+                    MaPhieuNhap = phieuNhap.MaPhieuNhap,
+                    GiaNhap = item.GiaNhap,
+                    HanSuDung = item.HanSuDung,
+                    SoLuongNhap = item.SoLuongNhap,
+                    SoLuongConLai = item.SoLuongNhap
+                };
+
+                _context.LoHangs.Add(loHang);
+            }
+
+            _context.SaveChanges();
             */
-
-            return View();
         }
     }
 }
