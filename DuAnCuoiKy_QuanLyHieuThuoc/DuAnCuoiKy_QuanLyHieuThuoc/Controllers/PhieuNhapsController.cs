@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+﻿using DuAnCuoiKy_QuanLyHieuThuoc.Models;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
@@ -17,79 +18,53 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
         // =====================================================
         // DANH SÁCH PHIẾU NHẬP
         // =====================================================
-
-        public IActionResult Index()
+        public IActionResult Index(
+            string? maNcc,
+            DateTime? tuNgay,
+            DateTime? denNgay)
         {
-            var dsPhieu = new List<dynamic>
+            var query = _context.PhieuNhaps
+                .Include(x => x.MaNccNavigation)
+                .Include(x => x.LoHangs)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(maNcc))
             {
-                new {
-                    Ma = "PN-20231024-01",
-                    Ngay = "24/10/2023 09:30",
-                    NCC = "Công ty Dược phẩm Trung ương I",
-                    SoMatHang = 15,
-                    TongTien = "125,400,000",
-                    Status = "Đã nhập kho",
-                    Class = "success"
-                },
+                query = query.Where(x => x.MaNcc == maNcc);
+            }
 
-                new {
-                    Ma = "PN-20231024-02",
-                    Ngay = "24/10/2023 14:15",
-                    NCC = "Nhà phân phối Thuốc Việt",
-                    SoMatHang = 8,
-                    TongTien = "45,200,000",
-                    Status = "Chờ duyệt",
-                    Class = "warning"
-                },
+            if (tuNgay.HasValue)
+            {
+                query = query.Where(x => x.NgayNhap >= tuNgay.Value);
+            }
 
-                new {
-                    Ma = "PN-20231023-01",
-                    Ngay = "23/10/2023 10:00",
-                    NCC = "Dược Hậu Giang",
-                    SoMatHang = 42,
-                    TongTien = "310,500,000",
-                    Status = "Đã nhập kho",
-                    Class = "success"
-                },
+            if (denNgay.HasValue)
+            {
+                query = query.Where(x => x.NgayNhap <= denNgay.Value);
+            }
 
-                new {
-                    Ma = "PN-20231022-03",
-                    Ngay = "22/10/2023 16:45",
-                    NCC = "Công ty TNHH Dược phẩm Đông Á",
-                    SoMatHang = 5,
-                    TongTien = "12,000,000",
-                    Status = "Đã hủy",
-                    Class = "danger"
-                },
-
-                new {
-                    Ma = "PN-20231021-01",
-                    Ngay = "21/10/2023 08:15",
-                    NCC = "Traphaco",
-                    SoMatHang = 20,
-                    TongTien = "89,600,000",
-                    Status = "Đã nhập kho",
-                    Class = "success"
-                }
-            };
+            var dsPhieu = query
+                .OrderByDescending(x => x.NgayNhap)
+                .Select(x => new
+                {
+                    MaPhieu = x.MaPhieuNhap,
+                    NgayNhap = x.NgayNhap,
+                    TenNcc = x.MaNccNavigation.TenNcc,
+                    SoMatHang = x.LoHangs.Count,
+                    TongTien = x.TongTien ?? 0
+                })
+                .ToList();
 
             ViewBag.DsPhieuNhap = dsPhieu;
 
-            ViewBag.NhaCungCap = new SelectList(new[]
-            {
-                "Tất cả NCC",
-                "Dược phẩm TW1",
-                "Dược Hậu Giang",
-                "Traphaco"
-            });
+            ViewBag.DsNCC = new SelectList(
+                _context.NhaCungCaps.ToList(),
+                "MaNcc",
+                "TenNcc",
+                maNcc);
 
-            ViewBag.TrangThai = new SelectList(new[]
-            {
-                "Tất cả trạng thái",
-                "Đã nhập kho",
-                "Chờ duyệt",
-                "Đã hủy"
-            });
+            ViewBag.TuNgay = tuNgay?.ToString("yyyy-MM-dd");
+            ViewBag.DenNgay = denNgay?.ToString("yyyy-MM-dd");
 
             return View();
         }
@@ -97,194 +72,194 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
         // =====================================================
         // GET CREATE
         // =====================================================
-
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new PhieuNhapCreateViewModel();
+            var vm = TaoViewModel();
 
-            // NCC
-            model.DsNhaCungCap = new List<SelectListItem>
+            vm.DanhSachLoHang.Add(new LoHangNhapVM
             {
-                new SelectListItem
-                {
-                    Value = "NCC001",
-                    Text = "Dược phẩm Trung ương 1"
-                },
+                HanSuDung = DateOnly.FromDateTime(
+                    DateTime.Now.AddMonths(6))
+            });
 
-                new SelectListItem
-                {
-                    Value = "NCC002",
-                    Text = "Dược Hậu Giang"
-                },
-
-                new SelectListItem
-                {
-                    Value = "NCC003",
-                    Text = "Traphaco"
-                }
-            };
-
-            // SẢN PHẨM
-            model.DsSanPham = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Value = "TH001",
-                    Text = "Amoxicillin 500mg"
-                },
-
-                new SelectListItem
-                {
-                    Value = "TH002",
-                    Text = "Paracetamol 500mg"
-                },
-
-                new SelectListItem
-                {
-                    Value = "TH003",
-                    Text = "Vitamin C 1000mg"
-                }
-            };
-
-            // TẠO 3 DÒNG NHẬP SẴN
-            model.DanhSachLoHang = new List<LoHangNhapVM>
-            {
-                new LoHangNhapVM
-                {
-                    HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(12))
-                },
-
-                new LoHangNhapVM
-                {
-                    HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(12))
-                },
-
-                new LoHangNhapVM
-                {
-                    HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(12))
-                }
-            };
-
-            return View(model);
+            return View(vm);
         }
 
         // =====================================================
         // POST CREATE
         // =====================================================
-
         [HttpPost]
-        public IActionResult Create(PhieuNhapCreateViewModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(PhieuNhapCreateViewModel vm)
         {
-            // VALIDATION HSD
-            foreach (var lo in model.DanhSachLoHang)
+            vm = NapLaiCombobox(vm);
+
+            if (vm.DanhSachLoHang == null ||
+                vm.DanhSachLoHang.Count == 0)
             {
-                if (lo.HanSuDung <= DateOnly.FromDateTime(DateTime.Now))
+                ModelState.AddModelError("",
+                    "Phải nhập ít nhất 1 mặt hàng.");
+            }
+
+            foreach (var item in vm.DanhSachLoHang)
+            {
+                if (item.HanSuDung <=
+                    DateOnly.FromDateTime(DateTime.Now))
                 {
-                    ModelState.AddModelError(
-                        "",
-                        $"Lô {lo.SoLo}: Hạn sử dụng phải lớn hơn ngày hiện tại."
-                    );
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Hạn sử dụng phải lớn hơn ngày hiện tại.");
                 }
 
-                if (lo.GiaNhap <= 0)
+                if (item.GiaNhap <= 0)
                 {
-                    ModelState.AddModelError(
-                        "",
-                        $"Lô {lo.SoLo}: Giá nhập phải > 0."
-                    );
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Giá nhập phải lớn hơn 0.");
+                }
+
+                if (item.SoLuongNhap <= 0)
+                {
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Số lượng phải lớn hơn 0.");
                 }
             }
 
-            // LOAD LẠI DROPDOWN NẾU LỖI
             if (!ModelState.IsValid)
             {
-                model.DsNhaCungCap = new List<SelectListItem>
-                {
-                    new SelectListItem
-                    {
-                        Value = "NCC001",
-                        Text = "Dược phẩm Trung ương 1"
-                    },
-
-                    new SelectListItem
-                    {
-                        Value = "NCC002",
-                        Text = "Dược Hậu Giang"
-                    },
-
-                    new SelectListItem
-                    {
-                        Value = "NCC003",
-                        Text = "Traphaco"
-                    }
-                };
-
-                model.DsSanPham = new List<SelectListItem>
-                {
-                    new SelectListItem
-                    {
-                        Value = "TH001",
-                        Text = "Amoxicillin 500mg"
-                    },
-
-                    new SelectListItem
-                    {
-                        Value = "TH002",
-                        Text = "Paracetamol 500mg"
-                    },
-
-                    new SelectListItem
-                    {
-                        Value = "TH003",
-                        Text = "Vitamin C 1000mg"
-                    }
-                };
-
-                return View(model);
+                return View(vm);
             }
 
-            // =================================================
-            // HARDCODE DEMO
-            // =================================================
+            // Lấy phiếu nhập lớn nhất hiện tại
+var maCuoi = _context.PhieuNhaps
+    .OrderByDescending(x => x.MaPhieuNhap)
+    .Select(x => x.MaPhieuNhap)
+    .FirstOrDefault();
 
-            TempData["Success"] =
-                "Tạo phiếu nhập thành công!";
+int soMoi = 1;
 
-            return RedirectToAction(nameof(Create));
+if (!string.IsNullOrEmpty(maCuoi))
+{
+    soMoi = int.Parse(maCuoi.Substring(2)) + 1;
+}
 
-            /*
-            // SQL THỰC TẾ
+string maPhieu = $"PN{soMoi:0000}";
+
+            decimal tongTien = vm.DanhSachLoHang
+                .Sum(x => x.GiaNhap * x.SoLuongNhap);
+
+            // ===== LAY NHAN VIEN DA TON TAI =====
+            string? maNv = _context.NhanViens
+                .Select(x => x.MaNv)
+                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(maNv))
+            {
+                ModelState.AddModelError("",
+                    "Không tìm thấy nhân viên trong hệ thống.");
+
+                return View(vm);
+            }
 
             var phieuNhap = new PhieuNhap
             {
-                MaPhieuNhap = "PN001",
-                MaNcc = model.MaNcc,
-                MaNv = "NV001",
-                NgayNhap = DateTime.Now
+                MaPhieuNhap = maPhieu,
+                NgayNhap = DateTime.Now,
+                MaNcc = vm.MaNcc,
+                MaNv = maNv,
+                TongTien = tongTien,
+                GhiChu = ""
             };
 
             _context.PhieuNhaps.Add(phieuNhap);
-            _context.SaveChanges();
 
-            foreach (var item in model.DanhSachLoHang)
+            foreach (var item in vm.DanhSachLoHang)
             {
-                var loHang = new LoHang
+                var lo = new LoHang
                 {
                     SoLo = item.SoLo,
                     MaSp = item.MaSp,
-                    MaPhieuNhap = phieuNhap.MaPhieuNhap,
+                    MaPhieuNhap = maPhieu,
                     GiaNhap = item.GiaNhap,
                     HanSuDung = item.HanSuDung,
                     SoLuongNhap = item.SoLuongNhap,
                     SoLuongConLai = item.SoLuongNhap
                 };
 
-                _context.LoHangs.Add(loHang);
+                _context.LoHangs.Add(lo);
             }
 
             _context.SaveChanges();
-            */
+
+            TempData["Success"] =
+                "Tạo phiếu nhập thành công.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // =====================================================
+        // CHI TIẾT PHIẾU NHẬP
+        // =====================================================
+        public IActionResult Details(string id)
+        {
+            var phieu = _context.PhieuNhaps
+                .Include(x => x.MaNccNavigation)
+                .Include(x => x.LoHangs)
+                    .ThenInclude(x => x.MaSpNavigation)
+                .FirstOrDefault(x => x.MaPhieuNhap == id);
+
+            if (phieu == null)
+            {
+                return NotFound();
+            }
+
+            return View(phieu);
+        }
+
+        // =====================================================
+        // HELPER
+        // =====================================================
+        private PhieuNhapCreateViewModel TaoViewModel()
+        {
+            return new PhieuNhapCreateViewModel
+            {
+                DsNhaCungCap = _context.NhaCungCaps
+                    .Select(x => new SelectListItem
+                    {
+                        Value = x.MaNcc,
+                        Text = x.TenNcc
+                    })
+                    .ToList(),
+
+                DsSanPham = _context.SanPhams
+                    .Select(x => new SelectListItem
+                    {
+                        Value = x.MaSp,
+                        Text = x.TenSp
+                    })
+                    .ToList()
+            };
+        }
+
+        private PhieuNhapCreateViewModel NapLaiCombobox(
+            PhieuNhapCreateViewModel vm)
+        {
+            vm.DsNhaCungCap = _context.NhaCungCaps
+                .Select(x => new SelectListItem
+                {
+                    Value = x.MaNcc,
+                    Text = x.TenNcc
+                })
+                .ToList();
+
+            vm.DsSanPham = _context.SanPhams
+                .Select(x => new SelectListItem
+                {
+                    Value = x.MaSp,
+                    Text = x.TenSp
+                })
+                .ToList();
+
+            return vm;
         }
     }
 }
