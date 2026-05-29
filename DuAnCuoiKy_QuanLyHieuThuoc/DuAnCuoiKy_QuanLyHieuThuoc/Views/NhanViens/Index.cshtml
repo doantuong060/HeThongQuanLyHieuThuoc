@@ -1,71 +1,196 @@
-﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.NhanVien>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Quản trị nhân sự";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<div class="p-4">
+    <!-- Breadcrumb & Header -->
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="#">Hệ thống</a></li>
+                <li class="breadcrumb-item active">Quản trị Nhân sự</li>
+            </ol>
+        </nav>
+        <h3 class="fw-bold">Nhân viên</h3>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.HoTen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GioiTinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgaySinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayVaoLam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoTen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GioiTinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgaySinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayVaoLam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaNv">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaNv">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaNv">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <!-- Stats Cards (Ảnh 4) -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 rounded-4">
+                <div class="text-muted small fw-bold"><i class="bi bi-people me-2"></i>Tổng nhân sự</div>
+                <div class="h2 fw-bold my-1">@ViewBag.TongNhanSu</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 rounded-4">
+                <div class="text-muted small fw-bold"><i class="bi bi-briefcase me-2"></i>Đang làm việc</div>
+                <div class="h2 fw-bold my-1 text-success">@ViewBag.DangLamViec</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 rounded-4">
+                <div class="text-muted small fw-bold"><i class="bi bi-person-badge me-2"></i>Dược sĩ chính</div>
+                <div class="h2 fw-bold my-1 text-primary">@ViewBag.DuocSiChinh</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 rounded-4">
+                <div class="text-muted small fw-bold"><i class="bi bi-calendar-event me-2"></i>Nghỉ phép</div>
+                <div class="h2 fw-bold my-1 text-danger">@ViewBag.NghiPhep</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Action Bar -->
+    <div class="card border-0 shadow-sm p-3 mb-4 rounded-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0 px-3"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control bg-light border-0 py-2" placeholder="Tìm theo tên/mã/SĐT...">
+                </div>
+            </div>
+            <div class="col-md-8 text-end">
+                <button class="btn btn-light border-0 me-2 px-3"><i class="bi bi-download me-2"></i></button>
+                <button class="btn btn-light border-0 me-2 px-3"><i class="bi bi-printer me-2"></i></button>
+                <button class="btn btn-primary px-4 rounded-3" data-bs-toggle="modal" data-bs-target="#modalThemNV">
+                    <i class="bi bi-plus-lg me-2"></i>Thêm nhân viên
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table List -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover">
+                <thead class="bg-light text-muted small">
+                    <tr>
+                        <th class="ps-4">MÃ</th>
+                        <th>NHÂN VIÊN</th>
+                        <th>GIỚI TÍNH</th>
+                        <th>SĐT</th>
+                        <th>VAI TRÒ</th>
+                        <th>NGÀY VÀO</th>
+                        <th>TRẠNG THÁI</th>
+                        <th class="text-center px-4">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var nv in ViewBag.DanhSachNV)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary small">@nv.Ma</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; font-size: 13px;">
+                                        @nv.Initial
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">@nv.Ten</div>
+                                        <div class="text-muted small" style="font-size: 11px;">@nv.Email</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="small">@nv.GioiTinh</td>
+                            <td class="small">@nv.SDT</td>
+                            <td><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 fw-normal">@nv.VaiTro</span></td>
+                            <td class="small text-muted">@nv.NgayVao</td>
+                            <td><span class="badge bg-@nv.Class bg-opacity-10 text-@nv.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@nv.Status</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-link text-muted p-0"><i class="bi bi-three-dots-vertical"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="p-3 border-top d-flex justify-content-between align-items-center">
+            <span class="small text-muted">Hiển thị 1-4 của 24 nhân viên</span>
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item disabled"><a class="page-link border-0" href="#"><i class="bi bi-chevron-left"></i></a></li>
+                    <li class="page-item active"><a class="page-link border-0 rounded-3 mx-1" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link border-0 rounded-3 mx-1" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link border-0" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL THÊM NHÂN VIÊN MỚI (Ảnh 5) -->
+<div class="modal fade" id="modalThemNV" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered shadow-lg">
+        <div class="modal-content border-0" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h5 class="fw-bold mb-0">Thêm nhân viên mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <!-- Upload Avatar Section -->
+                    <div class="text-center mb-4">
+                        <div class="mx-auto border border-2 border-dashed rounded-circle d-flex flex-column align-items-center justify-content-center text-muted" style="width: 80px; height: 80px; cursor: pointer; background-color: #f8f9fa;">
+                            <i class="bi bi-camera-fill fs-4"></i>
+                            <span style="font-size: 10px;">Ảnh đại diện</span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Họ tên nhân viên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Nhập họ và tên">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Ngày sinh</label>
+                            <input type="date" class="form-control bg-light border-0 py-2">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">SĐT <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Nhập số điện thoại">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Email công việc</label>
+                            <input type="email" class="form-control bg-light border-0 py-2" placeholder="email@company.com">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label small fw-bold text-muted">Vai trò hệ thống <span class="text-danger">*</span></label>
+                            <select class="form-select bg-light border-0 py-2" asp-items="ViewBag.VaiTro">
+                                <option>Chọn vai trò</option>
+                            </select>
+                        </div>
+
+                        <!-- Account Info Section (Blue Header) -->
+                        <div class="col-md-12 py-2 border-top">
+                            <h6 class="text-primary fw-bold small mt-2"><i class="bi bi-shield-lock me-2"></i>THÔNG TIN TÀI KHOẢN</h6>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Tên đăng nhập <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="VD: nguyenmai">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Mật khẩu ban đầu <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="password" class="form-control bg-light border-0 py-2" placeholder="Nhập mật khẩu">
+                                <span class="input-group-text bg-light border-0"><i class="bi bi-eye-slash"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <label class="form-check-label small text-muted">Gửi thông tin đăng nhập qua email</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary px-4 rounded-3 fw-bold"><i class="bi bi-save me-2"></i>Lưu nhân viên</button>
+            </div>
+        </div>
+    </div>
+</div>

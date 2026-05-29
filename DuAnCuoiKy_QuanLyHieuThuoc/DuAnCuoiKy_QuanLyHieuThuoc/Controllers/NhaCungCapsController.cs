@@ -1,163 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class NhaCungCapsController : Controller
     {
-        private readonly HieuThuocDbContext _context;
-
-        public NhaCungCapsController(HieuThuocDbContext context)
+        public IActionResult Index()
         {
-            _context = context;
-        }
+            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
 
-        // GET: NhaCungCaps
-        public async Task<IActionResult> Index()
-        {
-            var hieuThuocDbContext = _context.NhaCungCaps.Include(n => n.MaPhuongXaNavigation);
-            return View(await hieuThuocDbContext.ToListAsync());
-        }
-
-        // GET: NhaCungCaps/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
+            // 1. Dữ liệu 3 thẻ đối tác nổi bật (Ảnh 6)
+            ViewBag.FeaturedNCC = new List<dynamic>
             {
-                return NotFound();
-            }
+                new { Ma = "NCC-TRP-01", Ten = "Dược phẩm Traphaco", Loai = "Chiến lược", Status = "Hoạt động", Icon = "building", ColorClass = "primary" },
+                new { Ma = "NCC-DHG-02", Ten = "Dược Hậu Giang (DHG)", Loai = "Nội địa", Status = "Hoạt động", Icon = "hospital", ColorClass = "primary" },
+                new { Ma = "NCC-VTYT-08", Ten = "Vật tư Y tế Bình Minh", Loai = "Cần rà soát", Status = "Tạm ngưng", Icon = "box-seam", ColorClass = "danger" }
+            };
 
-            var nhaCungCap = await _context.NhaCungCaps
-                .Include(n => n.MaPhuongXaNavigation)
-                .FirstOrDefaultAsync(m => m.MaNcc == id);
-            if (nhaCungCap == null)
+            // 2. Danh sách chi tiết nhà cung cấp
+            ViewBag.DanhSachNCC = new List<dynamic>
             {
-                return NotFound();
-            }
+                new { Ma = "NCC-TRP-01", Ten = "Công ty CP Traphaco", TinhThanh = "Hà Nội", SDT = "024.3681.1111", Status = "Hoạt động", Class = "success" },
+                new { Ma = "NCC-DHG-02", Ten = "Dược Hậu Giang", TinhThanh = "Cần Thơ", SDT = "0292.3891.433", Status = "Hoạt động", Class = "success" },
+                new { Ma = "NCC-VTYT-08", Ten = "Vật tư Y tế Bình Minh", TinhThanh = "Đà Nẵng", SDT = "0236.3821.555", Status = "Tạm ngưng", Class = "danger" },
+                new { Ma = "NCC-OPC-04", Ten = "Công ty CP Dược phẩm OPC", TinhThanh = "TP. HCM", SDT = "028.3875.2048", Status = "Hoạt động", Class = "success" }
+            };
 
-            return View(nhaCungCap);
-        }
+            ViewBag.TinhThanh = new SelectList(new[] { "Hà Nội", "TP. Hồ Chí Minh", "Đà Nẵng", "Cần Thơ", "Hải Phòng" });
 
-        // GET: NhaCungCaps/Create
-        public IActionResult Create()
-        {
-            ViewData["MaPhuongXa"] = new SelectList(_context.PhuongXas, "MaPhuongXa", "MaPhuongXa");
             return View();
-        }
-
-        // POST: NhaCungCaps/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaNcc,TenNcc,DiaChi,MaPhuongXa,SoDienThoai,Email,TrangThai")] NhaCungCap nhaCungCap)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(nhaCungCap);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaPhuongXa"] = new SelectList(_context.PhuongXas, "MaPhuongXa", "MaPhuongXa", nhaCungCap.MaPhuongXa);
-            return View(nhaCungCap);
-        }
-
-        // GET: NhaCungCaps/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhaCungCap = await _context.NhaCungCaps.FindAsync(id);
-            if (nhaCungCap == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaPhuongXa"] = new SelectList(_context.PhuongXas, "MaPhuongXa", "MaPhuongXa", nhaCungCap.MaPhuongXa);
-            return View(nhaCungCap);
-        }
-
-        // POST: NhaCungCaps/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MaNcc,TenNcc,DiaChi,MaPhuongXa,SoDienThoai,Email,TrangThai")] NhaCungCap nhaCungCap)
-        {
-            if (id != nhaCungCap.MaNcc)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(nhaCungCap);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NhaCungCapExists(nhaCungCap.MaNcc))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaPhuongXa"] = new SelectList(_context.PhuongXas, "MaPhuongXa", "MaPhuongXa", nhaCungCap.MaPhuongXa);
-            return View(nhaCungCap);
-        }
-
-        // GET: NhaCungCaps/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhaCungCap = await _context.NhaCungCaps
-                .Include(n => n.MaPhuongXaNavigation)
-                .FirstOrDefaultAsync(m => m.MaNcc == id);
-            if (nhaCungCap == null)
-            {
-                return NotFound();
-            }
-
-            return View(nhaCungCap);
-        }
-
-        // POST: NhaCungCaps/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var nhaCungCap = await _context.NhaCungCaps.FindAsync(id);
-            if (nhaCungCap != null)
-            {
-                _context.NhaCungCaps.Remove(nhaCungCap);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool NhaCungCapExists(string id)
-        {
-            return _context.NhaCungCaps.Any(e => e.MaNcc == id);
         }
     }
 }

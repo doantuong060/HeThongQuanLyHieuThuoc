@@ -1,65 +1,181 @@
-﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.NhaCungCap>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Quản lý Nhà cung cấp";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<style>
+    .icon-box-fixed {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenNcc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiaChi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaPhuongXaNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenNcc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiaChi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaPhuongXaNavigation.MaPhuongXa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaNcc">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaNcc">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaNcc">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .badge-status-pill {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 50px !important;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    .dot-status {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .card-ncc-featured {
+        transition: transform 0.2s ease;
+    }
+
+        .card-ncc-featured:hover {
+            transform: translateY(-5px);
+        }
+</style>
+
+<div class="p-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb small">
+                    <li class="breadcrumb-item"><a href="#">Hệ thống</a></li>
+                    <li class="breadcrumb-item active">Đối tác & Nhà cung cấp</li>
+                </ol>
+            </nav>
+            <h3 class="fw-bold">Quản lý Nhà cung cấp</h3>
+        </div>
+        <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalThemNCC">
+            <i class="bi bi-plus-lg me-2"></i>Thêm đối tác
+        </button>
+    </div>
+
+    <!-- Featured Cards -->
+    <div class="row g-4 mb-5">
+        @foreach (var ncc in ViewBag.FeaturedNCC)
+        {
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4 h-100 card-ncc-featured">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <!-- Icon box cố định kích thước -->
+                        <div class="icon-box-fixed bg-@ncc.ColorClass bg-opacity-10 text-@ncc.ColorClass">
+                            <i class="bi bi-@ncc.Icon fs-4"></i>
+                        </div>
+                        <!-- Badge dẹt hình con nhộng -->
+                        <span class="badge-status-pill bg-@ncc.ColorClass bg-opacity-10 text-@ncc.ColorClass">
+                            @ncc.Loai
+                        </span>
+                    </div>
+
+                    <h5 class="fw-bold mb-1">@ncc.Ten</h5>
+                    <p class="text-muted small mb-0">Mã: @ncc.Ma</p>
+
+                    <hr class="my-3 opacity-50">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="dot-status @(ncc.Status == "Hoạt động" ? "bg-success" : "bg-danger")"></div>
+                            <span class="small fw-bold">@ncc.Status</span>
+                        </div>
+                        <i class="bi bi-arrow-right text-muted"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Detailed List Section -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+            <h5 class="fw-bold mb-0">Danh sách chi tiết</h5>
+            <div class="d-flex gap-2">
+                <div class="input-group" style="width: 300px;">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control bg-light border-0 py-2 small shadow-none" placeholder="Tìm theo tên, mã...">
+                </div>
+                <button class="btn btn-light border small"><i class="bi bi-filter me-2"></i>Lọc</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover">
+                <thead class="bg-light text-muted small">
+                    <tr>
+                        <th class="ps-4">MÃ NCC</th>
+                        <th>TÊN CÔNG TY</th>
+                        <th>TỈNH/TP</th>
+                        <th>LIÊN HỆ (SĐT)</th>
+                        <th>TRẠNG THÁI</th>
+                        <th class="text-center px-4">THAO TÁC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var n in ViewBag.DanhSachNCC)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary small">@n.Ma</td>
+                            <td>
+                                <div class="fw-bold">@n.Ten</div>
+                                <div class="text-muted small" style="font-size: 11px;">Đối tác cung ứng</div>
+                            </td>
+                            <td class="small">@n.TinhThanh</td>
+                            <td class="small fw-bold">@n.SDT</td>
+                            <td><span class="badge bg-@n.Class bg-opacity-10 text-@n.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@n.Status</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-link text-muted p-0"><i class="bi bi-three-dots-vertical"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL THÊM NCC -->
+<div class="modal fade" id="modalThemNCC" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h5 class="fw-bold mb-0">Thêm nhà cung cấp mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Tên nhà cung cấp *</label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Nhập tên nhà cung cấp">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Số điện thoại</label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="09xx xxx xxx">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Email liên hệ</label>
+                            <input type="email" class="form-control bg-light border-0 py-2" placeholder="email@domain.com">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Tỉnh/Thành phố</label>
+                            <select class="form-select bg-light border-0 py-2" asp-items="ViewBag.TinhThanh"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Địa chỉ chi tiết</label>
+                            <textarea class="form-control bg-light border-0" rows="3" placeholder="Nhập địa chỉ..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light px-4 rounded-3" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary px-4 rounded-3">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</div>
