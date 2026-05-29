@@ -5,14 +5,14 @@
 
 <div class="container-fluid py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between mb-4">
 
         <div>
-            <h3 class="fw-bold">
+            <h3 class="fw-bold mb-1">
                 Lịch sử phiếu nhập
             </h3>
 
-            <div class="text-muted small">
+            <div class="text-muted">
                 Quản lý các đợt nhập hàng
             </div>
         </div>
@@ -20,98 +20,72 @@
         <a asp-action="Create"
            class="btn btn-primary">
 
-            <i class="bi bi-plus-circle me-2"></i>
-            Tạo phiếu nhập
+            <i class="bi bi-plus-lg"></i>
+            Tạo phiếu mới
 
         </a>
 
     </div>
 
-    <!-- FILTER -->
-    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+    <div class="card border-0 shadow-sm rounded-4">
 
-        <form method="get">
+        <div class="card-body">
 
-            <div class="row g-3">
+            <form method="get">
 
-                <div class="col-md-4">
+                <div class="row mb-4">
 
-                    <label class="form-label fw-semibold">
-                        Nhà cung cấp
-                    </label>
+                    <div class="col-md-4">
 
-                    <select name="maNcc"
-                            asp-items="ViewBag.DsNCC"
-                            class="form-select">
+                        <input type="text"
+                               name="keyword"
+                               value="@(Context.Request.Query["keyword"])"
+                               class="form-control"
+                               placeholder="Tìm mã phiếu..." />
 
-                        <option value="">
-                            -- Tất cả --
-                        </option>
+                    </div>
 
-                    </select>
+                    <div class="col-md-3">
 
-                </div>
+                        <input type="date"
+                               name="tuNgay"
+                               value="@(Context.Request.Query["tuNgay"])"
+                               class="form-control" />
 
-                <div class="col-md-3">
+                    </div>
 
-                    <label class="form-label fw-semibold">
-                        Từ ngày
-                    </label>
+                    <div class="col-md-3">
 
-                    <input type="date"
-                           name="tuNgay"
-                           class="form-control" />
+                        <input type="date"
+                               name="denNgay"
+                               value="@(Context.Request.Query["denNgay"])"
+                               class="form-control" />
 
-                </div>
+                    </div>
 
-                <div class="col-md-3">
+                    <div class="col-md-2">
 
-                    <label class="form-label fw-semibold">
-                        Đến ngày
-                    </label>
+                        <button class="btn btn-primary w-100">
+                            Lọc
+                        </button>
 
-                    <input type="date"
-                           name="denNgay"
-                           class="form-control" />
+                    </div>
 
                 </div>
 
-                <div class="col-md-2 d-flex align-items-end">
+            </form>
 
-                    <button class="btn btn-primary w-100">
-
-                        <i class="bi bi-search me-2"></i>
-                        Lọc
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </form>
-
-    </div>
-
-    <!-- TABLE -->
-    <div class="card border-0 shadow-sm rounded-4 p-4">
-
-        <div class="table-responsive">
-
-            <table class="table align-middle table-hover">
+            <table class="table table-hover align-middle">
 
                 <thead class="table-light">
 
                     <tr>
-
                         <th>Mã phiếu</th>
                         <th>Ngày nhập</th>
                         <th>Nhà cung cấp</th>
                         <th>Số mặt hàng</th>
-                        <th class="text-end">
-                            Tổng tiền
-                        </th>
-
+                        <th>Tổng tiền</th>
+                        <th width="80">Chi tiết</th>
                     </tr>
 
                 </thead>
@@ -127,7 +101,7 @@
                             </td>
 
                             <td>
-                                @item.NgayNhap.ToString("dd/MM/yyyy HH:mm")
+                                @item.NgayNhap.ToString("dd/MM/yyyy")
                             </td>
 
                             <td>
@@ -138,11 +112,20 @@
                                 @item.SoMatHang
                             </td>
 
-                            <td class="text-end fw-bold">
+                            <td class="fw-bold">
 
-                                @String.Format("{0:N0}", item.TongTien)
-                                đ
+                                @String.Format("{0:N0}", item.TongTien) đ
 
+                            </td>
+
+                            <td>
+                                <a asp-action="Details"
+                                   asp-route-id="@item.MaPhieu"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
                             </td>
 
                         </tr>
