@@ -1,0 +1,49 @@
+﻿/* _KhoNhapHang.css - Purchase Order Styles */
+
+.nhap-hang-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Thẻ card chính */
+.form-card {
+    background: white;
+    border-radius: 20px;
+    border: none;
+}
+
+/* Table input: Làm các ô input trong bảng trông gọn hơn */
+.table-nhap input.form-control {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+    .table-nhap input.form-control:focus {
+        background-color: #fff;
+        border-color: #0d6efd;
+        box-shadow: none;
+    }
+
+/* Cảnh báo tồn kho (Cái box màu cam trong Ảnh 15) */
+.alert-stock-warning {
+    background-color: #fff1f2;
+    border-left: 4px solid #e11d48;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+/* Box tổng kết tiền bên phải */
+.summary-box {
+    background: #f8faff;
+    border: 1px dashed #0d6efd;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.item-row-recent {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 10px 0;
+}

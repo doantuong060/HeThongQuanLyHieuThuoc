@@ -1,65 +1,111 @@
-﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.NhaCungCap>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Quản lý Nhà cung cấp";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenNcc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiaChi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaPhuongXaNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenNcc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiaChi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaPhuongXaNavigation.MaPhuongXa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaNcc">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaNcc">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaNcc">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/nhacungcap.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+<div class="p-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb small">
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Hệ thống</a></li>
+                    <li class="breadcrumb-item active fw-bold">Đối tác & Nhà cung cấp</li>
+                </ol>
+            </nav>
+            <h3 class="fw-bold">Quản lý Nhà cung cấp</h3>
+        </div>
+        <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalThemNCC">
+            <i class="bi bi-plus-lg me-2"></i>Thêm đối tác
+        </button>
+    </div>
+
+    <!-- Featured Cards (Ảnh 6) -->
+    <div class="row g-4 mb-5">
+        @foreach (var ncc in ViewBag.FeaturedNCC)
+        {
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4 h-100 card-ncc-featured">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div class="icon-box-fixed bg-@ncc.ColorClass bg-opacity-10 text-@ncc.ColorClass">
+                            <i class="bi bi-@ncc.Icon fs-4"></i>
+                        </div>
+                        <span class="badge-status-pill bg-@ncc.ColorClass bg-opacity-10 text-@ncc.ColorClass">
+                            @ncc.Loai
+                        </span>
+                    </div>
+
+                    <h5 class="fw-bold mb-1 text-dark">@ncc.Ten</h5>
+                    <p class="text-muted small mb-0">Mã: @ncc.Ma</p>
+
+                    <hr class="my-3 opacity-50">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="dot-status @(ncc.Status == "Hoạt động" ? "bg-success" : "bg-danger")"></div>
+                            <span class="small fw-bold text-dark">@ncc.Status</span>
+                        </div>
+                        <i class="bi bi-arrow-right text-muted"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Detailed List Section -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+            <h5 class="fw-bold mb-0">Danh sách chi tiết</h5>
+            <div class="d-flex gap-2">
+                <div class="input-group" style="width: 300px;">
+                    <span class="input-group-text bg-light border-0 px-3"><i class="bi bi-search text-muted small"></i></span>
+                    <input type="text" id="nccSearchInput" class="form-control bg-light border-0 py-2 small shadow-none" placeholder="Tìm theo tên, mã...">
+                </div>
+                <button class="btn btn-light border small"><i class="bi bi-filter me-2"></i>Lọc</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover table-ncc">
+                <thead>
+                    <tr>
+                        <th class="ps-4">MÃ NCC</th>
+                        <th>TÊN CÔNG TY</th>
+                        <th>TỈNH/TP</th>
+                        <th>LIÊN HỆ (SĐT)</th>
+                        <th>TRẠNG THÁI</th>
+                        <th class="text-center pe-4">THAO TÁC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var n in ViewBag.DanhSachNCC)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary small">@n.Ma</td>
+                            <td>
+                                <div class="fw-bold small">@n.Ten</div>
+                                <div class="text-muted" style="font-size: 11px;">Đối tác cung ứng</div>
+                            </td>
+                            <td class="small">@n.TinhThanh</td>
+                            <td class="small fw-bold text-dark">@n.SDT</td>
+                            <td><span class="badge bg-@n.Class bg-opacity-10 text-@n.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@n.Status</span></td>
+                            <td class="text-center pe-4">
+                                <button class="btn btn-link text-muted p-0"><i class="bi bi-three-dots-vertical"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal từ Partial View -->
+<partial name="_ModalThemNhaCungCap" />
+
+@section Scripts {
+    <script src="~/js/nhacungcap.js" asp-append-version="true"></script>
+}

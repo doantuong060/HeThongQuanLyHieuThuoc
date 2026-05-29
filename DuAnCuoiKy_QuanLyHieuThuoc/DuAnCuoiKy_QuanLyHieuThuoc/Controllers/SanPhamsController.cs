@@ -1,163 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class SanPhamsController : Controller
     {
-        private readonly HieuThuocDbContext _context;
-
-        public SanPhamsController(HieuThuocDbContext context)
+        public IActionResult Index()
         {
-            _context = context;
-        }
+            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
 
-        // GET: SanPhams
-        public async Task<IActionResult> Index()
-        {
-            var hieuThuocDbContext = _context.SanPhams.Include(s => s.MaDvtNavigation);
-            return View(await hieuThuocDbContext.ToListAsync());
-        }
+            ViewBag.TongThuoc = "1,245";
+            ViewBag.SapHetHang = 48;
+            ViewBag.HetHan30Ngay = 15;
 
-        // GET: SanPhams/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
+            // Phân loại dữ liệu: THUOC và VATTU (Khớp với SQL LoaiSP)
+            var dsSanPham = new List<dynamic>
             {
-                return NotFound();
-            }
+                // Nhóm THUỐC
+                new { Ma = "TH-0001", Ten = "Amoxicillin 500mg", PhânLoai = "THUỐC", ChiTiet = "Kháng sinh", DVT = "Viên", Gia = "4,500", Ton = 100, CanToa = true, Status = "success" },
+                new { Ma = "TH-0002", Ten = "Paracetamol 500mg", PhânLoai = "THUỐC", ChiTiet = "Giảm đau", DVT = "Viên", Gia = "1,200", Ton = 45, CanToa = false, Status = "warning" },
+                
+                // Nhóm VẬT TƯ Y TẾ
+                new { Ma = "VT-0001", Ten = "Gạc y tế 10x10cm", PhânLoai = "VẬT TƯ", ChiTiet = "Băng gạc", DVT = "Gói", Gia = "2,000", Ton = 300, CanToa = false, Status = "success" },
+                new { Ma = "VT-0006", Ten = "Nhiệt kế điện tử", PhânLoai = "VẬT TƯ", ChiTiet = "Thiết bị nhỏ", DVT = "Hộp", Gia = "75,000", Ton = 5, CanToa = false, Status = "danger" },
+                new { Ma = "VT-0007", Ten = "Máy đo huyết áp", PhânLoai = "VẬT TƯ", ChiTiet = "Thiết bị nhỏ", DVT = "Hộp", Gia = "450,000", Ton = 10, CanToa = false, Status = "warning" }
+            };
 
-            var sanPham = await _context.SanPhams
-                .Include(s => s.MaDvtNavigation)
-                .FirstOrDefaultAsync(m => m.MaSp == id);
-            if (sanPham == null)
-            {
-                return NotFound();
-            }
+            ViewBag.DanhSachSP = dsSanPham;
+            ViewBag.LoaiSP = new SelectList(new[] { "THUỐC", "VẬT TƯ" });
 
-            return View(sanPham);
-        }
-
-        // GET: SanPhams/Create
-        public IActionResult Create()
-        {
-            ViewData["MaDvt"] = new SelectList(_context.DonViTinhs, "MaDvt", "MaDvt");
             return View();
-        }
-
-        // POST: SanPhams/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaSp,TenSp,MaDvt,GiaBan,MucCanhBao,LoaiSp,TrangThai")] SanPham sanPham)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(sanPham);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaDvt"] = new SelectList(_context.DonViTinhs, "MaDvt", "MaDvt", sanPham.MaDvt);
-            return View(sanPham);
-        }
-
-        // GET: SanPhams/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sanPham = await _context.SanPhams.FindAsync(id);
-            if (sanPham == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaDvt"] = new SelectList(_context.DonViTinhs, "MaDvt", "MaDvt", sanPham.MaDvt);
-            return View(sanPham);
-        }
-
-        // POST: SanPhams/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MaSp,TenSp,MaDvt,GiaBan,MucCanhBao,LoaiSp,TrangThai")] SanPham sanPham)
-        {
-            if (id != sanPham.MaSp)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(sanPham);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SanPhamExists(sanPham.MaSp))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaDvt"] = new SelectList(_context.DonViTinhs, "MaDvt", "MaDvt", sanPham.MaDvt);
-            return View(sanPham);
-        }
-
-        // GET: SanPhams/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sanPham = await _context.SanPhams
-                .Include(s => s.MaDvtNavigation)
-                .FirstOrDefaultAsync(m => m.MaSp == id);
-            if (sanPham == null)
-            {
-                return NotFound();
-            }
-
-            return View(sanPham);
-        }
-
-        // POST: SanPhams/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var sanPham = await _context.SanPhams.FindAsync(id);
-            if (sanPham != null)
-            {
-                _context.SanPhams.Remove(sanPham);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool SanPhamExists(string id)
-        {
-            return _context.SanPhams.Any(e => e.MaSp == id);
         }
     }
 }

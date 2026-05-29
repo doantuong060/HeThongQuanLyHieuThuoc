@@ -1,0 +1,185 @@
+﻿@model List<DuAnCuoiKy_QuanLyHieuThuoc.Models.HoaDonCaLam>
+
+@{
+    ViewData["Title"] = "Tổng quan ca làm";
+
+    // Helper: map trạng thái → CSS class badge
+    string GetBadgeClass(string trangThai) => trangThai switch
+    {
+        "Hoàn thành" => "tq-badge-success",
+        "Chờ thanh toán" => "tq-badge-warning",
+        "Đã hủy" => "tq-badge-danger",
+        _ => "tq-badge-warning"
+    };
+
+    // Format ngày tiếng Việt: Thứ Ba, 24 Tháng 10, 2023
+    var ngay = (DateTime)ViewBag.NgayLamViec;
+    string[] tenThu = { "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy" };
+    string ngayHienThi = $"{tenThu[(int)ngay.DayOfWeek]}, {ngay.Day} Tháng {ngay.Month}, {ngay.Year}";
+
+    // Dữ liệu biểu đồ
+    var chartLabels = (string[])ViewBag.ChartLabels;
+    var chartData = (int[])ViewBag.ChartData;
+    string labelsJson = "[" + string.Join(",", chartLabels.Select(l => $"\"{l}\"")) + "]";
+    string dataJson = "[" + string.Join(",", chartData) + "]";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/_TongQuanCaLam.css" asp-append-version="true" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+}
+
+<div class="tq-page">
+
+    <!-- ══ HEADER ══════════════════════════════════════════════ -->
+    <div class="tq-header">
+        <div class="tq-header-left">
+            <h1 class="tq-title">Tổng quan ca làm</h1>
+            <div class="tq-subtitle">
+                <span>@ngayHienThi</span>
+                <span class="dot"></span>
+                <span>@ViewBag.TenCa</span>
+            </div>
+        </div>
+        <a asp-controller="BanHangs" asp-action="Index" class="tq-btn-new">
+            <i class="fa-solid fa-user-plus"></i>
+            Tạo hóa đơn mới
+        </a>
+    </div>
+
+    <!-- ══ 3 THẺ THỐNG KÊ ═══════════════════════════════════════ -->
+    <div class="tq-stats">
+
+        <!-- Hóa đơn hôm nay -->
+        <div class="tq-stat-card">
+            <div class="tq-stat-icon blue">
+                <i class="fa-regular fa-file-lines"></i>
+            </div>
+            <div class="tq-stat-body">
+                <div class="tq-stat-label">Hóa đơn hôm nay của tôi</div>
+                <div class="tq-stat-value">
+                    @ViewBag.SoHoaDonHomNay
+                    <span class="tq-stat-unit">đơn</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doanh thu -->
+        <div class="tq-stat-card revenue">
+            <div class="tq-stat-icon green">
+                <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+            <div class="tq-stat-body">
+                <div class="tq-stat-label">Doanh thu ca này</div>
+                <div class="tq-stat-value">
+                    @(((decimal)ViewBag.DoanhThuCaNay).ToString("N0"))
+                    <span class="tq-stat-unit">đ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khách hàng -->
+        <div class="tq-stat-card">
+            <div class="tq-stat-icon purple">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="tq-stat-body">
+                <div class="tq-stat-label">Khách hàng phục vụ</div>
+                <div class="tq-stat-value">
+                    @ViewBag.SoKhachPhucVu
+                    <span class="tq-stat-unit">người</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ══ PHẦN DƯỚI: BẢNG + BIỂU ĐỒ ══════════════════════════ -->
+    <div class="tq-bottom">
+
+        <!-- ─ BẢNG 5 HÓA ĐƠN GẦN NHẤT ─ -->
+        <div class="tq-card">
+            <div class="tq-card-header">
+                <div class="tq-card-title">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    5 hóa đơn gần nhất
+                </div>
+                <a href="#" class="tq-card-link">Xem tất cả</a>
+            </div>
+
+            <table class="tq-table">
+                <thead>
+                    <tr>
+                        <th>Mã HD</th>
+                        <th>Thời gian</th>
+                        <th class="right">Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hd in Model)
+                    {
+                        <tr>
+                            <td><span class="tq-hd-code">@hd.MaHD</span></td>
+                            <td><span class="tq-hd-time">@hd.ThoiGian</span></td>
+                            <td class="right"><span class="tq-hd-amount">@hd.TongTien.ToString("N0") đ</span></td>
+                            <td>
+                                <span class="tq-badge @GetBadgeClass(hd.TrangThai)">@hd.TrangThai</span>
+                            </td>
+                            <td>
+                                <button class="tq-btn-eye" title="Xem chi tiết">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ─ BIỂU ĐỒ THEO GIỜ ─ -->
+        <div class="tq-card">
+            <div class="tq-card-header">
+                <div class="tq-card-title">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Hóa đơn theo giờ
+                </div>
+            </div>
+            <div class="tq-chart-wrap">
+                <div class="tq-chart-sub">7:00 – 18:00 hôm nay</div>
+                <div class="tq-chart-canvas-wrap">
+                    <canvas id="chartHoaDonTheoGio"></canvas>
+                </div>
+                <div class="tq-chart-legend">
+                    <div class="tq-legend-item">
+                        <div class="tq-legend-dot current"></div>
+                        <span>Giờ hiện tại</span>
+                    </div>
+                    <div class="tq-legend-item">
+                        <div class="tq-legend-dot past"></div>
+                        <span>Đã qua</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <script src="~/js/TongQuanCaLam.js" asp-append-version="true"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        // Lấy dữ liệu từ C# (Razor)
+        const chartLabels = @Html.Raw(labelsJson);
+        const chartData = @Html.Raw(dataJson);
+
+        // Gọi hàm từ file TongQuanCaLam.js
+        initHoaDonChart(chartLabels, chartData);
+        });
+    </script>
+}

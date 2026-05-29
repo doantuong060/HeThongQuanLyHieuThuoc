@@ -1,71 +1,109 @@
-﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.NhanVien>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Quản trị nhân sự";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.HoTen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GioiTinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgaySinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayVaoLam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoTen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GioiTinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgaySinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayVaoLam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaNv">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaNv">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaNv">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/nhanvien.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+<div class="p-4">
+    <!-- Breadcrumb & Header -->
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Hệ thống</a></li>
+                <li class="breadcrumb-item active fw-bold">Quản trị Nhân sự</li>
+            </ol>
+        </nav>
+        <h3 class="fw-bold">Nhân viên</h3>
+    </div>
+
+    <!-- Stats Cards (Ảnh 4) -->
+    <div class="row g-3 mb-4">
+        @foreach (var stat in new[] {
+            new { Label = "Tổng nhân sự", Val = ViewBag.TongNhanSu, Color = "dark", Icon = "people" },
+            new { Label = "Đang làm việc", Val = ViewBag.DangLamViec, Color = "success", Icon = "briefcase" },
+            new { Label = "Dược sĩ chính", Val = ViewBag.DuocSiChinh, Color = "primary", Icon = "person-badge" },
+            new { Label = "Nghỉ phép", Val = ViewBag.NghiPhep, Color = "danger", Icon = "calendar-event" }
+        })
+        {
+            <div class="col-md-3">
+                <div class="staff-stat-card shadow-sm border-0">
+                    <div class="text-muted small fw-bold mb-1"><i class="bi bi-@stat.Icon me-2"></i>@stat.Label</div>
+                    <div class="h2 fw-bold mb-0 text-@stat.Color">@stat.Val</div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Toolbar -->
+    <div class="card border-0 shadow-sm p-3 mb-4 rounded-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0 px-3"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="staffSearch" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Tìm theo tên/mã/SĐT...">
+                </div>
+            </div>
+            <div class="col-md-8 text-end">
+                <button class="btn btn-light border-0 me-2 px-3"><i class="bi bi-download"></i></button>
+                <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalThemNV">
+                    <i class="bi bi-plus-lg me-2"></i>Thêm nhân viên
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover table-staff">
+                <thead>
+                    <tr>
+                        <th class="ps-4">MÃ</th>
+                        <th>NHÂN VIÊN</th>
+                        <th>GIỚI TÍNH</th>
+                        <th>SĐT</th>
+                        <th>VAI TRÒ</th>
+                        <th>NGÀY VÀO</th>
+                        <th>TRẠNG THÁI</th>
+                        <th class="text-center pe-4">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var nv in ViewBag.DanhSachNV)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary small">@nv.Ma</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar-initial">@nv.Initial</div>
+                                    <div>
+                                        <div class="fw-bold small">@nv.Ten</div>
+                                        <div class="text-muted" style="font-size: 11px;">@nv.Email</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="small">@nv.GioiTinh</td>
+                            <td class="small fw-bold text-dark">@nv.SDT</td>
+                            <td><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 fw-normal">@nv.VaiTro</span></td>
+                            <td class="small text-muted">@nv.NgayVao</td>
+                            <td><span class="badge bg-@nv.Class bg-opacity-10 text-@nv.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@nv.Status</span></td>
+                            <td class="text-center pe-4">
+                                <button class="btn btn-sm btn-light rounded-circle"><i class="bi bi-three-dots-vertical"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Chèn Modal từ Partial View -->
+<partial name="_ModalThemNhanVien" />
+
+@section Scripts {
+    <script src="~/js/nhanvien.js" asp-append-version="true"></script>
+}

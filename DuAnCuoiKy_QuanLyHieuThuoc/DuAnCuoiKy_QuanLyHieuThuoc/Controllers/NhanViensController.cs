@@ -1,156 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class NhanViensController : Controller
     {
-        private readonly HieuThuocDbContext _context;
-
-        public NhanViensController(HieuThuocDbContext context)
+        public IActionResult Index()
         {
-            _context = context;
-        }
+            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
 
-        // GET: NhanViens
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.NhanViens.ToListAsync());
-        }
+            // 1. Dữ liệu 4 thẻ thống kê (Ảnh 4)
+            ViewBag.TongNhanSu = 24;
+            ViewBag.DangLamViec = 18;
+            ViewBag.DuocSiChinh = 5;
+            ViewBag.NghiPhep = 3;
 
-        // GET: NhanViens/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
+            // 2. Danh sách nhân viên mẫu
+            var dsNhanVien = new List<dynamic>
             {
-                return NotFound();
-            }
+                new { Ma = "NV001", Ten = "Lê Văn An", Email = "an.le@medvault.com", GioiTinh = "Nam", SDT = "0901234567", VaiTro = "Dược sĩ trưởng", NgayVao = "15/03/2021", Status = "Hoạt động", Class = "success", Initial = "LA" },
+                new { Ma = "NV002", Ten = "Trần Thị Bình", Email = "binh.tran@medvault.com", GioiTinh = "Nữ", SDT = "0912345678", VaiTro = "Nhân viên kho", NgayVao = "10/06/2022", Status = "Nghỉ phép", Class = "secondary", Initial = "TB" },
+                new { Ma = "NV003", Ten = "Phạm Văn Cường", Email = "cuong.pham@medvault.com", GioiTinh = "Nam", SDT = "0987654321", VaiTro = "Bán hàng", NgayVao = "01/11/2023", Status = "Tạm nghỉ", Class = "warning", Initial = "PC" },
+                new { Ma = "NV004", Ten = "Hoàng Mỹ Linh", Email = "linh.hoang@medvault.com", GioiTinh = "Nữ", SDT = "0934567890", VaiTro = "Bán hàng", NgayVao = "20/01/2024", Status = "Hoạt động", Class = "success", Initial = "HL" }
+            };
+            ViewBag.DanhSachNV = dsNhanVien;
 
-            var nhanVien = await _context.NhanViens
-                .FirstOrDefaultAsync(m => m.MaNv == id);
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
+            // Dữ liệu cho Dropdown Vai trò trong Modal
+            ViewBag.VaiTro = new SelectList(new[] { "Quản lý", "Dược sĩ trưởng", "Bán hàng", "Nhân viên kho" });
 
-            return View(nhanVien);
-        }
+            /* [NOTE LINQ]: 
+               ViewBag.TongNhanSu = _context.NhanViens.Count();
+               var nhanviens = _context.NhanViens.Include(n => n.TaiKhoan).ToList();
+            */
 
-        // GET: NhanViens/Create
-        public IActionResult Create()
-        {
             return View();
-        }
-
-        // POST: NhanViens/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaNv,HoTen,GioiTinh,NgaySinh,SoDienThoai,Email,NgayVaoLam,TrangThai")] NhanVien nhanVien)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(nhanVien);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(nhanVien);
-        }
-
-        // GET: NhanViens/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhanVien = await _context.NhanViens.FindAsync(id);
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
-            return View(nhanVien);
-        }
-
-        // POST: NhanViens/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MaNv,HoTen,GioiTinh,NgaySinh,SoDienThoai,Email,NgayVaoLam,TrangThai")] NhanVien nhanVien)
-        {
-            if (id != nhanVien.MaNv)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(nhanVien);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NhanVienExists(nhanVien.MaNv))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(nhanVien);
-        }
-
-        // GET: NhanViens/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhanVien = await _context.NhanViens
-                .FirstOrDefaultAsync(m => m.MaNv == id);
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
-
-            return View(nhanVien);
-        }
-
-        // POST: NhanViens/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var nhanVien = await _context.NhanViens.FindAsync(id);
-            if (nhanVien != null)
-            {
-                _context.NhanViens.Remove(nhanVien);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool NhanVienExists(string id)
-        {
-            return _context.NhanViens.Any(e => e.MaNv == id);
         }
     }
 }

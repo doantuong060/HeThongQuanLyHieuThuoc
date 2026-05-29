@@ -1,0 +1,38 @@
+﻿/* =========================================
+   TOPBAR STYLES
+========================================= */
+.topbar-wrapper {
+    height: 85px; /* Đã tăng lên 85px cho cao ráo */
+    z-index: 1030;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+
+/* Khu vực Logo: Chiếm chính xác 1/6 chiều rộng để khớp với Sidebar (col-md-2) */
+.topbar-logo-area {
+    width: 16.666667%;
+    height: 100%;
+}
+
+/* Khu vực thanh tìm kiếm */
+.topbar-search-wrapper {
+    max-width: 700px; /* Đã thu ngắn từ 650px xuống 450px cho vừa vặn */
+    width: 100%;
+}
+
+/* Tùy chỉnh ô input để bỏ viền xanh mặc định của Bootstrap khi click vào */
+.topbar-search-input:focus {
+    box-shadow: none !important;
+    border-color: #dee2e6;
+}
+
+/* Hiệu ứng hover nhẹ cho Avatar */
+.topbar-avatar {
+    transition: transform 0.2s ease-in-out;
+}
+
+    .topbar-avatar:hover {
+        transform: scale(1.08);
+    }
