@@ -128,16 +128,40 @@
 =======
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\phieunhapcreateviewmodel.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\phieunhapcreateviewmodel.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\phieunhaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\phieunhaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\controllers\\phieunhapscontroller.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\controllers\\phieunhapscontroller.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\phieunhapcreateviewmodel.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\phieunhapcreateviewmodel.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\tongquankhoviewmodel.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\tongquankhoviewmodel.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\phieunhap.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\phieunhap.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\phieunhaps\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\phieunhaps\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\hieuthuocdbcontext.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\hieuthuocdbcontext.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\nhacungcap.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\nhacungcap.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\pc msi\\appdata\\local\\temp\\zalo temp\\tempdownloads\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\lohang.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\lohang.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
 >>>>>>> 06a8933 (Hoan thien trang tao phieu nhap)
@@ -567,14 +591,27 @@
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\PhieuNhapsController.cs",
               "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\PhieuNhapsController.cs",
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\PhieuNhapsController.cs",
-              "ViewState": "AgIAAPkAAAAAAAAAAAAmwCEBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAIwIIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T21:06:40.918Z",
+              "WhenOpened": "2026-05-29T21:42:36.048Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Index.cshtml",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Index.cshtml",
+              "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Index.cshtml",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Index.cshtml",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAwwHsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-29T21:42:51.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PhieuNhapCreateViewModel.cs",
               "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\PhieuNhapCreateViewModel.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\PhieuNhapCreateViewModel.cs",
@@ -582,22 +619,85 @@
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\PhieuNhapCreateViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T21:06:19.646Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-29T21:58:50.526Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "TongQuanKhoViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\TongQuanKhoViewModel.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\TongQuanKhoViewModel.cs",
+              "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\TongQuanKhoViewModel.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\TongQuanKhoViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T22:12:54.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PhieuNhap.cs",
+              "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\PhieuNhap.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\PhieuNhap.cs",
+              "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\PhieuNhap.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\PhieuNhap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T21:57:51.938Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Create.cshtml",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Create.cshtml",
               "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Create.cshtml",
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\PhieuNhaps\\Create.cshtml",
-              "ViewState": "AgIAAHABAAAAAAAAAAAUwIcBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGMBAAAAAAAAAAAwwHcBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+<<<<<<< HEAD
               "WhenOpened": "2026-05-29T21:07:10.56Z",
               "EditorCaption": ""
 >>>>>>> 06a8933 (Hoan thien trang tao phieu nhap)
+=======
+              "WhenOpened": "2026-05-29T21:43:02.752Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HieuThuocDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "ViewState": "AgIAAGkCAAAAAAAAAAAYwJMCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T22:02:54.602Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "NhaCungCap.cs",
+              "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\NhaCungCap.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\NhaCungCap.cs",
+              "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\NhaCungCap.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\NhaCungCap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T21:58:32.211Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LoHang.cs",
+              "DocumentMoniker": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\LoHang.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\LoHang.cs",
+              "ToolTip": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\LoHang.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\LoHang.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T21:57:59.722Z"
+>>>>>>> e11079f (Hoan thien trang lich su phieu nhap)
             }
           ]
         },

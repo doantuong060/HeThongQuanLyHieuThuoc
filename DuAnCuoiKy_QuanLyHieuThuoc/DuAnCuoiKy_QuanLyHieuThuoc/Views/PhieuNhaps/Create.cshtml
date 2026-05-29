@@ -7,7 +7,6 @@
 
 <div class="container-fluid py-4 px-4 bg-light min-vh-100">
 
-    <!-- TITLE -->
     <div class="mb-4">
         <div class="text-muted small mb-1">
             Quản lý kho / Nhập kho Dược phẩm
@@ -20,25 +19,20 @@
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success border-0 shadow-sm rounded-4">
-            <i class="bi bi-check-circle-fill me-2"></i>
+        <div class="alert alert-success">
             @TempData["Success"]
         </div>
     }
 
-    <!-- HIỂN THỊ LỖI -->
     @if (!ViewData.ModelState.IsValid)
     {
-        <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4">
-            <div class="fw-bold mb-2">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                Vui lòng kiểm tra lại thông tin:
-            </div>
+        <div class="alert alert-danger">
+            <strong>Vui lòng kiểm tra lại thông tin:</strong>
 
-            <ul class="mb-0">
-                @foreach (var item in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            <ul class="mb-0 mt-2">
+                @foreach (var err in ViewData.ModelState.Values.SelectMany(x => x.Errors))
                 {
-                    <li>@item.ErrorMessage</li>
+                    <li>@err.ErrorMessage</li>
                 }
             </ul>
         </div>
@@ -46,32 +40,31 @@
 
     <form asp-action="Create" method="post">
 
-        <div class="row g-4">
+        <div class="row">
 
-            <!-- LEFT -->
+            <!-- BÊN TRÁI -->
             <div class="col-lg-8">
 
-                <!-- THÔNG TIN -->
-                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <!-- THÔNG TIN PHIẾU -->
+                <div class="card shadow-sm border-0 mb-4">
 
-                    <div class="card-body p-4">
+                    <div class="card-body">
 
                         <h5 class="fw-bold mb-4">
                             Thông tin chứng từ
                         </h5>
 
-                        <div class="row g-3">
+                        <div class="row">
 
-                            <!-- NCC -->
                             <div class="col-md-4">
 
-                                <label class="form-label fw-semibold">
+                                <label class="form-label">
                                     Nhà cung cấp
                                 </label>
 
                                 <select asp-for="MaNcc"
                                         asp-items="Model.DsNhaCungCap"
-                                        class="form-select rounded-3">
+                                        class="form-select">
 
                                     <option value="">
                                         -- Chọn nhà cung cấp --
@@ -81,29 +74,28 @@
 
                             </div>
 
-                            <!-- NGÀY -->
                             <div class="col-md-4">
 
-                                <label class="form-label fw-semibold">
+                                <label class="form-label">
                                     Ngày nhập kho
                                 </label>
 
                                 <input type="date"
-                                       class="form-control rounded-3"
-                                       value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                       class="form-control"
+                                       value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                       readonly />
 
                             </div>
 
-                            <!-- NHÂN VIÊN -->
                             <div class="col-md-4">
 
-                                <label class="form-label fw-semibold">
+                                <label class="form-label">
                                     Nhân viên kho
                                 </label>
 
                                 <input type="text"
-                                       class="form-control rounded-3"
-                                       value="Phạm Văn Bình"
+                                       class="form-control"
+                                       value="Nhân viên kho"
                                        readonly />
 
                             </div>
@@ -115,9 +107,9 @@
                 </div>
 
                 <!-- CHI TIẾT -->
-                <div class="card border-0 shadow-sm rounded-4">
+                <div class="card shadow-sm border-0">
 
-                    <div class="card-body p-4">
+                    <div class="card-body">
 
                         <h5 class="fw-bold mb-4">
                             Chi tiết hàng nhập
@@ -125,103 +117,122 @@
 
                         <div class="table-responsive">
 
-                            <table class="table align-middle">
+                            <table class="table table-bordered align-middle">
 
                                 <thead class="table-light">
 
                                     <tr>
-                                        <th style="min-width:220px;">Tên thuốc</th>
-                                        <th style="width:120px;">Số lượng</th>
-                                        <th style="width:140px;">Giá nhập</th>
-                                        <th style="width:140px;">Số lô</th>
-                                        <th style="width:170px;">HSD</th>
-                                        <th style="width:140px;">Thành tiền</th>
+                                        <th>Tên thuốc</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá nhập</th>
+                                        <th>Số lô</th>
+                                        <th>HSD</th>
+                                        <th>Xóa</th>
                                     </tr>
 
                                 </thead>
 
-                                <tbody>
+                                <tbody id="chiTietBody">
 
-                                    @for (int i = 0; i < Model.DanhSachLoHang.Count; i++)
+                                    @if (Model.DanhSachLoHang != null && Model.DanhSachLoHang.Count > 0)
+                                    {
+                                        @for (int i = 0; i < Model.DanhSachLoHang.Count; i++)
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    <select asp-for="DanhSachLoHang[i].MaSp"
+                                                            asp-items="Model.DsSanPham"
+                                                            class="form-select">
+
+                                                        <option value="">
+                                                            Chọn thuốc
+                                                        </option>
+
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <input asp-for="DanhSachLoHang[i].SoLuongNhap"
+                                                           class="form-control" />
+                                                </td>
+
+                                                <td>
+                                                    <input asp-for="DanhSachLoHang[i].GiaNhap"
+                                                           class="form-control" />
+                                                </td>
+
+                                                <td>
+                                                    <input asp-for="DanhSachLoHang[i].SoLo"
+                                                           class="form-control" />
+                                                </td>
+
+                                                <td>
+                                                    <input asp-for="DanhSachLoHang[i].HanSuDung"
+                                                           type="date"
+                                                           class="form-control" />
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-sm btn-remove">
+                                                        X
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
                                     {
                                         <tr>
 
-                                            <!-- TÊN -->
                                             <td>
 
-                                                <select asp-for="DanhSachLoHang[i].MaSp"
-                                                        asp-items="Model.DsSanPham"
-                                                        class="form-select rounded-3">
+                                                <select name="DanhSachLoHang[0].MaSp"
+                                                        class="form-select">
 
                                                     <option value="">
                                                         Chọn thuốc
                                                     </option>
 
+                                                    @foreach (var item in Model.DsSanPham)
+                                                    {
+                                                        <option value="@item.Value">
+                                                            @item.Text
+                                                        </option>
+                                                    }
+
                                                 </select>
 
                                             </td>
 
-                                            <!-- SỐ LƯỢNG -->
                                             <td>
-
-                                                <input asp-for="DanhSachLoHang[i].SoLuongNhap"
-                                                       class="form-control rounded-3"
-                                                       placeholder="SL" />
-
+                                                <input name="DanhSachLoHang[0].SoLuongNhap"
+                                                       class="form-control" />
                                             </td>
 
-                                            <!-- GIÁ -->
                                             <td>
-
-                                                <input asp-for="DanhSachLoHang[i].GiaNhap"
-                                                       class="form-control rounded-3"
-                                                       placeholder="0" />
-
+                                                <input name="DanhSachLoHang[0].GiaNhap"
+                                                       class="form-control" />
                                             </td>
 
-                                            <!-- SỐ LÔ -->
                                             <td>
-
-                                                <input asp-for="DanhSachLoHang[i].SoLo"
-                                                       class="form-control rounded-3"
-                                                       placeholder="LOT..." />
-
+                                                <input name="DanhSachLoHang[0].SoLo"
+                                                       class="form-control" />
                                             </td>
 
-                                            <!-- HSD -->
                                             <td>
-
-                                                @{
-                                                    bool loiHan =
-                                                    Model.DanhSachLoHang[i].HanSuDung
-                                                    <= DateOnly.FromDateTime(DateTime.Now);
-                                                }
-
-                                                <input asp-for="DanhSachLoHang[i].HanSuDung"
+                                                <input name="DanhSachLoHang[0].HanSuDung"
                                                        type="date"
-                                                       class="form-control rounded-3 @(loiHan ? "border-danger bg-danger-subtle" : "")" />
-
-                                                @if (loiHan)
-                                                {
-                                                    <div class="text-danger small mt-1">
-                                                        Hạn sử dụng phải lớn hơn ngày hiện tại
-                                                    </div>
-                                                }
-
+                                                       class="form-control" />
                                             </td>
 
-                                            <!-- THÀNH TIỀN -->
-                                            <td class="fw-semibold text-end">
-
-                                                @{
-                                                    decimal tien =
-                                                    Model.DanhSachLoHang[i].GiaNhap
-                                                    *
-                                                    Model.DanhSachLoHang[i].SoLuongNhap;
-                                                }
-
-                                                @tien.ToString("N0") đ
-
+                                            <td class="text-center">
+                                                <button type="button"
+                                                        class="btn btn-danger btn-sm btn-remove">
+                                                    X
+                                                </button>
                                             </td>
 
                                         </tr>
@@ -233,37 +244,14 @@
 
                         </div>
 
-                        <!-- BUTTON -->
-                        <div class="d-flex justify-content-between mt-4">
+                        <button type="button"
+                                id="btnThemDong"
+                                class="btn btn-outline-primary mt-2">
 
-                            <button type="button"
-                                    class="btn btn-light border rounded-3">
+                            <i class="bi bi-plus-circle"></i>
+                            Thêm mặt hàng
 
-                                <i class="bi bi-plus-circle me-2"></i>
-                                Thêm mặt hàng
-
-                            </button>
-
-                            <div class="d-flex gap-2">
-
-                                <a asp-action="Index"
-                                   class="btn btn-light border rounded-3 px-4">
-
-                                    Hủy bỏ
-
-                                </a>
-
-                                <button type="submit"
-                                        class="btn btn-primary rounded-3 px-4">
-
-                                    <i class="bi bi-floppy me-2"></i>
-                                    Lưu phiếu nhập
-
-                                </button>
-
-                            </div>
-
-                        </div>
+                        </button>
 
                     </div>
 
@@ -271,120 +259,44 @@
 
             </div>
 
-            <!-- RIGHT -->
+            <!-- BÊN PHẢI -->
             <div class="col-lg-4">
 
-                <!-- TỔNG KẾT -->
-                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card shadow-sm border-0 mb-4">
 
-                    <div class="card-body p-4">
+                    <div class="card-body">
 
-                        <h5 class="fw-bold mb-4">
-                            Tổng kết thanh toán
+                        <h5 class="fw-bold">
+                            Tổng kết
                         </h5>
-
-                        @{
-                            decimal tongTien =
-                            Model.DanhSachLoHang.Sum(x =>
-                            x.GiaNhap * x.SoLuongNhap);
-
-                            decimal vat = tongTien * 0.05m;
-                            decimal tongCong = tongTien + vat;
-                        }
-
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="text-muted">
-                                Tạm tính:
-                            </span>
-
-                            <span class="fw-semibold">
-                                @tongTien.ToString("N0") đ
-                            </span>
-                        </div>
-
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="text-muted">
-                                VAT (5%)
-                            </span>
-
-                            <span class="fw-semibold">
-                                @vat.ToString("N0") đ
-                            </span>
-                        </div>
 
                         <hr />
 
-                        <div class="d-flex justify-content-between">
+                        <button type="submit"
+                                class="btn btn-primary w-100">
 
-                            <span class="fw-bold">
-                                Tổng cộng:
-                            </span>
+                            <i class="bi bi-save"></i>
+                            Lưu phiếu nhập
 
-                            <span class="fw-bold text-primary fs-5">
-                                @tongCong.ToString("N0") đ
-                            </span>
-
-                        </div>
+                        </button>
 
                     </div>
 
                 </div>
 
-                <!-- CẢNH BÁO -->
-                <div class="alert alert-warning border-0 rounded-4 shadow-sm">
+                <div class="card shadow-sm border-0">
 
-                    <div class="fw-bold mb-2">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        Cảnh báo tồn kho
-                    </div>
+                    <div class="card-body">
 
-                    <div class="small">
-                        Lô thuốc Amoxicillin 250mg có HSD cận ngày
-                        (15/12/2025). Vui lòng kiểm tra lại chính sách nhập hàng.
-                    </div>
+                        <h6 class="text-danger fw-bold">
+                            Cảnh báo
+                        </h6>
 
-                </div>
-
-                <!-- GẦN ĐÂY -->
-                <div class="card border-0 shadow-sm rounded-4">
-
-                    <div class="card-body p-4">
-
-                        <h5 class="fw-bold mb-4">
-                            Phiếu nhập gần đây
-                        </h5>
-
-                        <div class="border rounded-4 p-3 mb-3">
-
-                            <div class="fw-bold text-primary small">
-                                PN-231024-01
-                            </div>
-
-                            <div class="small text-muted">
-                                Dược phẩm TW1 • 24/10
-                            </div>
-
-                            <span class="badge bg-success-subtle text-success mt-2">
-                                HOÀN THÀNH
-                            </span>
-
-                        </div>
-
-                        <div class="border rounded-4 p-3">
-
-                            <div class="fw-bold text-primary small">
-                                PN-231022-03
-                            </div>
-
-                            <div class="small text-muted">
-                                Dược Hậu Giang • 22/10
-                            </div>
-
-                            <span class="badge bg-success-subtle text-success mt-2">
-                                HOÀN THÀNH
-                            </span>
-
-                        </div>
+                        <ul class="small mb-0">
+                            <li>Hạn sử dụng phải lớn hơn ngày hiện tại.</li>
+                            <li>Giá nhập phải lớn hơn 0.</li>
+                            <li>Số lượng phải lớn hơn 0.</li>
+                        </ul>
 
                     </div>
 
@@ -398,10 +310,88 @@
 
 </div>
 
-@section Scripts {
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
 
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
 
+        let index =
+        document.querySelectorAll('#chiTietBody tr').length;
+
+        document
+        .getElementById('btnThemDong')
+        .addEventListener('click', function () {
+
+            let row = `
+            <tr>
+
+                <td>
+                    <select name="DanhSachLoHang[${index}].MaSp"
+                            class="form-select">
+
+                        <option value="">
+                            Chọn thuốc
+                        </option>
+
+                        @foreach (var item in Model.DsSanPham)
+                        {
+                                <text>
+                                <option value="@item.Value">
+                                    @item.Text
+                                </option>
+                                </text>
+                        }
+
+                    </select>
+                </td>
+
+                <td>
+                    <input name="DanhSachLoHang[${index}].SoLuongNhap"
+                           class="form-control" />
+                </td>
+
+                <td>
+                    <input name="DanhSachLoHang[${index}].GiaNhap"
+                           class="form-control" />
+                </td>
+
+                <td>
+                    <input name="DanhSachLoHang[${index}].SoLo"
+                           class="form-control" />
+                </td>
+
+                <td>
+                    <input name="DanhSachLoHang[${index}].HanSuDung"
+                           type="date"
+                           class="form-control" />
+                </td>
+
+                <td class="text-center">
+                    <button type="button"
+                            class="btn btn-danger btn-sm btn-remove">
+                        X
+                    </button>
+                </td>
+
+            </tr>
+            `;
+
+            document
+            .getElementById('chiTietBody')
+            .insertAdjacentHTML('beforeend', row);
+
+            index++;
+        });
+
+        document.addEventListener('click', function (e) {
+
+            if (e.target.classList.contains('btn-remove'))
+            {
+                e.target.closest('tr').remove();
+            }
+
+        });
+
+    </script>
 }
