@@ -1,70 +1,59 @@
-﻿<div class="modal fade" id="modalThemNV" tabindex="-1">
+﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.AddStaffViewModel
+
+<div class="modal fade" id="modalThemNV" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
             <div class="modal-header border-0 p-4 pb-0">
                 <h5 class="fw-bold mb-0">Thêm nhân viên mới</h5>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-4">
-                <form id="formAddStaff">
-                    <!-- Ảnh đại diện -->
-                    <div class="text-center mb-4">
-                        <div class="upload-placeholder mx-auto">
-                            <i class="bi bi-camera-fill fs-4"></i>
-                            <span style="font-size: 10px;">Ảnh đại diện</span>
-                        </div>
-                    </div>
-
+            <form asp-action="Create" asp-controller="NhanViens" method="post">
+                <div class="modal-body p-4">
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label class="form-label small fw-bold text-muted">Họ tên nhân viên *</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập họ và tên">
+                            <input asp-for="HoTen" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập họ và tên">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Ngày sinh</label>
-                            <input type="date" class="form-control bg-light border-0 py-2 shadow-none">
+                            <label class="form-label small fw-bold text-muted">Giới tính</label>
+                            <select asp-for="GioiTinh" class="form-select bg-light border-0 py-2 shadow-none">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">SĐT *</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Số điện thoại">
+                            <input asp-for="SoDienThoai" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Số điện thoại">
                         </div>
-                        <div class="col-md-12">
-                            <label class="form-label small fw-bold text-muted">Email công việc</label>
-                            <input type="email" class="form-control bg-light border-0 py-2 shadow-none" placeholder="email@company.com">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Ngày sinh</label>
+                            <input asp-for="NgaySinh" type="date" class="form-control bg-light border-0 py-2 shadow-none">
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label small fw-bold text-muted">Vai trò hệ thống *</label>
-                            <select class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.VaiTro">
-                                <option>Chọn vai trò</option>
-                            </select>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Vai trò *</label>
+                            <select asp-for="MaVaiTro" class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.MaVaiTro"></select>
                         </div>
 
-                        <!-- Thông tin tài khoản -->
-                        <div class="col-12">
-                            <div class="account-info-header text-uppercase">
-                                <i class="bi bi-shield-lock me-2"></i>Thông tin tài khoản
-                            </div>
+                        <!-- Header thông tin tài khoản -->
+                        <div class="col-12 py-2 mt-3" style="background-color: #f0f7ff; border-radius: 8px;">
+                            <span class="text-primary fw-bold small ms-2"><i class="bi bi-shield-lock me-2"></i>THÔNG TIN TÀI KHOẢN</span>
                         </div>
+
                         <div class="col-md-12">
                             <label class="form-label small fw-bold text-muted">Tên đăng nhập *</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="VD: nguyenmai">
+                            <input asp-for="TenDangNhap" class="form-control bg-light border-0 py-2 shadow-none" placeholder="VD: nguyenmai">
                         </div>
                         <div class="col-md-12">
                             <label class="form-label small fw-bold text-muted">Mật khẩu ban đầu *</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập mật khẩu">
-                                <span class="input-group-text bg-light border-0 toggle-password" style="cursor:pointer">
-                                    <i class="bi bi-eye-slash"></i>
-                                </span>
-                            </div>
+                            <input asp-for="MatKhau" type="password" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập mật khẩu">
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer border-0 p-4 pt-0">
-                <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
-                <button type="button" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">Lưu nhân viên</button>
-            </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0 mt-3">
+                    <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">Lưu nhân viên</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
