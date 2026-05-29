@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.SupplierIndexViewModel
+@{
     ViewData["Title"] = "Quản lý Nhà cung cấp";
     Layout = "_Layout";
 }
@@ -10,44 +11,33 @@
 <div class="p-4">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb small">
-                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Hệ thống</a></li>
-                    <li class="breadcrumb-item active fw-bold">Đối tác & Nhà cung cấp</li>
-                </ol>
-            </nav>
-            <h3 class="fw-bold">Quản lý Nhà cung cấp</h3>
-        </div>
+        <h3 class="fw-bold">Quản lý Nhà cung cấp</h3>
         <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalThemNCC">
             <i class="bi bi-plus-lg me-2"></i>Thêm đối tác
         </button>
     </div>
 
-    <!-- Featured Cards (Ảnh 6) -->
+    <!-- Featured Cards (Hàng trên - Ảnh 6) -->
     <div class="row g-4 mb-5">
-        @foreach (var ncc in ViewBag.FeaturedNCC)
+        @foreach (var ncc in Model.FeaturedSuppliers)
         {
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm p-4 rounded-4 h-100 card-ncc-featured">
+                <div class="card border-0 shadow-sm p-4 rounded-4 h-100 card-ncc-featured bg-white">
                     <div class="d-flex justify-content-between align-items-start mb-4">
-                        <div class="icon-box-fixed bg-@ncc.ColorClass bg-opacity-10 text-@ncc.ColorClass">
-                            <i class="bi bi-@ncc.Icon fs-4"></i>
+                        <div class="icon-box-fixed bg-primary bg-opacity-10 text-primary">
+                            <i class="bi bi-building fs-4"></i>
                         </div>
-                        <span class="badge-status-pill bg-@ncc.ColorClass bg-opacity-10 text-@ncc.ColorClass">
-                            @ncc.Loai
+                        <span class="badge-status-pill bg-primary bg-opacity-10 text-primary">
+                            Chiến lược
                         </span>
                     </div>
-
-                    <h5 class="fw-bold mb-1 text-dark">@ncc.Ten</h5>
-                    <p class="text-muted small mb-0">Mã: @ncc.Ma</p>
-
+                    <h5 class="fw-bold mb-1">@ncc.TenNcc</h5>
+                    <p class="text-muted small">Mã: @ncc.MaNcc</p>
                     <hr class="my-3 opacity-50">
-
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center gap-2">
-                            <div class="dot-status @(ncc.Status == "Hoạt động" ? "bg-success" : "bg-danger")"></div>
-                            <span class="small fw-bold text-dark">@ncc.Status</span>
+                            <div class="dot-status @(ncc.TrangThai ? "bg-success" : "bg-danger")"></div>
+                            <span class="small fw-bold">@(ncc.TrangThai ? "Hoạt động" : "Tạm ngưng")</span>
                         </div>
                         <i class="bi bi-arrow-right text-muted"></i>
                     </div>
@@ -56,43 +46,44 @@
         }
     </div>
 
-    <!-- Detailed List Section -->
+    <!-- Danh sách chi tiết (Table) -->
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
             <h5 class="fw-bold mb-0">Danh sách chi tiết</h5>
-            <div class="d-flex gap-2">
-                <div class="input-group" style="width: 300px;">
-                    <span class="input-group-text bg-light border-0 px-3"><i class="bi bi-search text-muted small"></i></span>
-                    <input type="text" id="nccSearchInput" class="form-control bg-light border-0 py-2 small shadow-none" placeholder="Tìm theo tên, mã...">
-                </div>
-                <button class="btn btn-light border small"><i class="bi bi-filter me-2"></i>Lọc</button>
-            </div>
+            <form method="get" class="d-flex gap-2">
+                <input type="text" name="search" value="@ViewBag.CurrentSearch" class="form-control border-light bg-light py-2 shadow-none" placeholder="Tìm tên, mã NCC...">
+                <button type="submit" class="btn btn-light border"><i class="bi bi-search"></i></button>
+            </form>
         </div>
         <div class="table-responsive">
-            <table class="table align-middle mb-0 table-hover table-ncc">
-                <thead>
+            <table class="table align-middle mb-0 table-hover">
+                <thead class="bg-light text-muted small fw-bold">
                     <tr>
                         <th class="ps-4">MÃ NCC</th>
                         <th>TÊN CÔNG TY</th>
                         <th>TỈNH/TP</th>
                         <th>LIÊN HỆ (SĐT)</th>
                         <th>TRẠNG THÁI</th>
-                        <th class="text-center pe-4">THAO TÁC</th>
+                        <th class="text-center">THAO TÁC</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var n in ViewBag.DanhSachNCC)
+                    @foreach (var n in Model.AllSuppliers)
                     {
                         <tr>
-                            <td class="ps-4 fw-bold text-primary small">@n.Ma</td>
+                            <td class="ps-4 fw-bold text-primary small">@n.MaNcc</td>
                             <td>
-                                <div class="fw-bold small">@n.Ten</div>
-                                <div class="text-muted" style="font-size: 11px;">Đối tác cung ứng</div>
+                                <div class="fw-bold">@n.TenNcc</div>
+                                <div class="text-muted small" style="font-size: 11px;">@n.Email</div>
                             </td>
-                            <td class="small">@n.TinhThanh</td>
-                            <td class="small fw-bold text-dark">@n.SDT</td>
-                            <td><span class="badge bg-@n.Class bg-opacity-10 text-@n.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@n.Status</span></td>
-                            <td class="text-center pe-4">
+                            <td class="small">@(n.MaPhuongXaNavigation?.MaTinhThanhNavigation?.TenTinhThanh ?? "Chưa rõ")</td>
+                            <td class="small fw-bold">@n.SoDienThoai</td>
+                            <td>
+                                <span class="badge @(n.TrangThai ? "bg-success" : "bg-danger") bg-opacity-10 text-@(n.TrangThai ? "success" : "danger") rounded-pill px-3">
+                                    @(n.TrangThai ? "Hoạt động" : "Tạm ngưng")
+                                </span>
+                            </td>
+                            <td class="text-center">
                                 <button class="btn btn-link text-muted p-0"><i class="bi bi-three-dots-vertical"></i></button>
                             </td>
                         </tr>
@@ -103,7 +94,6 @@
     </div>
 </div>
 
-<!-- Modal từ Partial View -->
 <partial name="_ModalThemNhaCungCap" />
 
 @section Scripts {
