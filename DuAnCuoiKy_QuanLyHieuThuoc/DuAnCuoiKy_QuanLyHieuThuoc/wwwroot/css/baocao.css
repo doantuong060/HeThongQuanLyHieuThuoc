@@ -1,0 +1,48 @@
+﻿/* baocao.css - Phân tích kinh doanh MedVault */
+
+/* Thẻ tài chính hàng đầu */
+.report-stats-card {
+    border: none;
+    border-radius: 20px;
+    padding: 1.5rem;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+    .report-stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+    }
+
+/* Biểu đồ Donut center text */
+.chart-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Thẻ AI Insight (Gradient Xanh) */
+.ai-card-insight {
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%) !important;
+    border-left: 5px solid #0d6efd !important;
+    border: none;
+    border-radius: 20px;
+}
+
+/* Thẻ AI Monitor (Gradient Đỏ) */
+.ai-card-monitor {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%) !important;
+    border-left: 5px solid #dc3545 !important;
+    border: none;
+    border-radius: 20px;
+}
+
+/* Tinh chỉnh Badge AI */
+.ai-badge {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    font-weight: 700;
+}

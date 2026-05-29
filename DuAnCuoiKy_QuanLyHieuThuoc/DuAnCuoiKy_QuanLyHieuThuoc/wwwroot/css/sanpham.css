@@ -1,0 +1,39 @@
+﻿/* Định dạng cho trang Danh mục sản phẩm */
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.table thead th {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 15px 10px;
+}
+
+.table tbody td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+/* Hiệu ứng hover cho dòng trong bảng */
+.table-hover tbody tr:hover {
+    background-color: #f8faff;
+    cursor: pointer;
+}
+
+/* Badge phân loại Thuốc / Vật tư */
+.badge {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Input tìm kiếm */
+#searchInput:focus {
+    box-shadow: none;
+    border-color: #0d6efd;
+    background-color: #fff !important;
+}

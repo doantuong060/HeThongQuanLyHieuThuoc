@@ -1,0 +1,113 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Danh mục sản phẩm";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/sanpham.css" asp-append-version="true" />
+}
+
+<div class="p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Danh mục sản phẩm</h3>
+        <button class="btn btn-primary px-4 rounded-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalThemSP">
+            <i class="bi bi-plus-lg me-2"></i>Thêm sản phẩm
+        </button>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white">
+                <div class="text-muted small fw-bold">TỔNG SẢN PHẨM</div>
+                <div class="h2 fw-bold">@ViewBag.TongThuoc</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-warning">
+                <div class="text-muted small fw-bold">SẮP HẾT HÀNG</div>
+                <div class="h2 fw-bold text-warning">@ViewBag.SapHetHang</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-danger">
+                <div class="text-muted small fw-bold">HẾT HẠN (30 NGÀY)</div>
+                <div class="h2 fw-bold text-danger">@ViewBag.HetHan30Ngay</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bảng sản phẩm -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="p-3 bg-white border-bottom">
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <input type="text" id="searchInput" class="form-control border-light bg-light py-2" placeholder="Tìm tên, mã sản phẩm...">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select border-light bg-light py-2">
+                        <option>Tất cả loại</option>
+                        <option>THUỐC</option>
+                        <option>VẬT TƯ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover">
+                <thead class="bg-light text-muted small">
+                    <tr>
+                        <th class="ps-4">MÃ</th>
+                        <th>TÊN SẢN PHẨM</th>
+                        <th>PHÂN LOẠI</th>
+                        <th>CHI TIẾT</th>
+                        <th>GIÁ BÁN</th>
+                        <th>TỒN KHO</th>
+                        <th class="text-center">CẦN TOA</th>
+                        <th class="text-end pe-4">THAO TÁC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DanhSachSP)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary small">@item.Ma</td>
+                            <td class="fw-bold">@item.Ten</td>
+                            <td>
+                                <span class="badge @(item.PhânLoai == "THUỐC" ? "bg-info" : "bg-secondary") bg-opacity-10 text-@(item.PhânLoai == "THUỐC" ? "info" : "secondary") rounded-pill px-3">
+                                    @item.PhânLoai
+                                </span>
+                            </td>
+                            <td class="small text-muted">@item.ChiTiet</td>
+                            <td class="fw-bold">@item.Gia đ</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="status-dot bg-@item.Status"></div>
+                                    <span class="fw-bold">@item.Ton</span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                @if (item.CanToa)
+                                {
+                                    <i class="bi bi-file-earmark-medical text-danger fs-5"></i>
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-light rounded-circle me-1"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-light rounded-circle text-danger"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal thêm sản phẩm mẫu -->
+<partial name="_ModalThemSanPham" />
+
+@section Scripts {
+    <script src="~/js/sanpham.js" asp-append-version="true"></script>
+}

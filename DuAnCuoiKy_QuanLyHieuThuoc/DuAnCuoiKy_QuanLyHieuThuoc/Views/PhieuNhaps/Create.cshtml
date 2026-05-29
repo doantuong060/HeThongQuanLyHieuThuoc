@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Tạo phiếu nhập hàng";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/_KhoNhapHang.css" asp-append-version="true" />
+}
+
+<div class="nhap-hang-container p-4">
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item">Quản lý kho</a></li>
+                <li class="breadcrumb-item active fw-bold">Nhập kho Dược phẩm</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="fw-bold text-dark">Tạo phiếu nhập hàng</h3>
+            <div>
+                <button class="btn btn-light px-4 rounded-3 me-2 fw-bold">Hủy bỏ</button>
+                <button class="btn btn-primary px-4 rounded-3 fw-bold"><i class="bi bi-save me-2"></i>Lưu phiếu nhập</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- CỘT TRÁI: FORM NHẬP LIỆU CHÍNH -->
+        <div class="col-md-8">
+            <!-- 1. Thông tin chứng từ -->
+            <div class="form-card shadow-sm p-4 mb-4">
+                <h6 class="fw-bold mb-4 text-primary">Thông tin chứng từ</h6>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted fw-bold">Nhà cung cấp</label>
+                        <select class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.MaNCC"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted fw-bold">Ngày nhập kho</label>
+                        <input type="date" class="form-control bg-light border-0 py-2 shadow-none" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted fw-bold">Nhân viên kho</label>
+                        <input type="text" class="form-control bg-light border-0 py-2 shadow-none" value="Phạm Văn Bình" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Chi tiết hàng nhập -->
+            <div class="form-card shadow-sm p-4">
+                <h6 class="fw-bold mb-4 text-primary">Chi tiết hàng nhập</h6>
+                <div class="table-responsive">
+                    <table class="table align-middle table-nhap" id="receiptTable">
+                        <thead class="bg-light text-muted small">
+                            <tr>
+                                <th>Tên thuốc</th>
+                                <th>Số lượng</th>
+                                <th>Giá nhập</th>
+                                <th>Số lô</th>
+                                <th>HSD</th>
+                                <th class="text-end">Thành tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dòng nhập liệu mẫu 1 (Ảnh 15) -->
+                            <tr>
+                                <td>
+                                    <div class="fw-bold small">Paracetamol 500mg</div>
+                                    <div class="text-muted" style="font-size: 10px;">Hộp 10 vỉ x 10 viên</div>
+                                </td>
+                                <td style="width: 80px;"><input type="number" class="form-control shadow-none" value="100"></td>
+                                <td style="width: 120px;"><input type="text" class="form-control shadow-none" value="1.200"></td>
+                                <td style="width: 100px;"><input type="text" class="form-control shadow-none" value="LOT-2309A"></td>
+                                <td style="width: 150px;"><input type="date" class="form-control shadow-none" value="2026-09-30"></td>
+                                <td class="fw-bold text-end">120.000đ</td>
+                                <td class="text-center"><button class="btn btn-link text-danger p-0"><i class="bi bi-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-outline-primary btn-sm rounded-3 mt-3 fw-bold" id="btnAddRow">
+                    <i class="bi bi-plus-circle me-2"></i>Thêm mặt hàng
+                </button>
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI: TỔNG KẾT & PHIẾU GẦN ĐÂY -->
+        <div class="col-md-4">
+            <!-- Box tính tiền -->
+            <div class="form-card shadow-sm p-4 mb-4">
+                <h6 class="fw-bold mb-4">Tổng kết thanh toán</h6>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">Tạm tính:</span>
+                    <span class="fw-bold">310.000 đ</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">VAT (5%):</span>
+                    <span class="fw-bold">15.500 đ</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="h6 fw-bold mb-0">Tổng cộng:</span>
+                    <span class="h4 fw-bold text-primary mb-0">325.500 đ</span>
+                </div>
+            </div>
+
+            <!-- Box Cảnh báo AI (Ảnh 15) -->
+            <div class="alert-stock-warning mb-4">
+                <div class="d-flex gap-2">
+                    <i class="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
+                    <div>
+                        <div class="fw-bold text-danger small">Cảnh báo tồn kho</div>
+                        <div class="text-dark small" style="font-size: 12px; line-height: 1.4;">
+                            Lô thuốc <strong>Amoxicillin 250mg</strong> có HSD cận ngày (15/12/2023). Vui lòng kiểm tra lại chính sách nhập hàng cận date.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phiếu nhập gần đây -->
+            <div class="form-card shadow-sm p-4">
+                <h6 class="fw-bold mb-3 small text-muted text-uppercase">Phiếu nhập gần đây</h6>
+                @foreach (var p in ViewBag.PhieuGanDay)
+                {
+                    <div class="item-row-recent">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold text-primary small">@p.Ma</div>
+                                <div class="text-muted" style="font-size: 11px;">@p.NCC • @p.Ngay</div>
+                            </div>
+                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill" style="font-size: 9px;">@p.Status</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/_KhoNhapHang.js" asp-append-version="true"></script>
+}

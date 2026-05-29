@@ -1,0 +1,61 @@
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Extensions
+@{
+    var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["Action"]?.ToString();
+    
+    // Lấy tên thật của nhân viên kho đang đăng nhập từ Claims
+    string tenNhanVien = User.Identity.IsAuthenticated ? User.GetHoTen() : "Ngô Thanh Nguyên";
+}
+
+<div class="sidebar-wrapper d-flex flex-column justify-content-between bg-white border-end p-3 shadow-sm">
+    <div>
+        <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded-3 sidebar-user-card" style="background-color: #fff7ed;">
+            <img src="https://ui-avatars.com/api/?name=@System.Net.WebUtility.UrlEncode(tenNhanVien)&background=10b981&color=fff"
+                 alt="Warehouse Avatar" width="45" height="45" class="rounded-circle border border-2 border-warning border-opacity-25 shadow-sm">
+            <div class="overflow-hidden">
+                <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">@tenNhanVien</h6>
+                <small class="text-muted d-block text-truncate" style="font-size: 0.75rem;">Nhân viên kho</small>
+            </div>
+        </div>
+
+        <!-- Menu Nghiệp vụ Kho (Ảnh 14 - 18) -->
+        <ul class="nav flex-column gap-2">
+            <li class="nav-item">
+                <a href="@Url.Action("Index", "TongQuanKho")" 
+                   class="nav-link sidebar-link @(controller == "TongQuanKho" ? "active" : "")">
+                    <i class="bi bi-house-door fs-5"></i>
+                    <span>Tổng quan kho</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="@Url.Action("Create", "PhieuNhaps")" 
+                   class="nav-link sidebar-link @(controller == "PhieuNhaps" && action == "Create" ? "active" : "")">
+                    <i class="bi bi-box-arrow-in-down fs-5"></i>
+                    <span>Nhập hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="@Url.Action("Index", "PhieuNhaps")" 
+                   class="nav-link sidebar-link @(controller == "PhieuNhaps" && action == "Index" ? "active" : "")">
+                    <i class="bi bi-file-earmark-medical fs-5"></i>
+                    <span>Danh sách phiếu</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="@Url.Action("Index", "LoHangs")" 
+                   class="nav-link sidebar-link @(controller == "LoHangs" ? "active" : "")">
+                    <i class="bi bi-exclamation-octagon fs-5"></i>
+                    <span>Tồn kho & Cảnh báo</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Nút Đăng xuất -->
+    <div>
+        <a href="@Url.Action("Logout", "Home")" class="nav-link sidebar-link sidebar-logout text-danger">
+            <i class="bi bi-box-arrow-left fs-5"></i>
+            <span>Đăng xuất</span>
+        </a>
+    </div>
+</div>
