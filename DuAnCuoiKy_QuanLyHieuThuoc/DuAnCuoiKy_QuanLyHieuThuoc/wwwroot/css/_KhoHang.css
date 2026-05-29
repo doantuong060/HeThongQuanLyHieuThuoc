@@ -1,0 +1,401 @@
+﻿/* ============================================================
+   _KhoHang.css – Trang Xem Tồn Kho – MedVault
+   ============================================================ */
+:root {
+    --kh-primary: #2563eb;
+    --kh-primary-lt: #eff6ff;
+    --kh-success: #16a34a;
+    --kh-warning: #d97706;
+    --kh-danger: #dc2626;
+    --kh-gray-50: #f9fafb;
+    --kh-gray-100: #f3f4f6;
+    --kh-gray-200: #e5e7eb;
+    --kh-gray-300: #d1d5db;
+    --kh-gray-400: #9ca3af;
+    --kh-gray-500: #6b7280;
+    --kh-gray-700: #374151;
+    --kh-gray-900: #111827;
+    --kh-font: 'Be Vietnam Pro', sans-serif;
+    --kh-radius: 12px;
+    --kh-radius-sm: 8px;
+    --kh-shadow: 0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+}
+
+/* ── WRAPPER ── */
+.kh-page {
+    padding: 24px 28px 40px;
+    font-family: var(--kh-font);
+    background: #f8f9fc;
+    min-height: calc(100vh - 56px);
+}
+
+/* ── BREADCRUMB ── */
+.kh-breadcrumb {
+    font-size: 13px;
+    color: var(--kh-gray-400);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+    .kh-breadcrumb a {
+        color: var(--kh-gray-400);
+        text-decoration: none;
+    }
+
+        .kh-breadcrumb a:hover {
+            color: var(--kh-primary);
+        }
+
+    .kh-breadcrumb .sep {
+        font-size: 12px;
+    }
+
+    .kh-breadcrumb .current {
+        color: var(--kh-gray-700);
+        font-weight: 500;
+    }
+
+/* ── HEADER ROW ── */
+.kh-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.kh-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--kh-gray-900);
+    margin: 0;
+}
+
+.kh-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ô tìm kiếm */
+.kh-search-wrap {
+    position: relative;
+}
+
+    .kh-search-wrap i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--kh-gray-400);
+        font-size: 13px;
+        pointer-events: none;
+    }
+
+.kh-search-input {
+    padding: 9px 14px 9px 36px;
+    border: 1px solid var(--kh-gray-200);
+    border-radius: var(--kh-radius-sm);
+    font-family: var(--kh-font);
+    font-size: 13.5px;
+    outline: none;
+    background: #fff;
+    width: 220px;
+    transition: border .2s, box-shadow .2s;
+    color: var(--kh-gray-900);
+}
+
+    .kh-search-input:focus {
+        border-color: var(--kh-primary);
+        box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+
+    .kh-search-input::placeholder {
+        color: var(--kh-gray-400);
+    }
+
+/* Nút lọc loại */
+.kh-btn-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border: 1px solid var(--kh-gray-200);
+    border-radius: var(--kh-radius-sm);
+    background: #fff;
+    font-family: var(--kh-font);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--kh-gray-700);
+    cursor: pointer;
+    transition: all .15s;
+    position: relative;
+    white-space: nowrap;
+}
+
+    .kh-btn-filter:hover {
+        border-color: var(--kh-primary);
+        color: var(--kh-primary);
+    }
+
+    .kh-btn-filter.active {
+        background: var(--kh-primary-lt);
+        border-color: var(--kh-primary);
+        color: var(--kh-primary);
+    }
+
+/* Dropdown lọc loại */
+.kh-filter-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--kh-gray-200);
+    border-radius: var(--kh-radius-sm);
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    min-width: 180px;
+    z-index: 100;
+    overflow: hidden;
+    display: none;
+}
+
+    .kh-filter-dropdown.open {
+        display: block;
+    }
+
+.kh-filter-item {
+    padding: 9px 16px;
+    font-size: 13.5px;
+    color: var(--kh-gray-700);
+    cursor: pointer;
+    transition: background .12s;
+    text-decoration: none;
+    display: block;
+}
+
+    .kh-filter-item:hover {
+        background: var(--kh-gray-50);
+        color: var(--kh-primary);
+    }
+
+    .kh-filter-item.active {
+        background: var(--kh-primary-lt);
+        color: var(--kh-primary);
+        font-weight: 600;
+    }
+
+/* ── CARD BẢNG ── */
+.kh-card {
+    background: #fff;
+    border-radius: var(--kh-radius);
+    box-shadow: var(--kh-shadow);
+    border: 1px solid var(--kh-gray-200);
+    overflow: hidden;
+}
+
+/* ── BẢNG ── */
+.kh-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+    .kh-table thead tr {
+        background: var(--kh-gray-50);
+        border-bottom: 1px solid var(--kh-gray-200);
+    }
+
+    .kh-table thead th {
+        padding: 11px 20px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--kh-gray-400);
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+        .kh-table thead th.center,
+        .kh-table tbody td.center {
+            text-align: center;
+        }
+
+    .kh-table tbody tr {
+        border-bottom: 1px solid var(--kh-gray-100);
+        transition: background .1s;
+    }
+
+        .kh-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .kh-table tbody tr:hover {
+            background: var(--kh-gray-50);
+        }
+
+    .kh-table tbody td {
+        padding: 14px 20px;
+        color: var(--kh-gray-700);
+        vertical-align: middle;
+    }
+
+/* Tên thuốc */
+.kh-name-normal {
+    font-weight: 600;
+    color: var(--kh-gray-900);
+}
+
+.kh-name-warning {
+    font-weight: 600;
+    color: var(--kh-danger);
+}
+
+/* Loại & ĐVT */
+.kh-loai {
+    color: var(--kh-gray-500);
+    font-size: 13px;
+}
+
+.kh-dvt {
+    color: var(--kh-gray-500);
+    font-size: 13px;
+}
+
+/* Badge số tồn kho */
+.kh-stock-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kh-stock-ok {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.kh-stock-normal {
+    background: var(--kh-gray-100);
+    color: var(--kh-gray-600, #4b5563);
+}
+
+.kh-stock-low {
+    background: #fee2e2;
+    color: var(--kh-danger);
+}
+
+.kh-stock-empty {
+    background: #fee2e2;
+    color: var(--kh-danger);
+}
+
+/* Badge trạng thái */
+.kh-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.kh-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.kh-status-san-sang {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+    .kh-status-san-sang .kh-status-dot {
+        background: #2563eb;
+    }
+
+.kh-status-binh-thuong {
+    background: var(--kh-gray-100);
+    color: var(--kh-gray-600, #4b5563);
+}
+
+    .kh-status-binh-thuong .kh-status-dot {
+        background: var(--kh-gray-400);
+    }
+
+.kh-status-sap-het {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+    .kh-status-sap-het .kh-status-dot {
+        background: #f59e0b;
+    }
+
+.kh-status-het-hang {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+    .kh-status-het-hang .kh-status-dot {
+        background: var(--kh-danger);
+    }
+
+/* ── FOOTER PHÂN TRANG ── */
+.kh-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-top: 1px solid var(--kh-gray-100);
+    background: var(--kh-gray-50);
+}
+
+.kh-footer-info {
+    font-size: 13px;
+    color: var(--kh-gray-400);
+}
+
+.kh-pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.kh-page-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--kh-gray-200);
+    background: #fff;
+    color: var(--kh-gray-500);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s;
+    text-decoration: none;
+}
+
+    .kh-page-btn:hover:not(.disabled) {
+        border-color: var(--kh-primary);
+        color: var(--kh-primary);
+        background: var(--kh-primary-lt);
+    }
+
+    .kh-page-btn.disabled {
+        opacity: .4;
+        cursor: not-allowed;
+        pointer-events: none;
+    }

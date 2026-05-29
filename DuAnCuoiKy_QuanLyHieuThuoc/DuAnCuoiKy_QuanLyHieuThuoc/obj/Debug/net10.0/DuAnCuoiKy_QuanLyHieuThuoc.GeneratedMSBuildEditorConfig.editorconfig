@@ -31,6 +31,10 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
+[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/BanHangs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFuSGFuZ3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/ChiTietHoaDons/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hpVGlldEhvYURvbnNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -117,6 +121,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/KhachHangs/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hhY2hIYW5nc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/KhoHangs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvSGFuZ3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/LoaiThuocs/Create.cshtml]
@@ -283,6 +291,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/Shared/_SidebarDuocSiBanHang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyRHVvY1NpQmFuSGFuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/Shared/_Topbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ub3BiYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -327,26 +347,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGh1b2NzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs1/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oczFcQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs1/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oczFcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs1/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oczFcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs1/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oczFcRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs1/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oczFcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -365,6 +365,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TinhThanhs/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFRoYW5oc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/TongQuanCaLam/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9uZ1F1YW5DYUxhbVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/VaiTroes/Create.cshtml]
@@ -414,7 +418,3 @@ build_metadata.AdditionalFiles.CssScope =
 [E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
-
-[E:/C\#/BTLTCS/HeThongQuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/DuAnCuoiKy_QuanLyHieuThuoc/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-6b7a2p9u9n

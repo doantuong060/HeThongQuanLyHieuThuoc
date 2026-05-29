@@ -145,10 +145,7 @@ E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLy
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\rjimswa.dswa.cache.json
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
-E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\scopedcss\bundle\DuAnCuoiKy_QuanLyHieuThuoc.styles.css
-E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\scopedcss\projectbundle\DuAnCuoiKy_QuanLyHieuThuoc.bundle.scp.css
-E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\mnhgo6aod4-{0}-b9sayid5wm-b9sayid5wm.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\yvpeojayc1-{0}-61n19gt1b8-61n19gt1b8.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\fq9soqur7k-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\hghyyv0emz-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -210,8 +207,6 @@ E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLy
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\4hbh3h2omx-{0}-muycvpuwrr-muycvpuwrr.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\lgq2f2ocp5-{0}-87fc7y1x7t-87fc7y1x7t.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\pn43f3vqxj-{0}-mlv21k5csn-mlv21k5csn.gz
-E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\gripfqwakv-{0}-7w9deyx780-7w9deyx780.gz
-E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\tzsi52hd4o-{0}-7w9deyx780-7w9deyx780.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\staticwebassets.build.json
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\staticwebassets.build.json.cache
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\staticwebassets.development.json
@@ -338,3 +333,13 @@ E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLy
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\mnhgo6aod4-{0}-b9sayid5wm-b9sayid5wm.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\gtghantk54-{0}-r0y05fipsf-r0y05fipsf.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\21ouq0vxhx-{0}-vakxr2t59v-vakxr2t59v.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\uym924a2lx-{0}-qnhc9bm4pd-qnhc9bm4pd.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\z03b2azlxa-{0}-ok19y59hi2-ok19y59hi2.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\vcc6rey24n-{0}-nxpxengzwk-nxpxengzwk.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\r1883cvdia-{0}-5sdkkh5iu7-5sdkkh5iu7.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\zm5v5ra9l3-{0}-qtslhvjl14-qtslhvjl14.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\bz72pubpib-{0}-12kebc14q4-12kebc14q4.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\z38y6zepqk-{0}-khmgzdtw7y-khmgzdtw7y.gz
