@@ -1,7 +1,7 @@
 wwwroot\css\baocao.css
 wwwroot\css\dashboard.css
 wwwroot\css\login.css
-wwwroot\css\nhacungcap.css
+wwwroot\js\sanpham.js
 wwwroot\css\nhanvien.css
 wwwroot\css\sanpham.css
 wwwroot\css\site.css
@@ -25,7 +25,7 @@ wwwroot\js\login.js
 wwwroot\js\nhacungcap.js
 wwwroot\js\nhanvien.js
 wwwroot\js\Phieunhaps.js
-wwwroot\js\sanpham.js
+wwwroot\css\nhacungcap.css
 wwwroot\js\site.js
 wwwroot\js\TongQuanCaLam.js
 wwwroot\js\_KhoLichSuPhieu.js
