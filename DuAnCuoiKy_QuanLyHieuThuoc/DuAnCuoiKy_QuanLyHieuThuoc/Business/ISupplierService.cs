@@ -4,6 +4,7 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
 {
     public interface ISupplierService
     {
+        Task<bool> AddSupplierAsync(AddSupplierViewModel model);
         Task<SupplierIndexViewModel> GetIndexDataAsync(string search);
     }
 }

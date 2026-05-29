@@ -3,24 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\wwwroot\\css\\nhacungcap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\wwwroot\\css\\nhacungcap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\controllers\\nhacungcapscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\controllers\\nhacungcapscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\addsupplierviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\addsupplierviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\business\\supplierservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\business\\supplierservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\controllers\\nhacungcapscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\controllers\\nhacungcapscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\_modalthemnhacungcap.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\_modalthemnhacungcap.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\business\\isupplierservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\business\\isupplierservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\wwwroot\\css\\nhacungcap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\wwwroot\\css\\nhacungcap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\1\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\viewmodels\\supplierindexviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -87,6 +99,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AddSupplierViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\AddSupplierViewModel.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\AddSupplierViewModel.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\AddSupplierViewModel.cs*",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\AddSupplierViewModel.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T21:45:51.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_ModalThemNhaCungCap.cshtml",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\_ModalThemNhaCungCap.cshtml",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\_ModalThemNhaCungCap.cshtml",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\_ModalThemNhaCungCap.cshtml*",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\_ModalThemNhaCungCap.cshtml*",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAuwDoAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-29T21:43:29.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs*",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T21:43:13.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\Index.cshtml",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\Index.cshtml",
@@ -99,7 +150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "nhacungcap.css",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\css\\nhacungcap.css",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\css\\nhacungcap.css",
@@ -107,8 +158,7 @@
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\css\\nhacungcap.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-05-29T21:37:29.826Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-29T21:37:29.826Z"
             },
             {
               "$type": "Document",
@@ -116,42 +166,42 @@
               "Title": "NhaCungCapsController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhaCungCapsController.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhaCungCapsController.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhaCungCapsController.cs",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhaCungCapsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhaCungCapsController.cs*",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhaCungCapsController.cs*",
+              "ViewState": "AgIAABcAAAAAAAAAAAAuwB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-29T21:37:00.999Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "SupplierService.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\SupplierService.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\SupplierService.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\SupplierService.cs",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\SupplierService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\SupplierService.cs*",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\SupplierService.cs*",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAqwFEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-29T21:36:26.451Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ISupplierService.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\ISupplierService.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\ISupplierService.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\ISupplierService.cs",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\ISupplierService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\ISupplierService.cs*",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\ISupplierService.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-29T21:35:52.05Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "SupplierIndexViewModel.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\SupplierIndexViewModel.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\SupplierIndexViewModel.cs",
@@ -159,12 +209,11 @@
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\SupplierIndexViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T21:35:17.634Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-29T21:35:17.634Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "sanpham.js",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\sanpham.js",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\sanpham.js",
@@ -172,12 +221,11 @@
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\sanpham.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-29T21:33:51.279Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-29T21:33:51.279Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "_ModalThemNhanVien.cshtml",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\_ModalThemNhanVien.cshtml",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\_ModalThemNhanVien.cshtml",
@@ -189,7 +237,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "StaffService.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\StaffService.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\StaffService.cs",
@@ -197,12 +245,11 @@
               "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\StaffService.cs",
               "ViewState": "AgIAADUAAAAAAAAAAAAgwD0AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T20:43:05.177Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-29T20:43:05.177Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\Index.cshtml",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\Index.cshtml",
@@ -214,7 +261,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "NhanViensController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhanViensController.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\NhanViensController.cs",
@@ -226,7 +273,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "IStaffService.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Business\\IStaffService.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Business\\IStaffService.cs",
@@ -238,7 +285,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "AddStaffViewModel.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\AddStaffViewModel.cs",
               "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\ViewModels\\AddStaffViewModel.cs",

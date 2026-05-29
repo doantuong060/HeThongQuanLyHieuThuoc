@@ -28,5 +28,6 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 
             return View(data);
         }
+
     }
 }

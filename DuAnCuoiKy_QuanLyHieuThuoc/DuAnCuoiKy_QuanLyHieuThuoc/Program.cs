@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
 
 builder.Services.AddDbContext<HieuThuocDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
