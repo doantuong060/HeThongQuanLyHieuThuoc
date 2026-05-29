@@ -22,6 +22,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 
+// ========================================================
+// BƯỚC 1: ĐĂNG KÝ DỊCH VỤ SESSION (Thêm mới đoạn này)
+// ========================================================
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(8); // Giữ giỏ hàng trong 8 tiếng 
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -35,6 +45,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// ========================================================
+// BƯỚC 2: BẬT MIDDLEWARE SESSION (Phải nằm TRƯỚC UseAuthentication)
+// ========================================================
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -996,7 +996,6 @@ E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\co
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\r1883cvdia-{0}-5sdkkh5iu7-5sdkkh5iu7.gz
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\gtghantk54-{0}-6iiap8t594-6iiap8t594.gz
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\yvpeojayc1-{0}-61n19gt1b8-61n19gt1b8.gz
-E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\z03b2azlxa-{0}-ok19y59hi2-ok19y59hi2.gz
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\pb25eeurce-{0}-tg77byu9vg-tg77byu9vg.gz
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\4s982adlou-{0}-pen4sc4wwg-pen4sc4wwg.gz
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\s0m8mz35e8-{0}-gie9a33us4-gie9a33us4.gz
@@ -1081,3 +1080,4 @@ E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\re
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.pdb
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.genruntimeconfig.cache
 E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\ref\DuAnCuoiKy_QuanLyHieuThuoc.dll
+E:\C#\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\z03b2azlxa-{0}-kuen5co74i-kuen5co74i.gz

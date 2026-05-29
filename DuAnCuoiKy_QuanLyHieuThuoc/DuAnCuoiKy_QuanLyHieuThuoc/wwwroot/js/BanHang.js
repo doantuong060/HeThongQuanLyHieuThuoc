@@ -163,6 +163,12 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.addEventListener("click", function () {
             document.querySelectorAll(".pay-method-btn").forEach(b => b.classList.remove("active"));
             this.classList.add("active");
+
+            // Gán giá trị Enum vào thẻ form ẩn để đẩy lên C#
+            const hiddenInput = document.getElementById("phuongThucInput");
+            if (hiddenInput) {
+                hiddenInput.value = this.getAttribute("data-method");
+            }
         });
     });
 
