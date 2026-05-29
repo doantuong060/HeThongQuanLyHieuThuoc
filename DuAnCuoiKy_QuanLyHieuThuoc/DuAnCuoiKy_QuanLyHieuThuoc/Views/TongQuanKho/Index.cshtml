@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 ﻿@{
+=======
+﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.TongQuanKhoViewModel
+
+@{
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
     ViewData["Title"] = "Tổng quan kho - MedVault";
     Layout = "_Layout";
 }
@@ -8,6 +14,7 @@
 }
 
 <div class="p-4" style="background-color: #f8f9fa; min-height: 100vh;">
+<<<<<<< HEAD
     <!-- Tiêu đề trang -->
     <div class="mb-4">
         <h3 class="fw-bold text-dark">Tổng quan kho</h3>
@@ -131,3 +138,282 @@
 @section Scripts {
     <script src="~/js/_KhoTongQuan.js" asp-append-version="true"></script>
 }
+=======
+
+    <div class="mb-4">
+        <h3 class="fw-bold text-dark">Tổng quan kho</h3>
+        <p class="text-muted small">Nhân viên kho</p>
+    </div>
+
+    <!-- THỐNG KÊ -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="kho-stat-card shadow-sm h-100">
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+                        <div class="text-muted small fw-bold">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Tổng mặt hàng
+                        </div>
+
+                        <div class="h2 fw-bold mt-2 mb-0">
+                            @Model.TongMatHang
+                            <span class="fs-6 fw-normal text-muted">
+                                loại
+                            </span>
+                        </div>
+                    </div>
+
+                    <span class="badge-pill-kho bg-primary-light">
+                        Tất cả
+                    </span>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="kho-stat-card shadow-sm border-start border-4 border-warning h-100">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+
+                        <div class="text-muted small fw-bold">
+                            <i class="bi bi-graph-down-arrow me-2"></i>
+                            Sắp hết hàng
+                        </div>
+
+                        <div class="h2 fw-bold mt-2 mb-0 text-warning">
+                            @Model.SapHetHang
+
+                            <span class="fs-6 fw-normal text-muted">
+                                mặt hàng
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <span class="badge-pill-kho bg-warning-light">
+                        Cảnh báo
+                    </span>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="kho-stat-card shadow-sm border-start border-4 border-danger h-100">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+
+                        <div class="text-muted small fw-bold">
+                            <i class="bi bi-calendar-x me-2"></i>
+                            Hết hạn ≤ 30 ngày
+                        </div>
+
+                        <div class="h2 fw-bold mt-2 mb-0 text-danger">
+                            @Model.SapHetHan
+
+                            <span class="fs-6 fw-normal text-muted">
+                                lô
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <span class="badge-pill-kho bg-danger-light">
+                        Nguy cấp
+                    </span>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HÀNG 2 -->
+    <div class="row g-4 mb-4">
+
+        <!-- THUỐC CẦN NHẬP -->
+        <div class="col-md-6">
+
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+
+                <h6 class="fw-bold mb-4">
+                    <i class="bi bi-cart-plus me-2 text-warning"></i>
+                    Thuốc cần nhập ngay
+                </h6>
+
+                <table class="table align-middle table-kho">
+
+                    <tbody>
+
+                        @foreach (var item in Model.DsCanNhap)
+                        {
+                            <tr>
+
+                                <td class="fw-bold small">
+                                    @item.TenThuoc
+                                </td>
+
+                                <td class="text-danger fw-bold text-center">
+                                    @item.SoLuongTon @item.DonViTinh
+                                </td>
+
+                                <td class="small text-muted text-center">
+                                    @item.MucCanhBao @item.DonViTinh
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a asp-controller="PhieuNhaps"
+                                       asp-action="Create"
+                                       class="btn btn-sm btn-primary rounded-3 px-3">
+
+                                        Tạo phiếu
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- LÔ HẾT HẠN -->
+        <div class="col-md-6">
+
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+
+                <h6 class="fw-bold mb-4">
+                    <i class="bi bi-calendar-event me-2 text-danger"></i>
+                    Lô hàng sắp hết hạn
+                </h6>
+
+                <table class="table align-middle table-kho">
+
+                    <tbody>
+
+                        @foreach (var item in Model.DsHetHan)
+                        {
+                            <tr>
+
+                                <td class="fw-bold small">
+                                    @item.TenThuoc
+                                </td>
+
+                                <td class="small text-muted">
+                                    @item.SoLo
+                                </td>
+
+                                <td class="small text-muted">
+                                    @item.HanSuDung.ToString("dd/MM/yyyy")
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-@item.CssClass bg-opacity-10 text-@item.CssClass rounded-pill">
+
+                                        @item.TrangThai
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PHIẾU NHẬP -->
+    <div class="card border-0 shadow-sm p-4 rounded-4">
+
+        <h6 class="fw-bold mb-4">
+            Phiếu nhập kho gần đây
+        </h6>
+
+        <div class="table-responsive">
+
+            <table class="table align-middle table-hover">
+
+                <thead class="bg-light">
+
+                    <tr>
+
+                        <th class="ps-3 border-0 small">
+                            MÃ PHIẾU
+                        </th>
+
+                        <th class="border-0 small">
+                            NGÀY NHẬP
+                        </th>
+
+                        <th class="border-0 small">
+                            NHÀ CUNG CẤP
+                        </th>
+
+                        <th class="border-0 small text-end pe-3">
+                            TỔNG TIỀN
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var p in Model.DsPhieuNhap)
+                    {
+                        <tr>
+
+                            <td class="ps-3 text-primary fw-bold">
+                                @p.MaPhieuNhap
+                            </td>
+
+                            <td class="small text-muted">
+                                @p.NgayNhap.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+
+                            <td class="small fw-bold">
+                                @p.NhaCungCap
+                            </td>
+
+                            <td class="text-end pe-3 fw-bold">
+                                @String.Format("{0:N0}", p.TongTien) đ
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)

@@ -1,5 +1,6 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "C:\\Users\\ACER\\Desktop\\C#\\DuAnCuoiKy_QuanLyHieuThuoc1\\DuAnCuoiKy_QuanLyHieuThuoc\\",
   "Documents": [
     {
@@ -119,6 +120,10 @@
       "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\shared\\_sidebaradmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
+=======
+  "WorkspaceRootPath": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\",
+  "Documents": [],
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -126,7 +131,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 5,
+=======
+          "SelectedChildIndex": -1,
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
           "Children": [
             {
               "$type": "Bookmark",
@@ -134,6 +143,21 @@
             },
             {
               "$type": "Bookmark",
+<<<<<<< HEAD
+=======
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
@@ -146,6 +170,7 @@
             },
             {
               "$type": "Bookmark",
+<<<<<<< HEAD
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
@@ -507,6 +532,9 @@
               "ViewState": "AgIAACcAAAAAAAAAAAAAAEEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-05-29T13:22:16.885Z"
+=======
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
             }
           ]
         },
