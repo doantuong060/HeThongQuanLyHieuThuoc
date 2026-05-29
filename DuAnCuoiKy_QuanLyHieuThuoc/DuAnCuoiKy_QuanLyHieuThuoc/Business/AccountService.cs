@@ -6,15 +6,10 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
     public class AccountService : IAccountService
     {
         private readonly HieuThuocDbContext _context;
-
-        public AccountService(HieuThuocDbContext context)
-        {
-            _context = context;
-        }
+        public AccountService(HieuThuocDbContext context) => _context = context;
 
         public async Task<TaiKhoan?> AuthenticateAsync(string username, string password)
         {
-            // [SQL LOGIC]: Truy vấn kiểm tra tài khoản, join nhân viên và vai trò
             return await _context.TaiKhoans
                 .Include(t => t.MaNvNavigation)
                 .Include(t => t.MaVaiTroNavigation)
@@ -27,7 +22,6 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
             if (tk != null)
             {
                 tk.LanDangNhapCuoi = DateTime.Now;
-                _context.Update(tk);
                 await _context.SaveChangesAsync();
             }
         }

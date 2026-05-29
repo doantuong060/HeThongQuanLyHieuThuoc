@@ -4,12 +4,12 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
-        public string TenDangNhap { get; set; }
+        [Required(ErrorMessage = "Tên đăng nhập không được để trống")]
+        public string TenDangNhap { get; set; } = null!;
 
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
         [DataType(DataType.Password)]
-        public string MatKhau { get; set; }
+        public string MatKhau { get; set; } = null!;
 
         public bool GhiNho { get; set; }
     }

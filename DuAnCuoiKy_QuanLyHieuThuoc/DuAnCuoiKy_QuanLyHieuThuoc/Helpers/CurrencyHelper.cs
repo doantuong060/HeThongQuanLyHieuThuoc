@@ -7,5 +7,10 @@
         {
             return amount.ToString("N0") + "đ";
         }
+
+        public static string ToVnd(decimal amount)
+        {
+            return amount.ToString("N0") + "đ";
+        }
     }
 }
