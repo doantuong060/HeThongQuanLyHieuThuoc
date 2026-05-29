@@ -3,45 +3,48 @@
     Layout = "_Layout";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/baocao.css" asp-append-version="true" />
+}
+
 <div class="p-4">
-    <!-- Header: Breadcrumb + Filter -->
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb small">
-                    <li class="breadcrumb-item"><a href="#">Hệ thống</a></li>
-                    <li class="breadcrumb-item active">Báo cáo & Phân tích</li>
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Hệ thống</a></li>
+                    <li class="breadcrumb-item active fw-bold">Báo cáo & Phân tích</li>
                 </ol>
             </nav>
-            <h3 class="fw-bold text-dark">Tổng quan kinh doanh</h3>
+            <h3 class="fw-bold">Tổng quan kinh doanh</h3>
         </div>
         <div class="d-flex gap-2">
-            <select class="form-select border-0 shadow-sm rounded-3 px-3" style="width: 150px;">
+            <select class="form-select border-0 shadow-sm rounded-3 px-3" style="width: 150px; font-size: 14px;">
                 <option>Tháng này</option>
                 <option>Quý này</option>
-                <option>Năm nay</option>
             </select>
-            <button class="btn btn-primary px-4 rounded-3 fw-bold">
+            <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">
                 <i class="bi bi-download me-2"></i>Xuất file
             </button>
         </div>
     </div>
 
-    <!-- Hàng 1: 4 Thẻ tài chính (Ảnh 8) -->
+    <!-- 4 Thẻ tài chính -->
     <div class="row g-3 mb-4">
         @foreach (var card in new[] {
-            new { Label = "DOANH THU", Val = ViewBag.DoanhThuThang, Icon = "cash-stack", Trend = "+12.5%", Color = "primary" },
-            new { Label = "HÓA ĐƠN", Val = ViewBag.SoHoaDon, Icon = "receipt", Trend = "+8.2%", Color = "secondary" },
-            new { Label = "NHẬP KHO", Val = ViewBag.NhapKhoVal, Icon = "box-seam", Trend = "-4.1%", Color = "danger" },
-            new { Label = "LỢI NHUẬN", Val = ViewBag.LoiNhuanVal, Icon = "pie-chart", Trend = "+15.3%", Color = "success" }
+            new { Lbl = "DOANH THU", Val = ViewBag.DoanhThuThang, Icon = "cash-stack", Trend = "+12.5%", Color = "primary" },
+            new { Lbl = "HÓA ĐƠN", Val = ViewBag.SoHoaDon, Icon = "receipt", Trend = "+8.2%", Color = "secondary" },
+            new { Lbl = "NHẬP KHO", Val = ViewBag.NhapKhoVal, Icon = "box-seam", Trend = "-4.1%", Color = "danger" },
+            new { Lbl = "LỢI NHUẬN", Val = ViewBag.LoiNhuanVal, Icon = "pie-chart", Trend = "+15.3%", Color = "success" }
         })
         {
             <div class="col-md-3">
-                <div class="card border-0 shadow-sm p-4 rounded-4">
+                <div class="report-stats-card shadow-sm">
                     <div class="d-flex justify-content-between text-muted small fw-bold mb-3">
-                        @card.Label <i class="bi bi-@card.Icon fs-5 text-@card.Color opacity-50"></i>
+                        @card.Lbl <i class="bi bi-@card.Icon fs-5 text-@card.Color opacity-50"></i>
                     </div>
-                    <div class="h3 fw-bold mb-2">@card.Val<span class="fs-6 fw-normal ms-1">đ</span></div>
+                    <div class="h3 fw-bold mb-2 text-dark">@card.Val<span class="fs-6 fw-normal ms-1">đ</span></div>
                     <div class="@(card.Trend.StartsWith("+") ? "text-success" : "text-danger") small fw-bold">
                         <i class="bi bi-graph-@(card.Trend.StartsWith("+") ? "up" : "down")"></i> @card.Trend
                         <span class="text-muted fw-normal">so với tháng trước</span>
@@ -51,36 +54,27 @@
         }
     </div>
 
-    <!-- Hàng 2: Biểu đồ cột & Biểu đồ tròn -->
+    <!-- Biểu đồ -->
     <div class="row g-4 mb-4">
-        <!-- Biểu đồ doanh thu 12 tháng -->
         <div class="col-md-8">
             <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="fw-bold mb-0">Doanh thu 12 tháng</h5>
-                    <div class="d-flex gap-3 small fw-bold text-muted">
-                        <span><i class="bi bi-square-fill text-primary me-1"></i> Doanh thu</span>
-                        <span><i class="bi bi-square-fill text-secondary opacity-25 me-1"></i> Lợi nhuận</span>
-                    </div>
-                </div>
+                <h5 class="fw-bold mb-4">Doanh thu 12 tháng</h5>
                 <div style="height: 350px; position: relative;">
                     <canvas id="revenue12MonthsChart"></canvas>
                 </div>
             </div>
         </div>
-
-        <!-- Biểu đồ cơ cấu loại thuốc -->
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 h-100 text-center">
-                <h5 class="fw-bold mb-4 text-start">Cơ cấu loại thuốc</h5>
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+                <h5 class="fw-bold mb-4">Cơ cấu loại thuốc</h5>
                 <div style="height: 250px; position: relative;" class="mb-4">
                     <canvas id="categoryDonutChart"></canvas>
-                    <div class="position-absolute top-50 start-50 translate-middle">
+                    <div class="chart-center-text">
                         <div class="h3 fw-bold mb-0">100%</div>
                         <div class="small text-muted" style="font-size: 10px;">Tổng phân bổ</div>
                     </div>
                 </div>
-                <div class="text-start small">
+                <div class="small">
                     @foreach (var cat in ViewBag.CoCauThuoc)
                     {
                         <div class="d-flex justify-content-between mb-2 border-bottom pb-1">
@@ -93,26 +87,26 @@
         </div>
     </div>
 
-    <!-- Hàng 3: AI Insights (2 Box dưới cùng Ảnh 8) -->
+    <!-- AI Insights -->
     <div class="row g-4">
         <div class="col-md-6">
-            <div class="card border-0 shadow-sm p-4 rounded-4 h-100" style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); border-left: 5px solid #0d6efd !important;">
+            <div class="card ai-card-insight p-4 h-100 shadow-sm">
                 <div class="d-flex align-items-center gap-3 mb-3">
                     <div class="p-2 bg-primary bg-opacity-10 rounded-circle"><i class="bi bi-lightbulb text-primary fs-4"></i></div>
-                    <h5 class="fw-bold mb-0">Gợi ý nhập hàng tự động <span class="badge bg-primary fw-normal ms-2" style="font-size: 10px;">AI INSIGHT</span></h5>
+                    <h5 class="fw-bold mb-0">Gợi ý nhập hàng <span class="badge bg-primary ai-badge ms-2">AI INSIGHT</span></h5>
                 </div>
                 <p class="text-secondary small">@ViewBag.AiSuggestion</p>
-                <a href="#" class="text-primary fw-bold text-decoration-none small">Xem danh sách gợi ý nhập <i class="bi bi-arrow-right ms-1"></i></a>
+                <a href="#" class="text-primary fw-bold text-decoration-none small">Xem chi tiết <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card border-0 shadow-sm p-4 rounded-4 h-100" style="background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%); border-left: 5px solid #dc3545 !important;">
+            <div class="card ai-card-monitor p-4 h-100 shadow-sm">
                 <div class="d-flex align-items-center gap-3 mb-3">
                     <div class="p-2 bg-danger bg-opacity-10 rounded-circle"><i class="bi bi-exclamation-triangle text-danger fs-4"></i></div>
-                    <h5 class="fw-bold mb-0">Cảnh báo hạn sử dụng <span class="badge bg-danger fw-normal ms-2" style="font-size: 10px;">AI MONITOR</span></h5>
+                    <h5 class="fw-bold mb-0 text-dark">Cảnh báo hạn dùng <span class="badge bg-danger ai-badge ms-2">AI MONITOR</span></h5>
                 </div>
                 <p class="text-secondary small">@ViewBag.AiWarning</p>
-                <a href="#" class="text-danger fw-bold text-decoration-none small">Xử lý lô cận date <i class="bi bi-arrow-right ms-1"></i></a>
+                <a href="#" class="text-danger fw-bold text-decoration-none small">Xử lý ngay <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </div>
@@ -120,50 +114,5 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // 1. Biểu đồ cột Doanh thu 12 tháng
-        const ctxBar = document.getElementById('revenue12MonthsChart').getContext('2d');
-        new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-        datasets: [{
-        label: 'Doanh thu',
-        data: [150, 200, 250, 230, 300, 280, 310, 350, 290, 380, 420, 452],
-        backgroundColor: '#0d6efd',
-        borderRadius: 5,
-        barThickness: 20
-        }]
-        },
-        options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-        y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
-        x: { grid: { display: false } }
-        }
-        }
-        });
-
-        // 2. Biểu đồ tròn Cơ cấu loại thuốc
-        const ctxDonut = document.getElementById('categoryDonutChart').getContext('2d');
-        new Chart(ctxDonut, {
-        type: 'doughnut',
-        data: {
-        labels: ['Thuốc kê đơn', 'Thực phẩm CN', 'Dược mỹ phẩm', 'Vật tư y tế'],
-        datasets: [{
-        data: [45, 30, 15, 10],
-        backgroundColor: ['#0d6efd', '#4b5563', '#0dcaf0', '#adb5bd'],
-        borderWidth: 0,
-        cutout: '80%'
-        }]
-        },
-        options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
-        }
-        });
-    </script>
+    <script src="~/js/baocao.js" asp-append-version="true"></script>
 }

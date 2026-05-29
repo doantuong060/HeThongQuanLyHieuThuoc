@@ -22,15 +22,15 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
                 // Sau này tại đây sẽ gọi LINQ: 
                 // var user = _context.TaiKhoans.FirstOrDefault(u => u.TenDangNhap == TenDangNhap && u.MatKhau == MatKhau);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index_Admin", "Home");
             }
             else if (TenDangNhap == "nhanvienkho" && MatKhau == "nhanvienkho")
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index_Admin", "Home");
             }
             else if (TenDangNhap == "nhanvienquay" && MatKhau == "nhanvienquay")
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index_Admin", "Home");
             }
             else
             {

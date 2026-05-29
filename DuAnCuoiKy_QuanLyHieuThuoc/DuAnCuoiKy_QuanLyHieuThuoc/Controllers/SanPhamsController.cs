@@ -4,37 +4,31 @@ using DuAnCuoiKy_QuanLyHieuThuoc.Models;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
-    // LƯU Ý 1: Phải có ": Controller" ở đây
     public class SanPhamsController : Controller
     {
-        // LƯU Ý 2: Code Hardcode phải nằm TRONG hàm Index() này
         public IActionResult Index()
         {
             // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
 
-            // 1. Thống kê nhanh trên đầu trang
             ViewBag.TongThuoc = "1,245";
             ViewBag.SapHetHang = 48;
             ViewBag.HetHan30Ngay = 15;
 
-            // 2. Dữ liệu danh sách thuốc (Ảnh 3)
-            var dsThuoc = new List<dynamic>
+            // Phân loại dữ liệu: THUOC và VATTU (Khớp với SQL LoaiSP)
+            var dsSanPham = new List<dynamic>
             {
-                new { Ma = "MED-001", Ten = "Paracetamol 500mg", HoatChat = "Paracetamol", Loai = "Giảm đau", DVT = "Vỉ", Gia = "15,000", Ton = 450, CanToa = false, Status = "success" },
-                new { Ma = "MED-002", Ten = "Amoxicillin 500mg", HoatChat = "Amoxicillin trihydrate", Loai = "Kháng sinh", DVT = "Viên", Gia = "2,500", Ton = 48, CanToa = true, Status = "warning" },
-                new { Ma = "MED-003", Ten = "Panadol Extra", HoatChat = "Paracetamol + Caffeine", Loai = "Giảm đau", DVT = "Hộp", Gia = "120,000", Ton = 0, CanToa = false, Status = "danger" },
-                new { Ma = "MED-004", Ten = "Thuốc Mẫu 4", HoatChat = "Hoạt chất mẫu", Loai = "Loại khác", DVT = "Viên", Gia = "40,000", Ton = 140, CanToa = true, Status = "success" },
-                new { Ma = "MED-005", Ten = "Thuốc Mẫu 5", HoatChat = "Hoạt chất mẫu", Loai = "Loại khác", DVT = "Viên", Gia = "50,000", Ton = 150, CanToa = false, Status = "success" }
+                // Nhóm THUỐC
+                new { Ma = "TH-0001", Ten = "Amoxicillin 500mg", PhânLoai = "THUỐC", ChiTiet = "Kháng sinh", DVT = "Viên", Gia = "4,500", Ton = 100, CanToa = true, Status = "success" },
+                new { Ma = "TH-0002", Ten = "Paracetamol 500mg", PhânLoai = "THUỐC", ChiTiet = "Giảm đau", DVT = "Viên", Gia = "1,200", Ton = 45, CanToa = false, Status = "warning" },
+                
+                // Nhóm VẬT TƯ Y TẾ
+                new { Ma = "VT-0001", Ten = "Gạc y tế 10x10cm", PhânLoai = "VẬT TƯ", ChiTiet = "Băng gạc", DVT = "Gói", Gia = "2,000", Ton = 300, CanToa = false, Status = "success" },
+                new { Ma = "VT-0006", Ten = "Nhiệt kế điện tử", PhânLoai = "VẬT TƯ", ChiTiet = "Thiết bị nhỏ", DVT = "Hộp", Gia = "75,000", Ton = 5, CanToa = false, Status = "danger" },
+                new { Ma = "VT-0007", Ten = "Máy đo huyết áp", PhânLoai = "VẬT TƯ", ChiTiet = "Thiết bị nhỏ", DVT = "Hộp", Gia = "450,000", Ton = 10, CanToa = false, Status = "warning" }
             };
-            ViewBag.DanhSachThuoc = dsThuoc;
 
-            // Dữ liệu cho Dropdown trong Modal (Hardcode)
-            ViewBag.LoaiThuoc = new SelectList(new[] { "Giảm đau", "Kháng sinh", "Thực phẩm CN", "Vật tư y tế" });
-            ViewBag.DonViTinh = new SelectList(new[] { "Viên", "Vỉ", "Hộp", "Chai", "Lọ" });
-
-            /* [NOTE LINQ TRONG TƯƠNG LAI]: 
-               var thuoc = _context.SanPhams.ToList();
-            */
+            ViewBag.DanhSachSP = dsSanPham;
+            ViewBag.LoaiSP = new SelectList(new[] { "THUỐC", "VẬT TƯ" });
 
             return View();
         }

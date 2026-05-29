@@ -1017,3 +1017,15 @@ C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnC
 C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.genruntimeconfig.cache
 C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\ref\DuAnCuoiKy_QuanLyHieuThuoc.dll
 C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\qbwz4c795f-{0}-qnhc9bm4pd-qnhc9bm4pd.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\uyphnv7mcq-{0}-t67jipw2el-t67jipw2el.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\xybx2ogdep-{0}-yrugy1s6cn-yrugy1s6cn.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\5ri6nz61kb-{0}-k4xmrfvqhg-k4xmrfvqhg.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\s0m8mz35e8-{0}-gie9a33us4-gie9a33us4.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\j8m6mrki36-{0}-4t0lqaki82-4t0lqaki82.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\4s982adlou-{0}-pen4sc4wwg-pen4sc4wwg.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\c0aftqnpys-{0}-vas0o08byq-vas0o08byq.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\qizxdwkhuk-{0}-3vc03j6xnr-3vc03j6xnr.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\wdh4nybzcu-{0}-1q0g85xri0-1q0g85xri0.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\ha3amg19e7-{0}-0do51wycjl-0do51wycjl.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\8pd8o5moqa-{0}-v80zgdynrf-v80zgdynrf.gz
+C:\Users\ACER\Desktop\C#\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\pb25eeurce-{0}-tg77byu9vg-tg77byu9vg.gz

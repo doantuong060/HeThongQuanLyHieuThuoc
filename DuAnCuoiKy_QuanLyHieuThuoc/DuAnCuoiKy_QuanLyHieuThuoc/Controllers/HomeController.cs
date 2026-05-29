@@ -5,7 +5,7 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index_Admin()
         {
             // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
             ViewBag.DoanhThuHomNay = "24.500.000";
@@ -26,7 +26,7 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
                 new { MaHD = "HD-20231025-02", Gio = "09:42 - 25/10", ThuNgan = "Lê Thị Lan", Tong = "1.250.000", Status = "ĐANG XỬ LÝ", StatusClass = "warning" }
             };
 
-            return View();
+            return View("Index_Admin");
         }
     }
 }

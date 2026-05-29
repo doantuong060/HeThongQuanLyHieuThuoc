@@ -1,0 +1,76 @@
+﻿/* dashboard.css - Định dạng trang Tổng quan MedVault */
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease;
+}
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.icon-revenue {
+    background: #E8EFFF;
+    color: #0d6efd;
+}
+
+.icon-orders {
+    background: #F3F4F6;
+    color: #4B5563;
+}
+
+.icon-low-stock {
+    background: #FFF7ED;
+    color: #EA580C;
+}
+
+.icon-expiring {
+    background: #FEF2F2;
+    color: #DC2626;
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.content-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    height: 100%;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Tùy chỉnh bảng hóa đơn */
+.table-dashboard thead th {
+    background-color: #f9fafb;
+    border: none;
+    font-size: 12px;
+    color: #6c757d;
+    text-transform: uppercase;
+}
