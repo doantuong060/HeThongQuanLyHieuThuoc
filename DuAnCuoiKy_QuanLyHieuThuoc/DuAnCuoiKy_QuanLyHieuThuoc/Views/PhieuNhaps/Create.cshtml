@@ -1,51 +1,376 @@
 ﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.PhieuNhap
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nhập hàng";
+    Layout = "~/Views/Shared/_LayoutNhanVienKho.cshtml";
 }
 
-<h1>Create</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/PhieuNhapCreate.css" asp-append-version="true" />
+}
 
-<h4>PhieuNhap</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaPhieuNhap" class="control-label"></label>
-                <input asp-for="MaPhieuNhap" class="form-control" />
-                <span asp-validation-for="MaPhieuNhap" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaNcc" class="control-label"></label>
-                <select asp-for="MaNcc" class ="form-control" asp-items="ViewBag.MaNcc"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaNv" class="control-label"></label>
-                <select asp-for="MaNv" class ="form-control" asp-items="ViewBag.MaNv"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChu" class="control-label"></label>
-                <input asp-for="GhiChu" class="form-control" />
-                <span asp-validation-for="GhiChu" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TongTien" class="control-label"></label>
-                <input asp-for="TongTien" class="form-control" />
-                <span asp-validation-for="TongTien" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<!-- Breadcrumb + Header -->
+<div class="kho-breadcrumb">
+    <i class="bi bi-grid-1x2" style="font-size:12px;"></i>
+    <span>Quản lý kho</span>
+    <i class="bi bi-chevron-right" style="font-size:10px;"></i>
+    <span class="current">Nhập kho Dược phẩm</span>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="import-topbar">
+
+    <div>
+        <div class="kho-page-title" style="margin:0;">
+            Tạo phiếu nhập hàng
+        </div>
+
+        <div class="kho-page-subtitle">
+            Quản lý và nhập thuốc từ nhà cung cấp vào kho dược.
+        </div>
+    </div>
+
+    <div class="import-topbar-btns">
+
+        <a asp-controller="PhieuNhaps"
+           asp-action="Index"
+           class="btn-danger-outline">
+
+            Hủy bỏ
+
+        </a>
+
+        <button type="button" class="kho-btn-primary">
+
+            <i class="bi bi-floppy"></i>
+
+            Lưu phiếu nhập
+
+        </button>
+
+    </div>
+
+</div>
+
+<div class="import-layout">
+
+    <!-- MAIN -->
+    <div class="import-main">
+
+        <!-- THÔNG TIN CHỨNG TỪ -->
+        <div class="kho-panel">
+
+            <div class="kho-panel-title">
+                Thông tin chứng từ
+            </div>
+
+            <div class="form-row-kho">
+
+                <div class="form-group-kho">
+
+                    <label class="form-label-kho">
+                        Nhà cung cấp
+                    </label>
+
+                    <select class="form-select-kho">
+                        <option>Dược phẩm Trung ương 1</option>
+                        <option>Dược Hậu Giang (DHG)</option>
+                        <option>Pymepharco Đà Nẵng</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group-kho">
+
+                    <label class="form-label-kho">
+                        Ngày nhập kho
+                    </label>
+
+                    <input type="date"
+                           class="form-input-kho"
+                           value="2023-10-25" />
+
+                </div>
+
+                <div class="form-group-kho">
+
+                    <label class="form-label-kho">
+                        Nhân viên kho
+                    </label>
+
+                    <select class="form-select-kho">
+                        <option>Phạm Văn Bình</option>
+                        <option>Nguyễn Thị Mai</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CHI TIẾT HÀNG -->
+        <div class="kho-panel">
+
+            <div class="kho-panel-title">
+                Chi tiết hàng nhập
+            </div>
+
+            <div class="import-table-head">
+
+                <div>Tên thuốc</div>
+                <div>Số lượng</div>
+                <div>Giá nhập</div>
+                <div>Số lô</div>
+                <div>HSD</div>
+                <div>Thành tiền</div>
+                <div></div>
+
+            </div>
+
+            <div id="import-rows">
+
+                <!-- ROW -->
+                <div class="import-row">
+
+                    <div class="drug-info-cell">
+
+                        <div class="name">
+                            Paracetamol 500mg
+                        </div>
+
+                        <div class="meta">
+                            Hộp 10 vỉ x 10 viên
+                        </div>
+
+                    </div>
+
+                    <input class="qty-input"
+                           value="1"
+                           type="number"
+                           min="1"
+                           oninput="calcTotal()" />
+
+                    <input class="qty-input"
+                           value="1.50"
+                           style="text-align:right;" />
+
+                    <input class="qty-input"
+                           value=".02"
+                           style="font-size:12px;" />
+
+                    <input type="date"
+                           class="date-input"
+                           value="2025-12-01" />
+
+                    <div class="thanhtien">
+                        150.000
+                    </div>
+
+                    <div class="del-btn"
+                         onclick="removeRow(this)">
+
+                        <i class="bi bi-trash3"></i>
+
+                    </div>
+
+                </div>
+
+                <!-- ROW -->
+                <div class="import-row">
+
+                    <div class="drug-info-cell">
+
+                        <div class="name">
+                            Amoxicillin 250mg
+                        </div>
+
+                        <div class="meta">
+                            Lọ 100 viên
+                        </div>
+
+                    </div>
+
+                    <input class="qty-input"
+                           value="5"
+                           type="number"
+                           min="1"
+                           oninput="calcTotal()" />
+
+                    <input class="qty-input"
+                           value="3.20"
+                           style="text-align:right;" />
+
+                    <input class="qty-input"
+                           value="LOT-01"
+                           style="font-size:12px;" />
+
+                    <input type="date"
+                           class="date-input warn-date"
+                           value="2023-12-15" />
+
+                    <div class="thanhtien">
+                        160.000
+                    </div>
+
+                    <div class="del-btn"
+                         onclick="removeRow(this)">
+
+                        <i class="bi bi-trash3"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ADD ITEM -->
+            <div class="add-item-btn"
+                 onclick="addRow()">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Thêm mặt hàng
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="import-sidebar-panel">
+
+        <!-- SUMMARY -->
+        <div class="kho-panel summary-panel">
+
+            <div class="kho-panel-title">
+                Tổng kết thanh toán
+            </div>
+
+            <div class="sum-row">
+
+                <span class="lbl">
+                    Tạm tính:
+                </span>
+
+                <span class="val" id="subtotal">
+                    310,000 đ
+                </span>
+
+            </div>
+
+            <div class="sum-row">
+
+                <span class="lbl">
+                    VAT (5%):
+                </span>
+
+                <span class="val" id="vat">
+                    15,500 đ
+                </span>
+
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="total-row">
+
+                <span>
+                    Tổng cộng:
+                </span>
+
+                <span class="total-val" id="total">
+                    325.500 đ
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- ALERT -->
+        <div class="kho-alert-box">
+
+            <span class="alert-icon">
+                ⚠️
+            </span>
+
+            <div>
+
+                <div class="alert-title">
+                    Cảnh báo tồn kho
+                </div>
+
+                <div class="alert-text">
+
+                    Lô thuốc
+                    <strong>Amoxicillin 250mg</strong>
+                    có HSD cận ngày (15/12/2023).
+
+                    Vui lòng kiểm tra lại chính sách nhập hàng cận date.
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RECENT -->
+        <div class="kho-panel">
+
+            <div class="kho-panel-title">
+                Phiếu nhập gần đây
+            </div>
+
+            <div class="recent-pn">
+
+                <div class="pn-item">
+
+                    <div>
+
+                        <div class="pn-code">
+                            PN-231024-01
+                        </div>
+
+                        <div class="pn-meta">
+                            Dược phẩm TWI • 24/10
+                        </div>
+
+                    </div>
+
+                    <span class="pn-badge">
+                        HOÀN THÀNH
+                    </span>
+
+                </div>
+
+                <div class="pn-item">
+
+                    <div>
+
+                        <div class="pn-code">
+                            PN-231022-03
+                        </div>
+
+                        <div class="pn-meta">
+                            Dược Hậu Giang • 22/10
+                        </div>
+
+                    </div>
+
+                    <span class="pn-badge">
+                        HOÀN THÀNH
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Phieunhaps.js" asp-append-version="true"></script>
 }

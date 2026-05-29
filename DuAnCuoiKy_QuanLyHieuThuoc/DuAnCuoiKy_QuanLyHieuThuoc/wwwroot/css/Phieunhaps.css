@@ -1,0 +1,992 @@
+﻿/* ============================================
+   Phieunhaps.css  (dùng chung cho cả 4 trang kho)
+   ============================================ */
+
+/* ── Variables ── */
+:root {
+    --primary: #3b6df0;
+    --primary-light: #eef2fd;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #22c55e;
+    --border: #e8ecf2;
+    --bg: #f4f6fa;
+    --surface: #ffffff;
+    --text: #1a1f2e;
+    --text-2: #6b7280;
+    --text-3: #9ca3af;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+}
+
+/* ── Breadcrumb ── */
+.kho-breadcrumb {
+    font-size: 12px;
+    color: var(--text-2);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+    .kho-breadcrumb a {
+        color: var(--text-2);
+        text-decoration: none;
+    }
+
+    .kho-breadcrumb .current {
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+.kho-page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.kho-page-subtitle {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 20px;
+}
+
+/* ── Panel / Card ── */
+.kho-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+.kho-panel-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+}
+
+/* ── Stat cards (Tổng quan) ── */
+.kho-stat-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kho-stat-card {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+    .kho-stat-card .stat-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+    }
+
+        .kho-stat-card .stat-badge.blue {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .kho-stat-card .stat-badge.orange {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .kho-stat-card .stat-badge.red {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+    .kho-stat-card .stat-icon {
+        font-size: 22px;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .kho-stat-card .stat-label {
+        font-size: 12px;
+        color: var(--text-2);
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    .kho-stat-card .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--text);
+    }
+
+    .kho-stat-card .stat-unit {
+        font-size: 13px;
+        color: var(--text-2);
+        margin-top: 4px;
+    }
+
+/* ── Two-column layout ── */
+.kho-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* ── Inner table (bên trong panel) ── */
+.kho-inner-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .kho-inner-table th {
+        padding: 8px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-2);
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        border-bottom: 1px solid var(--border);
+        background: transparent;
+        text-align: left;
+    }
+
+    .kho-inner-table td {
+        padding: 10px 12px;
+        font-size: 13px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+        color: var(--text);
+    }
+
+    .kho-inner-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .kho-inner-table tr:hover td {
+        background: #f8faff;
+    }
+
+/* ── Stock level bar ── */
+.stock-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.stock-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: #e8ecf2;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.stock-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .3s;
+}
+
+    .stock-bar-fill.green {
+        background: var(--success);
+    }
+
+    .stock-bar-fill.orange {
+        background: var(--warning);
+    }
+
+    .stock-bar-fill.red {
+        background: var(--danger);
+    }
+
+.stock-text {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-2);
+    white-space: nowrap;
+}
+
+/* ── Status badges ── */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+    .status-badge.green {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .status-badge.orange {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .status-badge.red {
+        background: #fef2f2;
+        color: var(--danger);
+    }
+
+    .status-badge.blue {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
+    .status-badge.gray {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+/* ── Trang thái nhập kho badges ── */
+.pn-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+    .pn-status-badge.da-nhap {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .pn-status-badge.cho-duyet {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .pn-status-badge.da-huy {
+        background: #fef2f2;
+        color: var(--danger);
+    }
+
+/* ── Main table card ── */
+.kho-table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.kho-table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.kho-search-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    min-width: 220px;
+}
+
+    .kho-search-input input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 13px;
+        color: var(--text);
+        flex: 1;
+        width: 100%;
+    }
+
+        .kho-search-input input::placeholder {
+            color: var(--text-3);
+        }
+
+.kho-filter-select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-size: 13px;
+    color: var(--text-2);
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    font-family: inherit;
+    outline: none;
+}
+
+.kho-btn-outline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-size: 13px;
+    color: var(--text-2);
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+    .kho-btn-outline:hover {
+        background: var(--bg);
+    }
+
+.kho-btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--primary);
+    font-size: 13px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(59,109,240,.28);
+    text-decoration: none;
+}
+
+    .kho-btn-primary:hover {
+        background: #2d5de0;
+        color: #fff;
+    }
+
+.kho-table-main {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .kho-table-main th {
+        padding: 11px 16px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-2);
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        border-bottom: 1px solid var(--border);
+        background: #f8fafc;
+    }
+
+    .kho-table-main td {
+        padding: 13px 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px;
+        vertical-align: middle;
+        color: var(--text);
+    }
+
+    .kho-table-main tr:last-child td {
+        border-bottom: none;
+    }
+
+    .kho-table-main tbody tr:hover td {
+        background: #f5f7ff;
+    }
+
+/* Code màu xanh, dạng link */
+.pn-code-link {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+    .pn-code-link:hover {
+        text-decoration: underline;
+    }
+
+.kho-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-2);
+}
+
+.kho-page-btns {
+    display: flex;
+    gap: 4px;
+}
+
+.kho-pg-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: .15s;
+}
+
+    .kho-pg-btn:hover,
+    .kho-pg-btn.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+    }
+
+/* ── Icon nút xem ── */
+.act-view-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-2);
+    transition: .15s;
+}
+
+    .act-view-btn:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
+/* ── Tổng quan kho sidebar ── */
+.kho-overview-sidebar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+    .kho-overview-sidebar .ov-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-2);
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        margin-bottom: 12px;
+    }
+
+    .kho-overview-sidebar .ov-total {
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 16px;
+        line-height: 1;
+    }
+
+.ov-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+}
+
+    .ov-stat-row .ov-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+        .ov-stat-row .ov-dot.green {
+            background: var(--success);
+        }
+
+        .ov-stat-row .ov-dot.orange {
+            background: var(--warning);
+        }
+
+        .ov-stat-row .ov-dot.red {
+            background: var(--danger);
+        }
+
+    .ov-stat-row .ov-label {
+        color: var(--text-2);
+        margin-left: 8px;
+        flex: 1;
+    }
+
+    .ov-stat-row .ov-val {
+        font-weight: 700;
+        color: var(--text);
+    }
+
+.kho-btn-create-pn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: .15s;
+}
+
+    .kho-btn-create-pn:hover {
+        background: #2d5de0;
+        color: #fff;
+    }
+
+/* ── Import form ── */
+.import-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.import-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.import-sidebar-panel {
+    width: 250px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.import-table-head {
+    display: grid;
+    grid-template-columns: 1.5fr 70px 90px 80px 130px 90px 36px;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 2px solid var(--border);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    align-items: center;
+}
+
+.import-row {
+    display: grid;
+    grid-template-columns: 1.5fr 70px 90px 80px 130px 90px 36px;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+}
+
+    .import-row:last-child {
+        border-bottom: none;
+    }
+
+    .import-row:nth-child(even) {
+        background: #fafbfe;
+    }
+
+.drug-info-cell .name {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.drug-info-cell .meta {
+    font-size: 11px;
+    color: var(--text-2);
+    margin-top: 2px;
+}
+
+.qty-input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    background: var(--surface);
+    outline: none;
+}
+
+    .qty-input:focus {
+        border-color: var(--primary);
+    }
+
+.date-input {
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 100%;
+    background: var(--surface);
+    outline: none;
+}
+
+    .date-input:focus {
+        border-color: var(--primary);
+    }
+
+    .date-input.warn-date {
+        border-color: var(--danger);
+        background: #fef2f2;
+        color: var(--danger);
+    }
+
+.thanhtien {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.del-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--danger);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+    .del-btn:hover {
+        background: var(--danger);
+        color: #fff;
+    }
+
+.add-item-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 12px 0;
+}
+
+    .add-item-btn:hover {
+        color: #2d5de0;
+    }
+
+/* Summary sidebar */
+.summary-panel .sum-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+    .summary-panel .sum-row .lbl {
+        color: var(--text-2);
+    }
+
+    .summary-panel .sum-row .val {
+        font-weight: 600;
+        font-family: 'DM Mono', monospace;
+    }
+
+.summary-panel .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+}
+
+.summary-panel .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 2px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.total-val {
+    color: var(--primary);
+    font-size: 16px;
+    font-family: 'DM Mono', monospace;
+}
+
+/* Alert box */
+.kho-alert-box {
+    display: flex;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+    .kho-alert-box .alert-icon {
+        font-size: 16px;
+        flex-shrink: 0;
+        margin-top: 1px;
+    }
+
+    .kho-alert-box .alert-title {
+        font-weight: 700;
+        color: #92400e;
+        margin-bottom: 4px;
+        font-size: 13px;
+    }
+
+    .kho-alert-box .alert-text {
+        color: #92400e;
+        font-size: 12px;
+    }
+
+/* Recent phieu */
+.recent-pn {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pn-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+}
+
+    .pn-item .pn-code {
+        font-family: 'DM Mono', monospace;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .pn-item .pn-meta {
+        font-size: 11px;
+        color: var(--text-2);
+        margin-top: 2px;
+    }
+
+.pn-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: #f0fdf4;
+    color: #16a34a;
+    white-space: nowrap;
+}
+
+/* import topbar */
+.import-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.import-topbar-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-danger-outline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #fecaca;
+    font-size: 13px;
+    color: var(--danger);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .btn-danger-outline:hover {
+        background: #fef2f2;
+        color: var(--danger);
+    }
+
+.form-row-kho {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.form-group-kho {
+    flex: 1;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-label-kho {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+}
+
+.form-input-kho {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--surface);
+    width: 100%;
+}
+
+    .form-input-kho:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+
+.form-select-kho {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--surface);
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+    .form-select-kho:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+/* Tabs (Tồn kho) */
+.kho-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+}
+
+.kho-tab-btn {
+    padding: 8px 16px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: .15s;
+    white-space: nowrap;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+    .kho-tab-btn:hover {
+        color: var(--text);
+    }
+
+    .kho-tab-btn.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        font-weight: 600;
+    }
+
+/* =========================================
+   MODAL CHI TIẾT PHIẾU NHẬP
+========================================= */
+
+.phieunhap-modal {
+    border-radius: 20px;
+}
+
+.phieunhap-info-box {
+    border: 1px solid #dfe4ea;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 24px;
+    background: #f8f9fc;
+}
+
+.phieunhap-label {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.phieunhap-modal table th {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.phieunhap-modal table td {
+    font-size: 14px;
+}

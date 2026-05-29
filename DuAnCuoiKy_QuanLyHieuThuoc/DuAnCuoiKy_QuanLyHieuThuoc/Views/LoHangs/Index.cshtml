@@ -1,65 +1,449 @@
 ﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.LoHang>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tồn kho & Cảnh báo";
+    Layout = "~/Views/Shared/_LayoutNhanVienKho.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HanSuDung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoLuongNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoLuongConLai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaPhieuNhapNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaSpNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HanSuDung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoLuongNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoLuongConLai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaPhieuNhapNavigation.MaPhieuNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaSpNavigation.MaSp)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SoLo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SoLo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SoLo">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/TonKhoCanhBao.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+<!-- Breadcrumb -->
+<div class="kho-breadcrumb">
+
+    <i class="bi bi-grid-1x2 breadcrumb-icon"></i>
+
+    <span>Quản lý kho</span>
+
+    <i class="bi bi-chevron-right breadcrumb-arrow"></i>
+
+    <span class="current">Tình trạng tồn kho</span>
+
+</div>
+
+<div class="kho-page-title">
+    Tồn kho &amp; Cảnh báo
+</div>
+
+<div class="tonkho-layout">
+
+    <!-- MAIN -->
+    <div class="tonkho-main">
+
+        <!-- TABS -->
+        <div class="kho-tabs">
+
+            <button class="kho-tab-btn active"
+                    onclick="switchTab(this,'all')">
+
+                Tất cả thuốc
+
+            </button>
+
+            <button class="kho-tab-btn tab-orange"
+                    onclick="switchTab(this,'low')">
+
+                <i class="bi bi-exclamation-triangle tab-icon"></i>
+
+                Sắp hết hàng (24)
+
+            </button>
+
+            <button class="kho-tab-btn tab-red"
+                    onclick="switchTab(this,'exp')">
+
+                <i class="bi bi-calendar-x tab-icon"></i>
+
+                Sắp hết hạn (08)
+
+            </button>
+
+        </div>
+
+        <!-- TABLE CARD -->
+        <div class="kho-table-card">
+
+            <!-- TOOLBAR -->
+            <div class="kho-table-toolbar">
+
+                <div class="kho-search-input search-large">
+
+                    <i class="bi bi-search search-icon"></i>
+
+                    <input type="text"
+                           placeholder="Tìm kiếm theo mã, tên thuốc..." />
+
+                </div>
+
+                <div class="kho-btn-outline ms-auto">
+
+                    <i class="bi bi-funnel toolbar-icon"></i>
+
+                    Lọc
+
+                </div>
+
+                <div class="kho-btn-outline">
+
+                    <i class="bi bi-download toolbar-icon"></i>
+
+                    Xuất file
+
+                </div>
+
+            </div>
+
+            <!-- TABLE -->
+            <table class="kho-table-main">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Mã</th>
+                        <th>Tên thuốc</th>
+                        <th>Loại</th>
+                        <th>ĐVT</th>
+                        <th>Tồn kho / Ngưỡng</th>
+                        <th>Lô gần HSD</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <!-- ROW -->
+                    <tr>
+
+                        <td class="drug-code">
+                            MED-001
+                        </td>
+
+                        <td class="fw-semibold">
+                            Panadol Extra
+                        </td>
+
+                        <td class="drug-type">
+                            Thuốc
+                        </td>
+
+                        <td>
+                            Hộp
+                        </td>
+
+                        <td>
+
+                            <div class="stock-bar-wrap">
+
+                                <div class="stock-bar-bg">
+
+                                    <div class="stock-bar-fill green stock-80"></div>
+
+                                </div>
+
+                                <span class="stock-text">
+                                    120 / 50
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <div class="lot-code">
+                                B-2023-X1
+                            </div>
+
+                            <div class="exp-date">
+                                15/12/2025
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge green">
+                                An toàn
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="table-action-btn">
+
+                                <i class="bi bi-three-dots-vertical"></i>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW -->
+                    <tr>
+
+                        <td class="drug-code">
+                            MED-042
+                        </td>
+
+                        <td class="fw-semibold">
+                            Augmentin 1g
+                        </td>
+
+                        <td class="drug-type">
+                            Kháng sinh
+                        </td>
+
+                        <td>
+                            Hộp
+                        </td>
+
+                        <td>
+
+                            <div class="stock-bar-wrap">
+
+                                <div class="stock-bar-bg">
+
+                                    <div class="stock-bar-fill orange stock-35"></div>
+
+                                </div>
+
+                                <span class="stock-text">
+                                    25 / 30
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <div class="lot-code">
+                                C-2024-Y2
+                            </div>
+
+                            <div class="exp-date">
+                                20/08/2024
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge orange">
+                                ⚠ Thấp
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="table-action-btn">
+
+                                <i class="bi bi-three-dots-vertical"></i>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW -->
+                    <tr>
+
+                        <td class="drug-code">
+                            MED-089
+                        </td>
+
+                        <td class="fw-semibold">
+                            Vitamin C 500mg
+                        </td>
+
+                        <td class="drug-type">
+                            Thực phẩm CN
+                        </td>
+
+                        <td>
+                            Lọ
+                        </td>
+
+                        <td>
+
+                            <div class="stock-bar-wrap">
+
+                                <div class="stock-bar-bg">
+
+                                    <div class="stock-bar-fill red stock-15"></div>
+
+                                </div>
+
+                                <span class="stock-text">
+                                    5 / 20
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <div class="lot-code">
+                                A-2022-Z3
+                            </div>
+
+                            <div class="exp-date-red">
+
+                                <i class="bi bi-clock clock-icon"></i>
+
+                                05/11/2023
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge red">
+                                Sắp hết hạn
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="table-action-btn">
+
+                                <i class="bi bi-three-dots-vertical"></i>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <!-- PAGINATION -->
+            <div class="kho-pagination">
+
+                <span>
+                    Hiển thị 1–3 trong 150 kết quả
+                </span>
+
+                <div class="kho-page-btns">
+
+                    <a href="#" class="kho-pg-btn">‹</a>
+
+                    <a href="#" class="kho-pg-btn active">1</a>
+
+                    <a href="#" class="kho-pg-btn">2</a>
+
+                    <a href="#" class="kho-pg-btn">3</a>
+
+                    <a href="#" class="kho-pg-btn">›</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="tonkho-sidebar">
+
+        <div class="kho-overview-sidebar">
+
+            <div class="ov-title">
+
+                <i class="bi bi-clipboard-data ov-icon"></i>
+
+                Tổng quan tồn kho
+
+            </div>
+
+            <div class="ov-small-title">
+                TỔNG MÃ THUỐC
+            </div>
+
+            <div class="ov-total">
+                1,248
+            </div>
+
+            <div class="ov-stat-row">
+
+                <span class="ov-dot green"></span>
+
+                <span class="ov-label">
+                    An toàn
+                </span>
+
+                <span class="ov-val">
+                    1,016
+                </span>
+
+            </div>
+
+            <div class="ov-stat-row">
+
+                <span class="ov-dot orange"></span>
+
+                <span class="ov-label">
+                    Sắp hết hàng
+                </span>
+
+                <span class="ov-val ov-orange">
+                    24
+                </span>
+
+            </div>
+
+            <div class="ov-stat-row">
+
+                <span class="ov-dot red"></span>
+
+                <span class="ov-label">
+                    Hết hàng / Sắp HSD
+                </span>
+
+                <span class="ov-val ov-red">
+                    08
+                </span>
+
+            </div>
+
+            <a asp-controller="PhieuNhaps"
+               asp-action="Create"
+               class="kho-btn-create-pn">
+
+                <i class="bi bi-plus-lg"></i>
+
+                Tạo phiếu nhập hàng
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        function switchTab(btn, tab) {
+            document.querySelectorAll('.kho-tab-btn')
+                .forEach(b => b.classList.remove('active'));
+
+            btn.classList.add('active');
+        }
+    </script>
+}

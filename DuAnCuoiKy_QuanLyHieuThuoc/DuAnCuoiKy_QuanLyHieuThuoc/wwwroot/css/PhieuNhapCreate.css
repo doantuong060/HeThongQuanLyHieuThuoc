@@ -1,0 +1,315 @@
+﻿/* =========================================
+   CREATE PHIEU NHAP
+========================================= */
+
+.import-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.import-topbar-btns {
+    display: flex;
+    gap: 12px;
+}
+
+.import-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ===== PANEL ===== */
+
+.kho-panel {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+}
+
+.kho-panel-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* ===== FORM ===== */
+
+.form-row-kho {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.form-group-kho {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label-kho {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.form-input-kho,
+.form-select-kho {
+    height: 46px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 14px;
+    outline: none;
+    transition: .2s;
+    background: #fff;
+}
+
+    .form-input-kho:focus,
+    .form-select-kho:focus {
+        border-color: #3b6df0;
+        box-shadow: 0 0 0 3px rgba(59,109,240,.1);
+    }
+
+/* ===== TABLE ===== */
+
+.import-table-head {
+    display: grid;
+    grid-template-columns: 2fr .7fr .9fr .9fr 1fr .9fr 40px;
+    gap: 14px;
+    padding: 0 10px 14px;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.import-row {
+    display: grid;
+    grid-template-columns: 2fr .7fr .9fr .9fr 1fr .9fr 40px;
+    gap: 14px;
+    align-items: center;
+    background: #f9fafb;
+    border: 1px solid #eef2f7;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.drug-info-cell .name {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.drug-info-cell .meta {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.qty-input,
+.date-input {
+    height: 42px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 0 12px;
+    outline: none;
+    background: #fff;
+}
+
+    .qty-input:focus,
+    .date-input:focus {
+        border-color: #3b6df0;
+    }
+
+.warn-date {
+    border-color: #f59e0b;
+    background: #fffaf0;
+}
+
+.thanhtien {
+    font-weight: 700;
+    text-align: right;
+    color: #111827;
+}
+
+.del-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: .2s;
+}
+
+    .del-btn:hover {
+        background: #fef2f2;
+        color: #ef4444;
+    }
+
+.add-item-btn {
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3b6df0;
+    cursor: pointer;
+}
+
+/* ===== SIDEBAR ===== */
+
+.summary-panel .sum-row,
+.summary-panel .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-panel .sum-row {
+    margin-bottom: 14px;
+}
+
+.summary-panel .lbl {
+    color: #6b7280;
+}
+
+.summary-panel .val {
+    font-weight: 600;
+}
+
+.summary-panel .divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 18px 0;
+}
+
+.total-row {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.total-val {
+    color: #3b6df0;
+}
+
+/* ===== ALERT ===== */
+
+.kho-alert-box {
+    display: flex;
+    gap: 14px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 24px;
+}
+
+.alert-icon {
+    font-size: 24px;
+}
+
+.alert-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #9a3412;
+}
+
+.alert-text {
+    font-size: 14px;
+    color: #7c2d12;
+    line-height: 1.5;
+}
+
+/* ===== RECENT ===== */
+
+.recent-pn {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.pn-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-radius: 14px;
+    background: #f9fafb;
+}
+
+.pn-code {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.pn-meta {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.pn-badge {
+    font-size: 11px;
+    font-weight: 700;
+    background: #dcfce7;
+    color: #166534;
+    padding: 6px 10px;
+    border-radius: 999px;
+}
+
+/* ===== BUTTON ===== */
+
+.btn-danger-outline {
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    border-radius: 12px;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    background: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    .btn-danger-outline:hover {
+        background: #fef2f2;
+    }
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1200px) {
+
+    .import-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .form-row-kho {
+        grid-template-columns: 1fr;
+    }
+
+    .import-table-head {
+        display: none;
+    }
+
+    .import-row {
+        grid-template-columns: 1fr;
+    }
+
+    .thanhtien {
+        text-align: left;
+    }
+}

@@ -1,53 +1,158 @@
 ﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.Thuoc>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh mục thuốc";
 }
 
-<h1>Index</h1>
+<div class="page active" id="page-drugs">
+    <div class="breadcrumb">Hệ thống › <span>Danh mục thuốc</span></div>
+    <div class="page-title">Danh mục thuốc</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CanToa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GhiChu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaLoaiNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaSpNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CanToa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GhiChu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaLoaiNavigation.MaLoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaSpNavigation.MaSp)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaSp">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaSp">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaSp">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="stat-row">
+        <div class="stat-card">
+            <div>
+                <div class="label">Tổng thuốc trong kho</div>
+                <div class="value">1,245</div>
+                <div class="sub up">↑ +12 mã thêm</div>
+            </div>
+            <div class="stat-icon blue">📋</div>
+        </div>
+        <div class="stat-card">
+            <div>
+                <div class="label">Sắp hết hàng</div>
+                <div class="value" style="color:var(--warning)">48</div>
+                <div class="sub warn">12 mã cần nhập gấp</div>
+            </div>
+            <div class="stat-icon orange">⚠️</div>
+        </div>
+        <div class="stat-card">
+            <div>
+                <div class="label">Hết hạn trong 30 ngày</div>
+                <div class="value" style="color:var(--danger)">15</div>
+                <div class="sub danger">⊘ Cần xử lý ngay</div>
+            </div>
+            <div class="stat-icon red">📅</div>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-toolbar">
+            <div class="search-input">
+                <span style="color:var(--text-3)">🔍</span>
+                <input placeholder="Tìm kiếm thuốc, mã, hoạt chất..." />
+            </div>
+            <div class="filter-btn">🏷 Lọc theo loại ▾</div>
+            <div class="btn-secondary">⊞ Bộ lọc nâng cao</div>
+            <div class="btn-primary ml-auto">＋ Thêm thuốc</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã</th>
+                    <th>Tên thuốc &amp; Hoạt chất</th>
+                    <th>Loại</th>
+                    <th>ĐVT</th>
+                    <th>Giá bán</th>
+                    <th>Tồn kho</th>
+                    <th>Cần toa</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="ma-code">MED-001</span></td>
+                    <td><div class="drug-name">Paracetamol 500mg</div><div class="drug-sub">Paracetamol</div></td>
+                    <td><span class="tag tag-green">Giảm đau</span></td>
+                    <td>Viên</td>
+                    <td>15,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-green"></span>450</span></td>
+                    <td class="cantoa" style="color:var(--danger)">✗</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">MED-002</span></td>
+                    <td><div class="drug-name">Amoxicillin 500mg</div><div class="drug-sub">Amoxicillin trihydrate</div></td>
+                    <td><span class="tag tag-orange">Kháng sinh</span></td>
+                    <td>Viên</td>
+                    <td>2,500đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-orange"></span>48</span></td>
+                    <td class="cantoa" style="color:var(--success)">✓</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr style="background:#fffbf5">
+                    <td><span class="ma-code">MED-003</span></td>
+                    <td><div class="drug-name">Panadol Extra</div><div class="drug-sub">Paracetamol + Caffeine</div></td>
+                    <td><span class="tag tag-green">Giảm đau</span></td>
+                    <td>Hộp</td>
+                    <td>120,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-red"></span>0</span></td>
+                    <td class="cantoa" style="color:var(--danger)">✗</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">MED-004</span></td>
+                    <td><div class="drug-name">Thuốc Mẫu 4</div><div class="drug-sub">Hoạt chất mẫu</div></td>
+                    <td><span class="tag tag-gray">Loại khác</span></td>
+                    <td>Viên</td>
+                    <td>40,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-green"></span>140</span></td>
+                    <td class="cantoa" style="color:var(--success)">✓</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">MED-005</span></td>
+                    <td><div class="drug-name">Thuốc Mẫu 5</div><div class="drug-sub">Hoạt chất mẫu</div></td>
+                    <td><span class="tag tag-gray">Loại khác</span></td>
+                    <td>Viên</td>
+                    <td>50,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-green"></span>150</span></td>
+                    <td class="cantoa" style="color:var(--danger)">✗</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">MED-006</span></td>
+                    <td><div class="drug-name">Thuốc Mẫu 6</div><div class="drug-sub">Hoạt chất mẫu</div></td>
+                    <td><span class="tag tag-gray">Loại khác</span></td>
+                    <td>Viên</td>
+                    <td>60,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-green"></span>160</span></td>
+                    <td class="cantoa" style="color:var(--success)">✓</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">MED-007</span></td>
+                    <td><div class="drug-name">Thuốc Mẫu 7</div><div class="drug-sub">Hoạt chất mẫu</div></td>
+                    <td><span class="tag tag-gray">Loại khác</span></td>
+                    <td>Viên</td>
+                    <td>70,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-green"></span>170</span></td>
+                    <td class="cantoa" style="color:var(--danger)">✗</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">MED-008</span></td>
+                    <td><div class="drug-name">Thuốc Mẫu 8</div><div class="drug-sub">Hoạt chất mẫu</div></td>
+                    <td><span class="tag tag-gray">Loại khác</span></td>
+                    <td>Viên</td>
+                    <td>80,000đ</td>
+                    <td><span class="stock-dot"><span class="dot dot-green"></span>180</span></td>
+                    <td class="cantoa" style="color:var(--success)">✓</td>
+                    <td><div class="action-btns"><div class="act-btn">✏️</div><div class="act-btn danger">🗑</div></div></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <span>Hiện thị 1–15 của 1,245 kết quả</span>
+            <div class="page-btns">
+                <div class="pg-btn">‹</div>
+                <div class="pg-btn active">1</div>
+                <div class="pg-btn">2</div>
+                <div class="pg-btn">3</div>
+                <div class="pg-dots">...</div>
+                <div class="pg-btn">›</div>
+            </div>
+        </div>
+    </div>
+</div>

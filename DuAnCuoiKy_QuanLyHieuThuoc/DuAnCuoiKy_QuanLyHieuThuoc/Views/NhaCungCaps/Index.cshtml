@@ -1,65 +1,134 @@
 ﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.NhaCungCap>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Nhà cung cấp";
 }
 
-<h1>Index</h1>
+<div class="page" id="page-supplier">
+    <div class="breadcrumb">Hệ thống › <span>Đối tác &amp; Nhà cung cấp</span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div class="page-title" style="margin:0">Quản lý Nhà cung cấp</div>
+        <div class="btn-primary">＋ Thêm đối tác</div>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenNcc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiaChi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaPhuongXaNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenNcc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiaChi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaPhuongXaNavigation.MaPhuongXa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaNcc">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaNcc">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaNcc">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="supplier-featured">
+        <div class="supplier-card">
+            <div class="sc-top">
+                <div class="sc-icon blue">🏢</div>
+                <span class="sc-badge strategy">Chiến lược</span>
+            </div>
+            <div>
+                <div class="sc-name">Dược phẩm Traphaco</div>
+                <div class="sc-code">Mã: NCC-TRP-01</div>
+            </div>
+            <div class="sc-bottom">
+                <div class="sc-status">
+                    <div class="status-dot active"></div>
+                    <span class="status-active">Hoạt động</span>
+                </div>
+                <span class="sc-arrow">→</span>
+            </div>
+        </div>
+        <div class="supplier-card">
+            <div class="sc-top">
+                <div class="sc-icon green">🏬</div>
+                <span class="sc-badge domestic">Nội địa</span>
+            </div>
+            <div>
+                <div class="sc-name">Dược Hậu Giang (DHG)</div>
+                <div class="sc-code">Mã: NCC-DHG-02</div>
+            </div>
+            <div class="sc-bottom">
+                <div class="sc-status">
+                    <div class="status-dot active"></div>
+                    <span class="status-active">Hoạt động</span>
+                </div>
+                <span class="sc-arrow">→</span>
+            </div>
+        </div>
+        <div class="supplier-card">
+            <div class="sc-top">
+                <div class="sc-icon red">📦</div>
+                <span class="sc-badge review">Cần rà soát</span>
+            </div>
+            <div>
+                <div class="sc-name">Vật tư Y tế Bình Minh</div>
+                <div class="sc-code">Mã: NCC-VTYT-08</div>
+            </div>
+            <div class="sc-bottom">
+                <div class="sc-status">
+                    <div class="status-dot inactive"></div>
+                    <span class="status-inactive">Tạm ngưng</span>
+                </div>
+                <span class="sc-arrow">→</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-toolbar">
+            <div style="font-weight:700;font-size:15px">Danh sách chi tiết</div>
+            <div class="search-input ml-auto" style="max-width:220px">
+                <span style="color:var(--text-3)">🔍</span>
+                <input placeholder="Tìm theo tên, mã..." />
+            </div>
+            <div class="filter-btn">⊟ Lọc</div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã NCC</th>
+                    <th>Tên Công ty</th>
+                    <th>Tỉnh/TP</th>
+                    <th>Liên hệ (SĐT)</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="ma-code">NCC-TRP-01</span></td>
+                    <td><div class="drug-name">Công ty CP Traphaco</div><div class="drug-sub">Traphaco</div></td>
+                    <td>Hà Nội</td>
+                    <td>024.3681.1111</td>
+                    <td><span class="ncc-status-tag active">Hoạt động</span></td>
+                    <td><div class="action-btns"><div class="act-btn">⋮</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">NCC-DHG-02</span></td>
+                    <td><div class="drug-name">Dược Hậu Giang</div><div class="drug-sub">DHG Pharma</div></td>
+                    <td>Cần Thơ</td>
+                    <td>0292.3891.433</td>
+                    <td><span class="ncc-status-tag active">Hoạt động</span></td>
+                    <td><div class="action-btns"><div class="act-btn">⋮</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">NCC-VTYT-08</span></td>
+                    <td><div class="drug-name">Vật tư Y tế Bình Minh</div><div class="drug-sub">Bình Minh Med</div></td>
+                    <td>Đà Nẵng</td>
+                    <td>0236.3821.555</td>
+                    <td><span class="ncc-status-tag inactive">Tạm ngưng</span></td>
+                    <td><div class="action-btns"><div class="act-btn">⋮</div></div></td>
+                </tr>
+                <tr>
+                    <td><span class="ma-code">NCC-OPC-04</span></td>
+                    <td><div class="drug-name">Công ty CP Dược phẩm OPC</div><div class="drug-sub">OPC Pharma</div></td>
+                    <td>TP. HCM</td>
+                    <td>028.3875.2048</td>
+                    <td><span class="ncc-status-tag active">Hoạt động</span></td>
+                    <td><div class="action-btns"><div class="act-btn">⋮</div></div></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span>Hiện thị 1–4 trong số 24 nhà cung cấp</span>
+            <div class="page-btns">
+                <div class="pg-btn">‹</div>
+                <div class="pg-btn active">1</div>
+                <div class="pg-btn">2</div>
+                <div class="pg-btn">3</div>
+                <div class="pg-btn">›</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,266 @@
+﻿/* =========================================
+   TỒN KHO & CẢNH BÁO
+========================================= */
+
+.breadcrumb-icon {
+    font-size: 12px;
+}
+
+.breadcrumb-arrow {
+    font-size: 10px;
+}
+
+.tonkho-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.tonkho-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.tonkho-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+}
+
+.kho-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.kho-tab-btn {
+    border: none;
+    background: #fff;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #e5e7eb;
+    transition: .2s;
+}
+
+    .kho-tab-btn.active {
+        background: #3b6df0;
+        color: #fff !important;
+        border-color: #3b6df0;
+    }
+
+.tab-orange {
+    color: #f59e0b;
+}
+
+.tab-red {
+    color: #ef4444;
+}
+
+.tab-icon {
+    font-size: 12px;
+}
+
+.search-large {
+    min-width: 260px;
+}
+
+.search-icon {
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.toolbar-icon {
+    font-size: 13px;
+}
+
+.drug-code {
+    font-size: 12px;
+    color: #6b7280;
+    font-family: monospace;
+}
+
+.drug-type {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.stock-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stock-bar-bg {
+    width: 90px;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.stock-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+}
+
+    .stock-bar-fill.green {
+        background: #22c55e;
+    }
+
+    .stock-bar-fill.orange {
+        background: #f59e0b;
+    }
+
+    .stock-bar-fill.red {
+        background: #ef4444;
+    }
+
+.stock-80 {
+    width: 80%;
+}
+
+.stock-35 {
+    width: 35%;
+}
+
+.stock-15 {
+    width: 15%;
+}
+
+.stock-text {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.lot-code {
+    font-family: monospace;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.exp-date {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.exp-date-red {
+    font-size: 11px;
+    color: #ef4444;
+}
+
+.clock-icon {
+    font-size: 10px;
+}
+
+.table-action-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kho-overview-sidebar {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 20px;
+    position: sticky;
+    top: 100px;
+}
+
+.ov-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.ov-icon {
+    font-size: 12px;
+}
+
+.ov-small-title {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-bottom: 4px;
+}
+
+.ov-total {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.ov-stat-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.ov-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+    .ov-dot.green {
+        background: #22c55e;
+    }
+
+    .ov-dot.orange {
+        background: #f59e0b;
+    }
+
+    .ov-dot.red {
+        background: #ef4444;
+    }
+
+.ov-label {
+    flex: 1;
+    font-size: 13px;
+}
+
+.ov-val {
+    font-weight: 700;
+}
+
+.ov-orange {
+    color: #f59e0b;
+}
+
+.ov-red {
+    color: #ef4444;
+}
+
+.kho-btn-create-pn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+    background: #3b6df0;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+
+    .tonkho-layout {
+        flex-direction: column;
+    }
+
+    .tonkho-sidebar {
+        width: 100%;
+    }
+}

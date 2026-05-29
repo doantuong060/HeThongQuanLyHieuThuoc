@@ -1,0 +1,61 @@
+﻿@{
+    var ctrl = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<div class="sidebar-kho-wrapper">
+    <!-- Logo -->
+    <div>
+        <!-- User card -->
+        <div class="sidebar-kho-user">
+            <div class="d-flex align-items-center gap-2">
+                <img src="https://i.pravatar.cc/80?img=12" alt="Avatar" />
+                <div class="overflow-hidden">
+                    <div class="fw-semibold text-dark text-truncate" style="font-size:13px;">Phạm Văn Bình</div>
+                    <div class="text-muted" style="font-size:11px;">Nhân viên kho</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <ul class="nav flex-column gap-1 px-2 mt-1">
+            <li class="nav-item">
+                <a asp-controller="Home" asp-action="IndexKho"
+                   class="sidebar-kho-link nav-link @(ctrl == "Home" && action == "IndexKho" ? "active" : "")">
+                    <i class="bi bi-house-door"></i>
+                    <span>Tổng quan kho</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="PhieuNhaps" asp-action="Create"
+                   class="sidebar-kho-link nav-link @(ctrl == "PhieuNhaps" && action == "Create" ? "active" : "")">
+                    <i class="bi bi-box-arrow-in-down"></i>
+                    <span>Nhập hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="PhieuNhaps" asp-action="Index"
+                   class="sidebar-kho-link nav-link @(ctrl == "PhieuNhaps" && action == "Index" ? "active" : "")">
+                    <i class="bi bi-list-ul"></i>
+                    <span>Danh sách phiếu</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="LoHangs" asp-action="Index"
+                   class="sidebar-kho-link nav-link @(ctrl == "LoHangs" ? "active" : "")">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <span>Tồn kho &amp; Cảnh báo</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Đăng xuất -->
+    <div class="px-2 pb-3 border-top pt-3 mx-1">
+        <a asp-controller="TaiKhoans" asp-action="Logout"
+           class="sidebar-kho-link nav-link text-danger">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Đăng xuất</span>
+        </a>
+    </div>
+</div>

@@ -1,59 +1,329 @@
 ﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.PhieuNhap>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách phiếu";
+    Layout = "~/Views/Shared/_LayoutNhanVienKho.cshtml";
 }
 
-<h1>Index</h1>
+<!-- Breadcrumb -->
+<div class="kho-breadcrumb">
+    <i class="bi bi-grid-1x2" style="font-size:12px;"></i>
+    <span>Quản lý kho</span>
+    <i class="bi bi-chevron-right" style="font-size:10px;"></i>
+    <span class="current">Lịch sử phiếu nhập</span>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GhiChu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TongTien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaNccNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaNvNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GhiChu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TongTien)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaNccNavigation.MaNcc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaNvNavigation.MaNv)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaPhieuNhap">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaPhieuNhap">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaPhieuNhap">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="d-flex align-items-start justify-content-between mb-4" style="gap:16px;">
+    <div>
+        <div class="kho-page-title">Lịch sử phiếu nhập</div>
+        <div class="kho-page-subtitle">Quản lý và tra cứu các phiếu nhập kho từ nhà cung cấp.</div>
+    </div>
+    <a asp-controller="PhieuNhaps" asp-action="Create" class="kho-btn-primary" style="white-space:nowrap;">
+        <i class="bi bi-plus-lg"></i> Tạo phiếu mới
+    </a>
+</div>
+
+<!-- Toolbar -->
+<div class="kho-table-card">
+    <div class="kho-table-toolbar">
+        <div class="kho-search-input">
+            <i class="bi bi-search" style="color:#9ca3af;font-size:13px;"></i>
+            <input type="text" placeholder="Tìm mã phiếu..." />
+        </div>
+
+        <select class="kho-filter-select">
+            <option>NCC</option>
+            <option>Traphaco</option>
+            <option>Dược Hậu Giang</option>
+            <option>Trung ương 1</option>
+        </select>
+
+        <div class="kho-btn-outline">
+            <i class="bi bi-calendar3" style="font-size:13px;"></i>
+            Tháng này
+        </div>
+
+        <select class="kho-filter-select">
+            <option>Trạng thái</option>
+            <option>Đã nhập kho</option>
+            <option>Chờ duyệt</option>
+            <option>Đã hủy</option>
+        </select>
+    </div>
+
+    <table class="kho-table-main">
+        <thead>
+            <tr>
+                <th>Mã phiếu</th>
+                <th>Ngày nhập</th>
+                <th>Nhà cung cấp</th>
+                <th style="text-align:center;">Số mặt hàng</th>
+                <th style="text-align:right;">Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th style="text-align:center;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="#" class="pn-code-link">PN-20231024-01</a></td>
+                <td style="color:#6b7280;font-size:12px;">24/10/2023 09:30</td>
+                <td>Công ty Dược phẩm Trung ương I</td>
+                <td style="text-align:center;">15</td>
+                <td style="text-align:right;font-family:monospace;font-weight:600;">125.400.000 đ</td>
+                <td><span class="pn-status-badge da-nhap">Đã nhập kho</span></td>
+                <td style="text-align:center;">
+
+                    <button class="act-view-btn mx-auto border-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalChiTietPhieuNhap">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#" class="pn-code-link">PN-20231024-02</a></td>
+                <td style="color:#6b7280;font-size:12px;">24/10/2023 14:15</td>
+                <td>Nhà phân phối Thuốc Việt</td>
+                <td style="text-align:center;">8</td>
+                <td style="text-align:right;font-family:monospace;font-weight:600;">45.200.000 đ</td>
+                <td><span class="pn-status-badge cho-duyet">Chờ duyệt</span></td>
+                <td style="text-align:center;">
+
+                    <button class="act-view-btn mx-auto border-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalChiTietPhieuNhap">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#" class="pn-code-link">PN-20231023-01</a></td>
+                <td style="color:#6b7280;font-size:12px;">23/10/2023 10:00</td>
+                <td>Dược Hậu Giang</td>
+                <td style="text-align:center;">42</td>
+                <td style="text-align:right;font-family:monospace;font-weight:600;">310.500.000 đ</td>
+                <td><span class="pn-status-badge da-nhap">Đã nhập kho</span></td>
+                <td style="text-align:center;">
+
+                    <button class="act-view-btn mx-auto border-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalChiTietPhieuNhap">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#" class="pn-code-link">PN-20231022-03</a></td>
+                <td style="color:#6b7280;font-size:12px;">22/10/2023 16:45</td>
+                <td>Công ty TNHH Dược phẩm Đông Á</td>
+                <td style="text-align:center;">5</td>
+                <td style="text-align:right;font-family:monospace;font-weight:600;">12.000.000 đ</td>
+                <td><span class="pn-status-badge da-huy">Đã hủy</span></td>
+                <td style="text-align:center;">
+
+                    <button class="act-view-btn mx-auto border-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalChiTietPhieuNhap">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#" class="pn-code-link">PN-20231021-01</a></td>
+                <td style="color:#6b7280;font-size:12px;">21/10/2023 08:15</td>
+                <td>Traphaco</td>
+                <td style="text-align:center;">20</td>
+                <td style="text-align:right;font-family:monospace;font-weight:600;">89.600.000 đ</td>
+                <td><span class="pn-status-badge da-nhap">Đã nhập kho</span></td>
+                <td style="text-align:center;">
+
+                    <button class="act-view-btn mx-auto border-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalChiTietPhieuNhap">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="kho-pagination">
+        <span>Hiển thị 1–5 của 42 phiếu nhập</span>
+        <div class="kho-page-btns">
+            <a href="#" class="kho-pg-btn">‹</a>
+            <a href="#" class="kho-pg-btn active">1</a>
+            <a href="#" class="kho-pg-btn">2</a>
+            <a href="#" class="kho-pg-btn">3</a>
+            <span style="padding:0 4px;color:#9ca3af;">...</span>
+            <a href="#" class="kho-pg-btn">9</a>
+            <a href="#" class="kho-pg-btn">›</a>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalChiTietPhieuNhap" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content phieunhap-modal">
+
+            <div class="modal-header border-0 pb-2 px-4 pt-4">
+                <h4 class="modal-title fw-semibold">
+                    Chi tiết phiếu nhập PN-20231025-01
+                </h4>
+
+                <button type="button"
+                        class="btn-close shadow-none"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body px-4 pt-2 pb-3">
+
+                <div class="phieunhap-info-box">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <div class="phieunhap-label">
+                                Nhà cung cấp
+                            </div>
+
+                            <div class="fw-medium">
+                                Công ty Dược phẩm Trung ương I (Pharbaco)
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="phieunhap-label">
+                                Ngày nhập
+                            </div>
+
+                            <div class="fw-medium">
+                                25/10/2023 09:30
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="phieunhap-label">
+                                Nhân viên phụ trách
+                            </div>
+
+                            <div class="fw-medium">
+                                Phạm Văn Bình
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="phieunhap-label">
+                                Trạng thái
+                            </div>
+
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
+                                Đã hoàn tất
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h5 class="fw-semibold mb-3">
+                    Danh sách thuốc nhập
+                </h5>
+
+                <div class="table-responsive border rounded-4 overflow-hidden">
+
+                    <table class="table align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tên thuốc</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-end">Đơn giá</th>
+                                <th class="text-center">Lô SX</th>
+                                <th class="text-center">HSD</th>
+                                <th class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Paracetamol 500mg</td>
+                                <td class="text-center">100</td>
+                                <td class="text-end">1,200</td>
+                                <td class="text-center">L2309A</td>
+                                <td class="text-center">09/2026</td>
+                                <td class="text-end">120,000</td>
+                            </tr>
+
+                            <tr>
+                                <td>Amoxicillin 250mg</td>
+                                <td class="text-center">50</td>
+                                <td class="text-end">3,500</td>
+                                <td class="text-center">L2310B</td>
+                                <td class="text-center">10/2025</td>
+                                <td class="text-end">175,000</td>
+                            </tr>
+
+                            <tr>
+                                <td>Vitamin C 1000mg</td>
+                                <td class="text-center">200</td>
+                                <td class="text-end">2,000</td>
+                                <td class="text-center">VC882</td>
+                                <td class="text-center">12/2025</td>
+                                <td class="text-end">400,000</td>
+                            </tr>
+
+                        </tbody>
+
+                        <tfoot class="table-light">
+                            <tr>
+                                <th colspan="5" class="text-end">
+                                    Tổng cộng:
+                                </th>
+
+                                <th class="text-end text-primary fw-bold">
+                                    695,000
+                                </th>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer border-0 px-4 pb-4">
+
+                <button type="button"
+                        class="btn btn-light border px-4"
+                        data-bs-dismiss="modal">
+                    Đóng
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary px-4">
+                    <i class="bi bi-printer me-2"></i>
+                    In phiếu
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

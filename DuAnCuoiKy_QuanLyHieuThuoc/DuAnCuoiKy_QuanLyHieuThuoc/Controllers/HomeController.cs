@@ -10,7 +10,6 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
         {
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();
