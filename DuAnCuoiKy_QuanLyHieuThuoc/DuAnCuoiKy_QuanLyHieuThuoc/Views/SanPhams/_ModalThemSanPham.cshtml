@@ -1,72 +1,73 @@
-﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.AddProductViewModel
-
+﻿<!-- Modal thêm sản phẩm (Phân loại Thuốc & Vật tư) -->
 <div class="modal fade" id="modalThemSP" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+        <div class="modal-content border-0 shadow" style="border-radius: 20px;">
             <div class="modal-header border-0 p-4 pb-0">
                 <h5 class="fw-bold mb-0">Thêm sản phẩm mới</h5>
-                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form asp-action="Create" method="post">
-                <div class="modal-body p-4">
+            <div class="modal-body p-4">
+                <form>
                     <div class="row g-3">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">Tên sản phẩm *</label>
-                            <input asp-for="TenSp" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập tên thuốc hoặc vật tư">
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Nhập tên thuốc hoặc vật tư">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">Phân loại *</label>
-                            <select asp-for="LoaiSp" class="form-select bg-light border-0 py-2 shadow-none" id="selectLoaiSP">
-                                <option value="THUOC">THUỐC</option>
-                                <option value="VATTU">VẬT TƯ Y TẾ</option>
+                            <select class="form-select bg-light border-0 py-2">
+                                <option>THUỐC</option>
+                                <option>VẬT TƯ</option>
                             </select>
                         </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Đơn vị tính *</label>
+                            <select class="form-select bg-light border-0 py-2" asp-items="ViewBag.DonViTinh"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Giá bán (đ) *</label>
+                            <input type="number" class="form-control bg-light border-0 py-2" value="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Ngưỡng cảnh báo *</label>
+                            <input type="number" class="form-control bg-light border-0 py-2" value="10">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Nhà sản xuất</label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Nhập hãng sản xuất">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-muted">Ghi chú chi tiết</label>
+                            <textarea class="form-control bg-light border-0" rows="3" placeholder="Nhập công dụng hoặc thông số kỹ thuật..."></textarea>
+                        </div>
 
-                        <!-- Vùng thông tin THUỐC (Sẽ ẩn/hiện bằng JS) -->
-                        <div class="row g-3 p-0 m-0" id="divThuoc">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted">Loại thuốc *</label>
-                                <select asp-for="MaLoai" class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.MaLoai"></select>
+                        <div class="col-md-12 mt-4 pt-3 border-top">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div class="fw-bold small">Cần đơn thuốc (Chỉ áp dụng cho Thuốc)</div>
+                                    <div class="text-muted" style="font-size: 11px;">Yêu cầu bác sĩ kê đơn khi bán</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" style="width: 40px; height: 20px;">
+                                </div>
                             </div>
-                            <div class="col-md-6 d-flex align-items-center mt-4">
-                                <div class="form-check form-switch mt-2">
-                                    <input asp-for="CanToa" class="form-check-input">
-                                    <label class="form-check-label small fw-bold">Cần đơn thuốc</label>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold small">Theo dõi hạn dùng</div>
+                                    <div class="text-muted" style="font-size: 11px;">Hệ thống sẽ cảnh báo khi lô hàng sắp hết hạn</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked style="width: 40px; height: 20px;">
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Vùng thông tin VẬT TƯ (Sẽ ẩn/hiện bằng JS) -->
-                        <div class="row g-3 p-0 m-0 d-none" id="divVatTu">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted">Loại vật tư *</label>
-                                <select asp-for="MaLoaiVt" class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.MaLoaiVt"></select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted">Nhà sản xuất</label>
-                                <input asp-for="NhaSanXuat" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập hãng SX">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-muted">Đơn vị tính *</label>
-                            <select asp-for="MaDvt" class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.MaDvt"></select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-muted">Giá bán (đ) *</label>
-                            <input asp-for="GiaBan" type="number" class="form-control bg-light border-0 py-2 shadow-none">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-muted">Ngưỡng cảnh báo *</label>
-                            <input asp-for="MucCanhBao" type="number" class="form-control bg-light border-0 py-2 shadow-none">
-                        </div>
                     </div>
-                </div>
-                <div class="modal-footer border-0 p-4 pt-0">
-                    <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
-                    <button type="submit" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">Lưu sản phẩm</button>
-                </div>
-            </form>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0 mt-3">
+                <button type="button" class="btn btn-light px-4 rounded-3" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary px-4 rounded-3 fw-bold">Lưu sản phẩm <i class="bi bi-arrow-right ms-2"></i></button>
+            </div>
         </div>
     </div>
 </div>
