@@ -1,45 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Business;
+using DuAnCuoiKy_QuanLyHieuThuoc.Extensions;
+using System;
+using System.Linq;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
-    // ============================================
-    // CONTROLLER TỔNG QUAN CA LÀM
-    // ============================================
     public class TongQuanCaLamController : Controller
     {
-        // ============================================
-        // TRANG TỔNG QUAN CA LÀM
-        // ============================================
+        private readonly HieuThuocDbContext _context;
+        private readonly TongQuanCaLamBusiness _business;
+
+        public TongQuanCaLamController(HieuThuocDbContext context)
+        {
+            _context = context;
+            _business = new TongQuanCaLamBusiness(context);
+        }
+
         public IActionResult Index()
         {
-            // ── THÔNG TIN CA LÀM (FAKE) ──────────────────
-            ViewBag.TenNhanVien = "Trần Văn Hùng";
+            // Sử dụng Extension Method để lấy MaNV từ Claims, dự phòng "NV0002"
+            string currentMaNV = User.Identity?.IsAuthenticated == true ? User.GetMaNV() : "NV0002";
+
+            var nhanVien = _context.NhanViens.FirstOrDefault(nv => nv.MaNv == currentMaNV);
+            ViewBag.TenNhanVien = nhanVien != null ? nhanVien.HoTen : "Chưa xác định";
             ViewBag.ChucVu = "Nhân viên bán hàng";
-            ViewBag.NgayLamViec = DateTime.Now; // Hiển thị ngày hiện tại
+            ViewBag.NgayLamViec = DateTime.Now;
             ViewBag.TenCa = "Ca Sáng (07:00 – 15:00)";
 
-            // ── 3 THẺ THỐNG KÊ (FAKE) ─────────────────────
-            ViewBag.SoHoaDonHomNay = 12;
-            ViewBag.DoanhThuCaNay = 1_250_000m;
-            ViewBag.SoKhachPhucVu = 12;
+            // Gọi tầng Business
+            var thongKe = _business.GetThongKeTrongNgay(currentMaNV);
 
-            // ── 5 HÓA ĐƠN GẦN NHẤT (FAKE) ────────────────
-            var hoaDons = new List<HoaDonCaLam>
-            {
-                new HoaDonCaLam { MaHD = "HD-1024", ThoiGian = "09:45 AM", TongTien = 125_000, TrangThai = "Hoàn thành"      },
-                new HoaDonCaLam { MaHD = "HD-1023", ThoiGian = "09:12 AM", TongTien = 450_000, TrangThai = "Hoàn thành"      },
-                new HoaDonCaLam { MaHD = "HD-1022", ThoiGian = "08:55 AM", TongTien =  85_000, TrangThai = "Chờ thanh toán"  },
-                new HoaDonCaLam { MaHD = "HD-1021", ThoiGian = "08:30 AM", TongTien = 320_000, TrangThai = "Hoàn thành"      },
-                new HoaDonCaLam { MaHD = "HD-1020", ThoiGian = "07:45 AM", TongTien = 270_000, TrangThai = "Hoàn thành"      },
-            };
+            ViewBag.SoHoaDonHomNay = thongKe.SoHoaDon;
+            ViewBag.DoanhThuCaNay = thongKe.DoanhThu;
+            ViewBag.SoKhachPhucVu = thongKe.SoKhach;
 
-            // ── DỮ LIỆU BIỂU ĐỒ THEO GIỜ (FAKE) ──────────
-            // Mảng 12 giá trị = số hóa đơn theo từng giờ: 7h → 18h
-            ViewBag.ChartLabels = new[] { "7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h" };
-            ViewBag.ChartData = new[] { 0, 3, 8, 5, 0, 0, 0, 0, 0, 0, 0, 0 };
+            ViewBag.ChartLabels = new string[] { "7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h" };
+            ViewBag.ChartData = thongKe.ChartData;
 
-            return View(hoaDons);
+            var recentBills = _business.GetHoaDonGanNhat(currentMaNV);
+
+            return View(recentBills);
         }
     }
 }

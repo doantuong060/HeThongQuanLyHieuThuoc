@@ -1,4 +1,6 @@
 ﻿@model List<DuAnCuoiKy_QuanLyHieuThuoc.Models.HoaDonCaLam>
+@using DuAnCuoiKy_QuanLyHieuThuoc.Extensions
+@using DuAnCuoiKy_QuanLyHieuThuoc.Helpers
 
 @{
     ViewData["Title"] = "Tổng quan ca làm";
@@ -12,7 +14,7 @@
         _ => "tq-badge-warning"
     };
 
-    // Format ngày tiếng Việt: Thứ Ba, 24 Tháng 10, 2023
+    // Format ngày tiếng Việt
     var ngay = (DateTime)ViewBag.NgayLamViec;
     string[] tenThu = { "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy" };
     string ngayHienThi = $"{tenThu[(int)ngay.DayOfWeek]}, {ngay.Day} Tháng {ngay.Month}, {ngay.Year}";
@@ -31,7 +33,6 @@
 
 <div class="tq-page">
 
-    <!-- ══ HEADER ══════════════════════════════════════════════ -->
     <div class="tq-header">
         <div class="tq-header-left">
             <h1 class="tq-title">Tổng quan ca làm</h1>
@@ -47,10 +48,8 @@
         </a>
     </div>
 
-    <!-- ══ 3 THẺ THỐNG KÊ ═══════════════════════════════════════ -->
     <div class="tq-stats">
 
-        <!-- Hóa đơn hôm nay -->
         <div class="tq-stat-card">
             <div class="tq-stat-icon blue">
                 <i class="fa-regular fa-file-lines"></i>
@@ -64,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Doanh thu -->
         <div class="tq-stat-card revenue">
             <div class="tq-stat-icon green">
                 <i class="fa-solid fa-money-bill-wave"></i>
@@ -72,13 +70,11 @@
             <div class="tq-stat-body">
                 <div class="tq-stat-label">Doanh thu ca này</div>
                 <div class="tq-stat-value">
-                    @(((decimal)ViewBag.DoanhThuCaNay).ToString("N0"))
-                    <span class="tq-stat-unit">đ</span>
+                    @CurrencyHelper.FormatVND((decimal)ViewBag.DoanhThuCaNay)
                 </div>
             </div>
         </div>
 
-        <!-- Khách hàng -->
         <div class="tq-stat-card">
             <div class="tq-stat-icon purple">
                 <i class="fa-solid fa-users"></i>
@@ -94,10 +90,8 @@
 
     </div>
 
-    <!-- ══ PHẦN DƯỚI: BẢNG + BIỂU ĐỒ ══════════════════════════ -->
     <div class="tq-bottom">
 
-        <!-- ─ BẢNG 5 HÓA ĐƠN GẦN NHẤT ─ -->
         <div class="tq-card">
             <div class="tq-card-header">
                 <div class="tq-card-title">
@@ -123,7 +117,9 @@
                         <tr>
                             <td><span class="tq-hd-code">@hd.MaHD</span></td>
                             <td><span class="tq-hd-time">@hd.ThoiGian</span></td>
-                            <td class="right"><span class="tq-hd-amount">@hd.TongTien.ToString("N0") đ</span></td>
+                            <td class="right">
+                                <span class="tq-hd-amount">@CurrencyHelper.FormatVND(hd.TongTien)</span>
+                            </td>
                             <td>
                                 <span class="tq-badge @GetBadgeClass(hd.TrangThai)">@hd.TrangThai</span>
                             </td>
@@ -138,7 +134,6 @@
             </table>
         </div>
 
-        <!-- ─ BIỂU ĐỒ THEO GIỜ ─ -->
         <div class="tq-card">
             <div class="tq-card-header">
                 <div class="tq-card-title">
@@ -168,8 +163,6 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    
     <script src="~/js/TongQuanCaLam.js" asp-append-version="true"></script>
 
     <script>
