@@ -1377,7 +1377,6 @@ C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHi
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\wpk8o0y9q9-{0}-ombok280rg-ombok280rg.gz
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\k9ji0bknph-{0}-pddqw7xho9-pddqw7xho9.gz
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\gj20savfiv-{0}-vlu0z9lx9m-vlu0z9lx9m.gz
-C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\a7nrqenyb7-{0}-7dc2odcxs8-7dc2odcxs8.gz
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\hghyyv0emz-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\u5ej948kzq-{0}-c2jlpeoesf-c2jlpeoesf.gz
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\ruatdbjqwm-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -1453,4 +1452,8 @@ C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHi
 >>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
 =======
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.sourcelink.json
+<<<<<<< HEAD
 >>>>>>> 06a8933 (Hoan thien trang tao phieu nhap)
+=======
+C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\a7nrqenyb7-{0}-q7varce32r-q7varce32r.gz
+>>>>>>> 93d33e9 (Hoan thien trang ton kho & canh bao)
