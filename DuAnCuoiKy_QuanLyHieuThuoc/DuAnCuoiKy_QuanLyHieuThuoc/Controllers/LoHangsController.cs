@@ -1,32 +1,91 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class LoHangsController : Controller
     {
+        private readonly HieuThuocDbContext _context;
+
+        public LoHangsController(HieuThuocDbContext context)
+        {
+            _context = context;
+        }
+
+        // DÁN ACTION INDEX VÀO ĐÂY
         public IActionResult Index()
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            var dsLoHang = _context.LoHangs
+                .Include(x => x.MaSpNavigation)
+                .ThenInclude(x => x.MaDvtNavigation)
+                .ToList();
 
-            // 1. Thống kê tổng quan tồn kho (Cột phải Ảnh 18)
-            ViewBag.TongMaThuoc = "1,248";
-            ViewBag.AnToanCount = 1016;
-            ViewBag.SapHetHangCount = 24;
-            ViewBag.NguyCapCount = 08;
+            var ngayCanhBaoHSD =
+                DateOnly.FromDateTime(DateTime.Now.AddMonths(1));
 
-            // 2. Danh sách sản phẩm tồn kho (Bảng trái Ảnh 18)
-            var dsTonKho = new List<dynamic> {
-                new { Ma = "MED-001", Ten = "Panadol Extra", Loai = "Thuốc", DVT = "Hộp", Ton = 120, Nguong = 50, Progress = 100, LoGanHSD = "B-2023-X1 15/12/2025", Status = "An toàn", Class = "success" },
-                new { Ma = "MED-042", Ten = "Augmentin 1g", Loai = "Kháng sinh", DVT = "Hộp", Ton = 25, Nguong = 30, Progress = 60, LoGanHSD = "C-2024-Y2 20/08/2024", Status = "Thấp", Class = "warning" },
-                new { Ma = "MED-089", Ten = "Vitamin C 500mg", Loai = "Thực phẩm CN", DVT = "Lọ", Ton = 5, Nguong = 20, Progress = 20, LoGanHSD = "A-2022-Z3 05/11/2023", Status = "Sắp hết hạn", Class = "danger" }
-            };
+            var result = dsLoHang.Select(x =>
+            {
+                int nguong =
+                    x.MaSpNavigation?.MucCanhBao ?? 20;
 
-            ViewBag.DsTonKho = dsTonKho;
+                int soLuongCon =
+                    x.SoLuongConLai;
 
-            /* [NOTE SQL]:
-               var inventory = _context.VwTonKhoSanPhams.ToList();
-               ViewBag.AnToanCount = inventory.Count(x => x.SoLuongTon > x.MucCanhBao);
-            */
+                int progress =
+                    nguong == 0
+                    ? 100
+                    : (int)Math.Min(
+                        (double)soLuongCon / nguong * 100,
+                        100);
+
+                string status = "An toàn";
+                string css = "success";
+
+                if (soLuongCon <= nguong)
+                {
+                    status = "Sắp hết";
+                    css = "warning";
+                }
+
+                if (x.HanSuDung <= ngayCanhBaoHSD)
+                {
+                    status = "Sắp hết hạn";
+                    css = "danger";
+                }
+
+                return new
+                {
+                    Ma = x.MaSp,
+                    Ten = x.MaSpNavigation?.TenSp ?? "",
+                    Loai = x.MaSpNavigation?.LoaiSp ?? "",
+                    DVT = x.MaSpNavigation?.MaDvtNavigation?.TenDvt ?? "",
+                    Ton = soLuongCon,
+                    Nguong = nguong,
+                    LoGanHSD =
+                        x.SoLo + " - " +
+                        x.HanSuDung.ToString("dd/MM/yyyy"),
+                    Status = status,
+                    Class = css,
+                    Progress = progress
+                };
+            }).ToList();
+
+            ViewBag.DsTonKho = result;
+
+            ViewBag.TongMaThuoc =
+                result.Select(x => x.Ma)
+                      .Distinct()
+                      .Count();
+
+            ViewBag.AnToanCount =
+                result.Count(x => x.Status == "An toàn");
+
+            ViewBag.SapHetHangCount =
+                result.Count(x => x.Status == "Sắp hết");
+
+            ViewBag.NguyCapCount =
+                result.Count(x => x.Status == "Sắp hết hạn");
 
             return View();
         }

@@ -1,48 +1,114 @@
 ﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.PhieuNhap
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = "_Layout";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
 
-<div>
-    <h4>PhieuNhap</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayNhap)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayNhap)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GhiChu)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TongTien)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TongTien)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaNccNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaNccNavigation.MaNcc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaNvNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaNvNavigation.MaNv)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaPhieuNhap">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h3 class="mb-0">
+                Chi tiết phiếu nhập @Model.MaPhieuNhap
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-4">
+
+                <div class="col-md-6">
+
+                    <b>Nhà cung cấp:</b><br />
+                    @Model.MaNccNavigation.TenNcc
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <b>Ngày nhập:</b><br />
+                    @Model.NgayNhap.ToString("dd/MM/yyyy HH:mm")
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <b>Tổng tiền:</b><br />
+                    @String.Format("{0:N0}", Model.TongTien) đ
+
+                </div>
+
+            </div>
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Tên thuốc</th>
+                        <th>Số lượng</th>
+                        <th>Giá nhập</th>
+                        <th>Số lô</th>
+                        <th>HSD</th>
+                        <th>Thành tiền</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model.LoHangs)
+                    {
+                        <tr>
+
+                            <td>
+                                @item.MaSpNavigation.TenSp
+                            </td>
+
+                            <td>
+                                @item.SoLuongNhap
+                            </td>
+
+                            <td>
+                                @String.Format("{0:N0}", item.GiaNhap)
+                            </td>
+
+                            <td>
+                                @item.SoLo
+                            </td>
+
+                            <td>
+                                @item.HanSuDung
+                            </td>
+
+                            <td>
+
+                                @String.Format("{0:N0}",
+                                item.SoLuongNhap* item.GiaNhap)
+
+                        </td>
+
+                    </tr>
+                                        }
+
+                </tbody>
+
+            </table>
+
+            <div class="text-end fw-bold fs-5">
+
+                Tổng cộng:
+                @String.Format("{0:N0}", Model.TongTien) đ
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

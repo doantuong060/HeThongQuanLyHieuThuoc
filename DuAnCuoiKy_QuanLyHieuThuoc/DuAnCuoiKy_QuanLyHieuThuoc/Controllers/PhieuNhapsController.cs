@@ -131,15 +131,17 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 
             // Lấy phiếu nhập lớn nhất hiện tại
 var maCuoi = _context.PhieuNhaps
-    .OrderByDescending(x => x.MaPhieuNhap)
-    .Select(x => x.MaPhieuNhap)
+    .AsEnumerable()
+    .OrderByDescending(x =>
+        int.Parse(x.MaPhieuNhap.Substring(2)))
     .FirstOrDefault();
 
 int soMoi = 1;
 
-if (!string.IsNullOrEmpty(maCuoi))
+if (maCuoi != null)
 {
-    soMoi = int.Parse(maCuoi.Substring(2)) + 1;
+    soMoi =
+        int.Parse(maCuoi.MaPhieuNhap.Substring(2)) + 1;
 }
 
 string maPhieu = $"PN{soMoi:0000}";
@@ -197,24 +199,93 @@ string maPhieu = $"PN{soMoi:0000}";
         }
 
         // =====================================================
-        // CHI TIẾT PHIẾU NHẬP
-        // =====================================================
-        public IActionResult Details(string id)
-        {
-            var phieu = _context.PhieuNhaps
-                .Include(x => x.MaNccNavigation)
-                .Include(x => x.LoHangs)
-                    .ThenInclude(x => x.MaSpNavigation)
-                .FirstOrDefault(x => x.MaPhieuNhap == id);
+// CHI TIẾT PHIẾU NHẬP
+// =====================================================
+public IActionResult Details(string id)
+{
+    var phieu = _context.PhieuNhaps
+        .Include(x => x.MaNccNavigation)
+        .Include(x => x.LoHangs)
+            .ThenInclude(x => x.MaSpNavigation)
+        .FirstOrDefault(x => x.MaPhieuNhap == id);
 
-            if (phieu == null)
+    if (phieu == null)
+    {
+        return NotFound();
+    }
+
+    return View(phieu);
+}
+
+// =====================================================
+// TỒN KHO & CẢNH BÁO
+// =====================================================
+public IActionResult TonKho()
+{
+    var dsTonKho = _context.LoHangs
+        .Include(x => x.MaSpNavigation)
+        .ToList()
+        .GroupBy(x => x.MaSp)
+        .Select(g =>
+        {
+            var sp = g.First().MaSpNavigation;
+
+            int ton = g.Sum(x => x.SoLuongConLai);
+
+            var loGanHetHan = g
+                .OrderBy(x => x.HanSuDung)
+                .FirstOrDefault();
+
+            string status;
+            string css;
+
+            if (ton <= sp.MucCanhBao)
             {
-                return NotFound();
+                status = "Sắp hết";
+                css = "warning";
+            }
+            else
+            {
+                status = "An toàn";
+                css = "success";
             }
 
-            return View(phieu);
-        }
+            return new
+            {
+                Ma = sp.MaSp,
+                Ten = sp.TenSp,
+                Loai = sp.LoaiSp,
+                DVT = sp.MaDvt,
+                Ton = ton,
+                Nguong = sp.MucCanhBao,
+                Progress = Math.Min(
+                    (int)((double)ton / Math.Max(sp.MucCanhBao, 1) * 100),
+                    100),
+                Class = css,
+                Status = status,
+                LoGanHSD =
+                    loGanHetHan != null
+                        ? $"{loGanHetHan.SoLo} ({loGanHetHan.HanSuDung:dd/MM/yyyy})"
+                        : ""
+            };
+        })
+        .ToList();
 
+    ViewBag.DsTonKho = dsTonKho;
+
+    ViewBag.TongMaThuoc = dsTonKho.Count;
+
+    ViewBag.AnToanCount =
+        dsTonKho.Count(x => x.Class == "success");
+
+    ViewBag.SapHetHangCount =
+        dsTonKho.Count(x => x.Class == "warning");
+
+    ViewBag.NguyCapCount =
+        dsTonKho.Count(x => x.Class == "danger");
+
+    return View();
+}
         // =====================================================
         // HELPER
         // =====================================================
@@ -261,5 +332,6 @@ string maPhieu = $"PN{soMoi:0000}";
 
             return vm;
         }
+
     }
 }
