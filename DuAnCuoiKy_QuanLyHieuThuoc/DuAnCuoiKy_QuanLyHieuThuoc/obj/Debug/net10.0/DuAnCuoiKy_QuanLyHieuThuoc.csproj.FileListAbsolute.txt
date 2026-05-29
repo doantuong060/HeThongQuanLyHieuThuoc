@@ -1449,4 +1449,8 @@ C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHi
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.pdb
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.genruntimeconfig.cache
 C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\ref\DuAnCuoiKy_QuanLyHieuThuoc.dll
+<<<<<<< HEAD
 >>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
+=======
+C:\Users\PC MSI\AppData\Local\Temp\Zalo Temp\TempDownloads\1\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\DuAnCuoiKy_QuanLyHieuThuoc.sourcelink.json
+>>>>>>> 06a8933 (Hoan thien trang tao phieu nhap)
