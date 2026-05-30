@@ -4,11 +4,7 @@
 .topbar-wrapper {
     height: 85px; /* Đã tăng lên 85px cho cao ráo */
     z-index: 1030;
-    position: sticky;
-    top: 0;
-    width: 100%;
 }
-
 
 /* Khu vực Logo: Chiếm chính xác 1/6 chiều rộng để khớp với Sidebar (col-md-2) */
 .topbar-logo-area {

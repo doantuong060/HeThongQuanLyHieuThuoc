@@ -1,141 +1,59 @@
 ﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.HoaDon>
 
 @{
-    ViewData["Title"] = "Lịch sử hóa đơn";
+    ViewData["Title"] = "Index";
 }
 
-@section Styles {
-    <!-- Gắn file CSS để tạo kiểu giống ảnh thiết kế -->
-    <link rel="stylesheet" href="~/css/_LichSuHoaDon.css" asp-append-version="true" />
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayBan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GhiChu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaKhNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaNvNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayBan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaKhNavigation.MaKh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNvNavigation.MaNv)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaHd">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaHd">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaHd">Delete</a>
+            </td>
+        </tr>
 }
-
-<div class="history-container">
-    
-    <!-- 1. BREADCRUMB & TIÊU ĐỀ -->
-    <div class="history-breadcrumb">
-        <a href="#">Bán hàng</a>
-        <span class="sep">›</span>
-        <span>Lịch sử hóa đơn</span>
-    </div>
-    <h2 class="history-title">Lịch sử hóa đơn</h2>
-
-    <!-- 2. THANH LỌC (TOOLBAR) -->
-    <div class="history-toolbar">
-        <form method="get" class="toolbar-form" id="filterForm">
-        
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" name="searchKeyword" value="@ViewBag.SearchKeyword" placeholder="Tìm mã HĐ, tên thuốc..." />
-            </div>
-
-            <div class="filter-dropdown">
-                <i class="fa-regular fa-calendar"></i>
-                <select name="timeFilter" onchange="this.form.submit()">
-                    <option value="all" selected="@(ViewBag.TimeFilter == "all" ? "selected" : null)">Tất cả thời gian</option>
-                    <option value="today" selected="@(ViewBag.TimeFilter == "today" ? "selected" : null)">Hôm nay</option>
-                    <option value="yesterday" selected="@(ViewBag.TimeFilter == "yesterday" ? "selected" : null)">Hôm qua</option>
-                    <option value="7days" selected="@(ViewBag.TimeFilter == "7days" ? "selected" : null)">7 ngày qua</option>
-                </select>
-            </div>
-
-            <div class="filter-dropdown">
-                <select name="statusFilter" onchange="this.form.submit()">
-                    <option value="" selected="@(string.IsNullOrEmpty(ViewBag.StatusFilter) ? "selected" : null)">Trạng thái</option>
-                    <option value="success" selected="@(ViewBag.StatusFilter == "success" ? "selected" : null)">Hoàn thành</option>
-                    <option value="cancelled" selected="@(ViewBag.StatusFilter == "cancelled" ? "selected" : null)">Đã hủy</option>
-                </select>
-            </div>
-
-        </form>
-    </div>
-
-    <!-- 3. BẢNG DỮ LIỆU -->
-    <div class="history-table-wrapper">
-        <table class="table history-table">
-            <thead>
-                <tr>
-                    <th>Mã HĐ</th>
-                    <th>Thời gian</th>
-                    <th>Danh sách thuốc</th>
-                    <th>Tổng tiền</th>
-                    <th>TT Thanh toán</th>
-                    <th>Trạng thái</th>
-                    <th class="text-center">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    foreach (var item in Model)
-                    {
-                        <tr>
-                            <!-- Mã HĐ -->
-                            <td class="fw-bold text-dark">@item.MaHd</td>
-                            
-                            <!-- Thời gian -->
-                            <td>@item.NgayBan.ToString("HH:mm dd/MM/yyyy")</td>
-                            
-                            <!-- Danh sách thuốc (Tạm lấy từ Ghi Chú) -->
-                            <td class="text-muted text-truncate" style="max-width: 280px;" title="@item.GhiChu">
-                                @if (!string.IsNullOrEmpty(item.GhiChu))
-                                {
-                                    @item.GhiChu
-                                }
-                                else
-                                {
-                                    <span class="text-warning">Chưa có thông tin thuốc</span>
-                                }
-                            </td>
-                            
-                            <!-- Tổng tiền -->
-                            <td class="fw-semibold text-dark">@((item.TongTien ?? 0).ToString("N0")) đ</td>
-                            
-                            <!-- Thanh toán (Fix cứng theo thiết kế) -->
-                            <td><span class="text-secondary">Tiền mặt</span></td>
-                            
-                            <!-- Trạng thái -->
-                            <td>
-                                @if (item.GhiChu != null && item.GhiChu.ToLower().Contains("hủy"))
-                                {
-                                    <span class="badge-status badge-cancelled">Đã hủy</span>
-                                }
-                                else
-                                {
-                                    <span class="badge-status badge-completed">Hoàn thành</span>
-                                }
-                            </td>
-                            
-                            <!-- Nút con mắt -->
-                            <td class="text-center">
-                                <a asp-action="Details" asp-route-id="@item.MaHd" class="btn-view-detail" title="Xem chi tiết">
-                                    <i class="fa-regular fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">Không tìm thấy lịch sử hóa đơn nào.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 4. PHÂN TRANG -->
-    <div class="history-footer">
-        <div class="results-count">
-            Hiển thị 1 đến @(Model?.Count() ?? 0) trong số @(Model?.Count() ?? 0) kết quả
-        </div>
-        <div class="pagination-buttons">
-            <button class="pag-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="pag-btn active">1</button>
-            <button class="pag-btn">2</button>
-            <button class="pag-btn">3</button>
-            <button class="pag-btn"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-    </div>
-
-</div>
+    </tbody>
+</table>

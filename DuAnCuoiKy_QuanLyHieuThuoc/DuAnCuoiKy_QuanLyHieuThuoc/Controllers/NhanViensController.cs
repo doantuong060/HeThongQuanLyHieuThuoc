@@ -1,123 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
-using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
-using DuAnCuoiKy_QuanLyHieuThuoc.Business;
-using DuAnCuoiKy_QuanLyHieuThuoc.Enums;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
-    [Authorize(Roles = "QuanLy")] // Chỉ Quản lý mới có quyền vào phân hệ này
     public class NhanViensController : Controller
     {
-        private readonly IStaffService _staffService;
-        private readonly HieuThuocDbContext _context;
-
-        public NhanViensController(IStaffService staffService, HieuThuocDbContext context)
+        public IActionResult Index()
         {
-            _staffService = staffService;
-            _context = context;
-        }
+            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
 
-        // ============================================================
-        // 1. TRANG DANH SÁCH NHÂN VIÊN (ẢNH 4)
-        // ============================================================
-        [HttpGet]
-        public async Task<IActionResult> Index(string search)
-        {
-            // Lấy dữ liệu từ Business Layer (đã bao gồm các thống kê SQL)
-            var data = await _staffService.GetStaffIndexDataAsync(search);
+            // 1. Dữ liệu 4 thẻ thống kê (Ảnh 4)
+            ViewBag.TongNhanSu = 24;
+            ViewBag.DangLamViec = 18;
+            ViewBag.DuocSiChinh = 5;
+            ViewBag.NghiPhep = 3;
 
-            // Lưu lại từ khóa tìm kiếm để hiển thị lại trên ô Input
-            ViewBag.CurrentSearch = search;
-
-            // Lấy danh sách Vai trò từ SQL để đổ vào Dropdown trong Modal Thêm mới
-            // Dựa đúng vào bảng VaiTro trong file SQL của bạn
-            ViewData["MaVaiTro"] = new SelectList(_context.VaiTros, "MaVaiTro", "TenVaiTro");
-
-            return View(data);
-        }
-
-        // ============================================================
-        // 2. XỬ LÝ THÊM NHÂN VIÊN MỚI (ẢNH 5 - TỪ MODAL)
-        // ============================================================
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AddStaffViewModel model)
-        {
-            if (!ModelState.IsValid)
+            // 2. Danh sách nhân viên mẫu
+            var dsNhanVien = new List<dynamic>
             {
-                TempData["Error"] = "Dữ liệu nhập vào không hợp lệ. Vui lòng kiểm tra lại.";
-                return RedirectToAction(nameof(Index));
-            }
+                new { Ma = "NV001", Ten = "Lê Văn An", Email = "an.le@medvault.com", GioiTinh = "Nam", SDT = "0901234567", VaiTro = "Dược sĩ trưởng", NgayVao = "15/03/2021", Status = "Hoạt động", Class = "success", Initial = "LA" },
+                new { Ma = "NV002", Ten = "Trần Thị Bình", Email = "binh.tran@medvault.com", GioiTinh = "Nữ", SDT = "0912345678", VaiTro = "Nhân viên kho", NgayVao = "10/06/2022", Status = "Nghỉ phép", Class = "secondary", Initial = "TB" },
+                new { Ma = "NV003", Ten = "Phạm Văn Cường", Email = "cuong.pham@medvault.com", GioiTinh = "Nam", SDT = "0987654321", VaiTro = "Bán hàng", NgayVao = "01/11/2023", Status = "Tạm nghỉ", Class = "warning", Initial = "PC" },
+                new { Ma = "NV004", Ten = "Hoàng Mỹ Linh", Email = "linh.hoang@medvault.com", GioiTinh = "Nữ", SDT = "0934567890", VaiTro = "Bán hàng", NgayVao = "20/01/2024", Status = "Hoạt động", Class = "success", Initial = "HL" }
+            };
+            ViewBag.DanhSachNV = dsNhanVien;
 
-            // [BUSINESS LOGIC]: Kiểm tra trùng tên đăng nhập trong bảng TaiKhoan
-            bool isUsernameTaken = await _context.TaiKhoans
-                .AnyAsync(t => t.TenDangNhap == model.TenDangNhap);
+            // Dữ liệu cho Dropdown Vai trò trong Modal
+            ViewBag.VaiTro = new SelectList(new[] { "Quản lý", "Dược sĩ trưởng", "Bán hàng", "Nhân viên kho" });
 
-            if (isUsernameTaken)
-            {
-                TempData["Error"] = "Tên đăng nhập này đã được sử dụng. Vui lòng chọn tên khác.";
-                return RedirectToAction(nameof(Index));
-            }
+            /* [NOTE LINQ]: 
+               ViewBag.TongNhanSu = _context.NhanViens.Count();
+               var nhanviens = _context.NhanViens.Include(n => n.TaiKhoan).ToList();
+            */
 
-            // [BUSINESS LOGIC]: Kiểm tra trùng Số điện thoại trong bảng NhanVien
-            bool isPhoneTaken = await _context.NhanViens
-                .AnyAsync(n => n.SoDienThoai == model.SoDienThoai);
-
-            if (isPhoneTaken)
-            {
-                TempData["Error"] = "Số điện thoại này đã tồn tại trên hệ thống.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            // GỌI SERVICE ĐỂ THỰC HIỆN TRANSACTION LƯU VÀO 2 BẢNG SQL
-            bool result = await _staffService.AddStaffAsync(model);
-
-            if (result)
-            {
-                TempData["Success"] = $"Thêm nhân viên {model.HoTen} thành công!";
-            }
-            else
-            {
-                TempData["Error"] = "Đã xảy ra lỗi trong quá trình lưu vào Database.";
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // ============================================================
-        // 3. XỬ LÝ KHÓA/MỞ KHÓA NHÂN VIÊN
-        // ============================================================
-        [HttpPost]
-        public async Task<IActionResult> ToggleStatus(string id)
-        {
-            var nv = await _context.NhanViens.FindAsync(id);
-            if (nv != null)
-            {
-                // Đảo ngược trạng thái (True <-> False)
-                nv.TrangThai = !nv.TrangThai;
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "Cập nhật trạng thái nhân viên thành công.";
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        // ============================================================
-        // 4. XEM CHI TIẾT NHÂN VIÊN (DÀNH CHO AJAX NẾU CẦN)
-        // ============================================================
-        [HttpGet]
-        public async Task<IActionResult> Details(string id)
-        {
-            var nv = await _context.NhanViens
-                .Include(n => n.TaiKhoan)
-                .ThenInclude(t => t.MaVaiTroNavigation)
-                .FirstOrDefaultAsync(m => m.MaNv == id);
-
-            if (nv == null) return NotFound();
-            return Json(nv);
+            return View();
         }
     }
 }

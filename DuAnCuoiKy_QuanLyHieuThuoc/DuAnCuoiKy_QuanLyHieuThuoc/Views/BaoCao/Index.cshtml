@@ -1,7 +1,4 @@
-﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Helpers
-@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.ReportViewModel
-
-@{
+﻿@{
     ViewData["Title"] = "Báo cáo & Phân tích";
     Layout = "_Layout";
 }
@@ -13,75 +10,103 @@
 <div class="p-4">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold">Tổng quan kinh doanh</h3>
-        <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm"><i class="bi bi-download me-2"></i>Xuất báo cáo</button>
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb small">
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Hệ thống</a></li>
+                    <li class="breadcrumb-item active fw-bold">Báo cáo & Phân tích</li>
+                </ol>
+            </nav>
+            <h3 class="fw-bold">Tổng quan kinh doanh</h3>
+        </div>
+        <div class="d-flex gap-2">
+            <select class="form-select border-0 shadow-sm rounded-3 px-3" style="width: 150px; font-size: 14px;">
+                <option>Tháng này</option>
+                <option>Quý này</option>
+            </select>
+            <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">
+                <i class="bi bi-download me-2"></i>Xuất file
+            </button>
+        </div>
     </div>
 
-    <!-- Hàng 1: Thẻ tài chính -->
+    <!-- 4 Thẻ tài chính -->
     <div class="row g-3 mb-4">
-        @{
-            var stats = new[] {
-                new { Lbl = "DOANH THU", Val = ReportHelper.FormatShort(Model.DoanhThuThang), Icon = "cash-stack", Color = "primary" },
-                new { Lbl = "HÓA ĐƠN", Val = Model.SoHoaDon.ToString("N0"), Icon = "receipt", Color = "secondary" },
-                new { Lbl = "NHẬP KHO", Val = ReportHelper.FormatShort(Model.GiaTriNhapKho), Icon = "box-seam", Color = "danger" },
-                new { Lbl = "LỢI NHUẬN", Val = ReportHelper.FormatShort(Model.LoiNhuan), Icon = "piggy-bank", Color = "success" }
-            };
-        }
-        @foreach (var s in stats)
+        @foreach (var card in new[] {
+            new { Lbl = "DOANH THU", Val = ViewBag.DoanhThuThang, Icon = "cash-stack", Trend = "+12.5%", Color = "primary" },
+            new { Lbl = "HÓA ĐƠN", Val = ViewBag.SoHoaDon, Icon = "receipt", Trend = "+8.2%", Color = "secondary" },
+            new { Lbl = "NHẬP KHO", Val = ViewBag.NhapKhoVal, Icon = "box-seam", Trend = "-4.1%", Color = "danger" },
+            new { Lbl = "LỢI NHUẬN", Val = ViewBag.LoiNhuanVal, Icon = "pie-chart", Trend = "+15.3%", Color = "success" }
+        })
         {
             <div class="col-md-3">
                 <div class="report-stats-card shadow-sm">
-                    <div class="text-muted small fw-bold mb-2">@s.Lbl</div>
-                    <div class="h3 fw-bold text-dark">@s.Val<span>đ</span></div>
-                    <div class="text-success small fw-bold"><i class="bi bi-graph-up"></i> +8.2% <span class="text-muted fw-normal">tháng này</span></div>
+                    <div class="d-flex justify-content-between text-muted small fw-bold mb-3">
+                        @card.Lbl <i class="bi bi-@card.Icon fs-5 text-@card.Color opacity-50"></i>
+                    </div>
+                    <div class="h3 fw-bold mb-2 text-dark">@card.Val<span class="fs-6 fw-normal ms-1">đ</span></div>
+                    <div class="@(card.Trend.StartsWith("+") ? "text-success" : "text-danger") small fw-bold">
+                        <i class="bi bi-graph-@(card.Trend.StartsWith("+") ? "up" : "down")"></i> @card.Trend
+                        <span class="text-muted fw-normal">so với tháng trước</span>
+                    </div>
                 </div>
             </div>
         }
     </div>
 
-    <!-- Hàng 2: Biểu đồ -->
+    <!-- Biểu đồ -->
     <div class="row g-4 mb-4">
         <div class="col-md-8">
-            <div class="card border-0 shadow-sm p-4 rounded-4">
-                <h5 class="fw-bold mb-4">Doanh thu 12 tháng gần nhất</h5>
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+                <h5 class="fw-bold mb-4">Doanh thu 12 tháng</h5>
                 <div style="height: 350px; position: relative;">
                     <canvas id="revenue12MonthsChart"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <h5 class="fw-bold mb-4 text-start">Cơ cấu loại thuốc</h5>
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+                <h5 class="fw-bold mb-4">Cơ cấu loại thuốc</h5>
                 <div style="height: 250px; position: relative;" class="mb-4">
                     <canvas id="categoryDonutChart"></canvas>
                     <div class="chart-center-text">
-                        <div class="h4 fw-bold mb-0">100%</div>
-                        <div class="text-muted small">Phân bổ</div>
+                        <div class="h3 fw-bold mb-0">100%</div>
+                        <div class="small text-muted" style="font-size: 10px;">Tổng phân bổ</div>
                     </div>
                 </div>
-                @foreach (var c in Model.CoCauThuoc)
-                {
-                    <div class="d-flex justify-content-between small border-bottom py-2">
-                        <span><i class="bi bi-circle-fill me-2" style="color: @c.Mau"></i> @c.Ten</span>
-                        <span class="fw-bold">@c.PhanTram%</span>
-                    </div>
-                }
+                <div class="small">
+                    @foreach (var cat in ViewBag.CoCauThuoc)
+                    {
+                        <div class="d-flex justify-content-between mb-2 border-bottom pb-1">
+                            <span><i class="bi bi-circle-fill me-2" style="color: @cat.Mau"></i> @cat.Ten</span>
+                            <span class="fw-bold">@cat.TyLe%</span>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- AI Insights (Sử dụng Model SQL) -->
+    <!-- AI Insights -->
     <div class="row g-4">
         <div class="col-md-6">
-            <div class="card ai-card-insight p-4 shadow-sm h-100">
-                <h6 class="fw-bold text-primary"><i class="bi bi-lightbulb me-2"></i>GỢI Ý NHẬP HÀNG (AI)</h6>
-                <p class="small text-muted mt-3">Dựa trên tốc độ bán hàng, hệ thống gợi ý bạn nên bổ sung <strong>Khẩu trang y tế</strong> vì nhu cầu đang tăng cao.</p>
+            <div class="card ai-card-insight p-4 h-100 shadow-sm">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="p-2 bg-primary bg-opacity-10 rounded-circle"><i class="bi bi-lightbulb text-primary fs-4"></i></div>
+                    <h5 class="fw-bold mb-0">Gợi ý nhập hàng <span class="badge bg-primary ai-badge ms-2">AI INSIGHT</span></h5>
+                </div>
+                <p class="text-secondary small">@ViewBag.AiSuggestion</p>
+                <a href="#" class="text-primary fw-bold text-decoration-none small">Xem chi tiết <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card ai-card-monitor p-4 shadow-sm h-100">
-                <h6 class="fw-bold text-danger"><i class="bi bi-exclamation-triangle me-2"></i>CẢNH BÁO HẠN DÙNG</h6>
-                <p class="small text-muted mt-3">Phát hiện <strong>@Model.SoLoSapHetHan lô thuốc</strong> sắp hết hạn trong 30 ngày tới. Vui lòng kiểm tra mục Xử lý cận hạn.</p>
+            <div class="card ai-card-monitor p-4 h-100 shadow-sm">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="p-2 bg-danger bg-opacity-10 rounded-circle"><i class="bi bi-exclamation-triangle text-danger fs-4"></i></div>
+                    <h5 class="fw-bold mb-0 text-dark">Cảnh báo hạn dùng <span class="badge bg-danger ai-badge ms-2">AI MONITOR</span></h5>
+                </div>
+                <p class="text-secondary small">@ViewBag.AiWarning</p>
+                <a href="#" class="text-danger fw-bold text-decoration-none small">Xử lý ngay <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </div>
@@ -89,14 +114,5 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Dữ liệu từ SQL truyền vào JS
-        const labels12T = @Html.Raw(Json.Serialize(Model.Labels12Thang));
-        const data12T = @Html.Raw(Json.Serialize(Model.DataDoanhThu));
-
-        // Vẽ biểu đồ Doanh thu (Vẫn dùng JS cũ nhưng data động)
-        const ctxBar = document.getElementById('revenue12MonthsChart');
-        new Chart(ctxBar, { type: 'bar', data: { labels: labels12T, datasets: [{ data: data12T, backgroundColor: '#0d6efd', borderRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: false } });
-    </script>
     <script src="~/js/baocao.js" asp-append-version="true"></script>
 }
