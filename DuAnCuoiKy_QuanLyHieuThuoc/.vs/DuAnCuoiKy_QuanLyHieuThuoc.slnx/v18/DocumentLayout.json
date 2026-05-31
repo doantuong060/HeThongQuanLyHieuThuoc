@@ -1,16 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\C#\\DuAnCuoiKy_QuanLyHieuThuoc\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|e:\\c#\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\tongquankho\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\tongquankho\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|e:\\c#\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\tongquancalam\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\tongquancalam\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "WorkspaceRootPath": "E:\\C#\\BTLTCS\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,32 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\C#\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanKho\\Index.cshtml",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanKho\\Index.cshtml",
-              "ToolTip": "E:\\C#\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanKho\\Index.cshtml",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanKho\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-29T20:30:00.854Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\C#\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanCaLam\\Index.cshtml",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanCaLam\\Index.cshtml",
-              "ToolTip": "E:\\C#\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanCaLam\\Index.cshtml",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\TongQuanCaLam\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-29T20:27:22.333Z",
-              "EditorCaption": ""
             }
           ]
         }
