@@ -1097,3 +1097,4 @@ E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLy
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\k9ji0bknph-{0}-pddqw7xho9-pddqw7xho9.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\gj20savfiv-{0}-vlu0z9lx9m-vlu0z9lx9m.gz
 E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\a7nrqenyb7-{0}-7dc2odcxs8-7dc2odcxs8.gz
+E:\C#\BTLTCS\HeThongQuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\DuAnCuoiKy_QuanLyHieuThuoc\obj\Debug\net10.0\compressed\z38y6zepqk-{0}-yj29bd1s8y-yj29bd1s8y.gz
