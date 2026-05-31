@@ -1,48 +1,138 @@
 ﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.HoaDon
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết hóa đơn";
 }
 
-<h1>Details</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/_LichSuHoaDon.css" asp-append-version="true" />
+}
 
-<div>
-    <h4>HoaDon</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayBan)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayBan)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GhiChu)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TongTien)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TongTien)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaKhNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaKhNavigation.MaKh)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaNvNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaNvNavigation.MaNv)
-        </dd>
-    </dl>
+<div class="history-container">
+    <div class="history-breadcrumb">
+        <a asp-action="Index">Lịch sử hóa đơn</a>
+        <span class="sep">›</span>
+        <span>Chi tiết mã @Model.MaHd</span>
+    </div>
+    
+    <h2 class="history-title mb-4">Chi tiết giao dịch</h2>
+
+    <div class="card shadow-sm" style="max-width: 850px; margin: 0 auto; border-radius: 12px; border: 1px solid #e2e8f0;">
+        
+        <div class="card-header bg-white p-4" style="border-bottom: 2px dashed #e2e8f0;">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="text-primary fw-bold mb-1"><i class="fa-solid fa-pills me-2"></i>MEDVAULT</h4>
+                    <p class="text-muted mb-0 small">Hệ thống quản lý hiệu thuốc</p>
+                </div>
+                <div class="col-sm-6 text-sm-end mt-3 mt-sm-0">
+                    <h5 class="fw-bold text-dark mb-1">Mã HĐ: @Model.MaHd</h5>
+                    <p class="text-muted mb-1 small">Thời gian: @Model.NgayBan.ToString("HH:mm - dd/MM/yyyy")</p>
+                    <span class="badge @(Model.GhiChu != null && Model.GhiChu.ToLower().Contains("hủy") ? "bg-danger" : "bg-success")">
+                        @(Model.GhiChu != null && Model.GhiChu.ToLower().Contains("hủy") ? "Trạng thái: Đã hủy" : "Trạng thái: Hoàn thành")
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row mb-4 bg-light p-3 rounded">
+                <div class="col-sm-6">
+                    <h6 class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight: 700;">Thông tin nhân viên</h6>
+                    <p class="fw-bold text-dark mb-1">@Model.MaNvNavigation?.HoTen</p>
+                    <p class="text-muted small mb-0">Mã NV: @Model.MaNv</p>
+                </div>
+                <div class="col-sm-6 text-sm-end mt-3 mt-sm-0">
+                    <h6 class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight: 700;">Thông tin khách hàng</h6>
+                    <p class="fw-bold text-dark mb-1">@(Model.MaKhNavigation?.HoTen ?? "Khách vãng lai")</p>
+                    @if (Model.MaKhNavigation != null)
+                    {
+                        <p class="text-muted small mb-0">SĐT: @Model.MaKhNavigation.SoDienThoai</p>
+                    }
+                </div>
+            </div>
+
+            <table class="table table-bordered align-middle history-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th class="text-center" style="width: 100px;">Số lượng</th>
+                        <th class="text-end" style="width: 150px;">Đơn giá</th>
+                        <th class="text-end" style="width: 150px;">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ChiTietHoaDons != null && Model.ChiTietHoaDons.Any())
+                    {
+                        foreach (var ct in Model.ChiTietHoaDons)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="fw-semibold text-dark">@(ct.SoLoNavigation?.MaSpNavigation?.TenSp ?? "Sản phẩm không xác định")</span>
+                                    <br />
+                                    <small class="text-muted">Lô xuất: @ct.SoLo</small>
+                                </td>
+                                <td class="text-center">@ct.SoLuong</td>
+                                <td class="text-end">@string.Format("{0:N0}", ct.DonGia) đ</td>
+                                <td class="text-end fw-bold text-dark">@string.Format("{0:N0}", ct.SoLuong * ct.DonGia) đ</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="4" class="text-center text-muted py-4">Không tìm thấy chi tiết mặt hàng</td></tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row mt-4 align-items-center">
+                <div class="col-7">
+                    @if (!string.IsNullOrEmpty(Model.GhiChu))
+                    {
+                        <div class="alert alert-warning py-2 mb-0 small">
+                            <i class="fa-solid fa-circle-info me-1"></i> <strong>Ghi chú:</strong> @Model.GhiChu
+                        </div>
+                    }
+                </div>
+                <div class="col-5 text-end">
+                    <h6 class="text-muted mb-1">TỔNG THANH TOÁN</h6>
+                    <h3 class="text-primary fw-bold mb-0">@string.Format("{0:N0}", Model.TongTien) đ</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-white p-4 text-center" style="border-top: 1px solid #e2e8f0;">
+            <a asp-action="Index" class="btn btn-light border me-2" style="font-weight: 500;">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại lịch sử
+            </a>
+            <button onclick="window.print()" class="btn btn-primary" style="font-weight: 500;">
+                <i class="fa-solid fa-print me-1"></i> In biên lai
+            </button>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaHd">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<style>
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .card, .card * {
+            visibility: visible;
+        }
+
+        .card {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .card-footer, .history-breadcrumb, .history-title, .sidebar, .header {
+            display: none !important;
+        }
+    }
+</style>
