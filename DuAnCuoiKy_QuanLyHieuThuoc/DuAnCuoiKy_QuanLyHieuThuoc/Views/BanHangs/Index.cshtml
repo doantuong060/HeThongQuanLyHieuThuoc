@@ -2,6 +2,7 @@
 @using DuAnCuoiKy_QuanLyHieuThuoc.Models
 @using DuAnCuoiKy_QuanLyHieuThuoc.Helpers
 @using DuAnCuoiKy_QuanLyHieuThuoc.Extensions
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
 
 @{
     ViewData["Title"] = "Bán hàng POS - MedVault";
@@ -36,18 +37,25 @@
 
                     <select class="select-category" id="categorySelect" name="loai">
                         <option value="" selected="@(string.IsNullOrEmpty(ViewBag.SelectedLoai))">Tất cả danh mục</option>
-                        <option value="Kháng sinh" selected="@(ViewBag.SelectedLoai == "Kháng sinh")">Kháng sinh</option>
-                        <option value="Giảm đau" selected="@(ViewBag.SelectedLoai == "Giảm đau")">Giảm đau - Hạ sốt</option>
-                        <option value="Hô hấp" selected="@(ViewBag.SelectedLoai == "Hô hấp")">Hô hấp</option>
-                        <option value="Tiêu hóa" selected="@(ViewBag.SelectedLoai == "Tiêu hóa")">Tiêu hóa</option>
-                        <option value="Vitamin & Khoáng chất" selected="@(ViewBag.SelectedLoai == "Vitamin & Khoáng chất")">Vitamin & Khoáng chất</option>
+                        @if (ViewBag.DanhMucs != null)
+                        {
+                            foreach (var dm in ViewBag.DanhMucs)
+                            {
+                                <option value="@dm" selected="@(ViewBag.SelectedLoai == dm)">@dm</option>
+                            }
+                        }
                     </select>
                 </div>
 
                 <div class="filter-tags mt-2">
                     <a href="#" class="filter-tag @(string.IsNullOrEmpty(ViewBag.SelectedLoai) ? "active" : "")" data-category="">Tất cả</a>
-                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Kháng sinh" ? "active" : "")" data-category="Kháng sinh">Kháng sinh</a>
-                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Giảm đau" ? "active" : "")" data-category="Giảm đau">Giảm đau</a>
+                    @if (ViewBag.DanhMucs != null)
+                    {
+                        foreach (var dm in ViewBag.DanhMucs)
+                        {
+                            <a href="#" class="filter-tag @(ViewBag.SelectedLoai == dm ? "active" : "")" data-category="@dm">@dm</a>
+                        }
+                    }
                 </div>
             </form>
         </div>
@@ -62,7 +70,18 @@
                     <div class="product-card @(outOfStock ? "out-of-stock" : "")">
 
                         <div class="product-img">
-                            <i class="fa-solid fa-pills"></i>
+                            @{
+                                string imgPath = ImageHelper.GetProductImagePath(WebHostEnvironment, item.MaSp);
+                            }
+    
+                            @if (!string.IsNullOrEmpty(imgPath))
+                            {
+                                <img src="@imgPath" alt="@item.TenSp" />
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-pills"></i>
+                            }
                         </div>
 
                         <div class="product-name">@item.TenSp</div>
@@ -137,8 +156,19 @@
                 foreach (var item in cart)
                 {
                     <div class="cart-item">
-                        <div class="cart-item-icon">
-                            <i class="fa-solid fa-prescription-bottle-medical"></i>
+                        <div class="cart-item-icon" style="overflow: hidden;">
+                            @{
+                                // Quét ảnh tự động cho giỏ hàng
+                                string cartImgPath = ImageHelper.GetProductImagePath(WebHostEnvironment, item.MaSP);
+                            }
+                            @if (!string.IsNullOrEmpty(cartImgPath))
+                            {
+                                <img src="@cartImgPath" alt="@item.TenSP" style="width: 100%; height: 100%; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-prescription-bottle-medical" style="color: var(--gray-400); font-size: 14px;"></i>
+                            }
                         </div>
 
                         <div>

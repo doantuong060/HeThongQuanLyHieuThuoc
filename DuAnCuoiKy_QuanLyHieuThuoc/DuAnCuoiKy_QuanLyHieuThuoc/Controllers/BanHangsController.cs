@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
@@ -33,6 +34,7 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
             var cart = GetCart();
             decimal tongTien = cart.Sum(x => x.ThanhTien);
 
+            ViewBag.DanhMucs = _business.GetAllDanhMucs();
             ViewBag.Keyword = keyword;
             ViewBag.SelectedLoai = loai;
             ViewBag.Cart = cart;
@@ -156,8 +158,14 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
                 return RedirectToAction("Index");
             }
 
-            string maNV = User.Identity?.IsAuthenticated == true ? User.GetMaNV() : "NV0002";
-            string ghiChuThanhToan = $"Thanh toán bằng: {phuongThuc}"; // Map Enum ra chuỗi
+            // FIX 1: Lấy MaNV an toàn tuyệt đối, tránh lỗi NULL reference
+            string maNV = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(maNV))
+            {
+                maNV = "NV0002"; // Dự phòng luôn có nhân viên
+            }
+
+            string ghiChuThanhToan = $"Thanh toán bằng: {phuongThuc}";
 
             try
             {
@@ -168,7 +176,9 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "Lỗi thanh toán: " + ex.Message;
+                // FIX 2: Bắt tận tay nguyên nhân gốc rễ (InnerException) của SQL Server
+                string detailError = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                TempData["Error"] = "Lỗi SQL: " + detailError;
             }
 
             return RedirectToAction("Index");

@@ -14,6 +14,14 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
             _context = context;
         }
 
+        // Lấy tất cả danh mục Thuốc và Vật tư từ Database
+        public List<string> GetAllDanhMucs()
+        {
+            var dsThuoc = _context.LoaiThuocs.Select(x => x.TenLoai).ToList();
+            var dsVatTu = _context.LoaiVatTus.Select(x => x.TenLoaiVt).ToList();
+            return dsThuoc.Concat(dsVatTu).ToList();
+        }
+
         public List<VwTonKhoSanPham> GetDanhSachSanPham(string keyword, string loai)
         {
             var query = _context.VwTonKhoSanPhams.Where(sp => sp.TrangThai == true).AsQueryable();
@@ -25,9 +33,14 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
 
             if (!string.IsNullOrWhiteSpace(loai))
             {
-                var thuocQuery = _context.Thuocs.AsQueryable();
-                // FIX CS8602: Đã thêm check MaLoaiNavigation != null
-                query = query.Where(sp => thuocQuery.Any(t => t.MaSp == sp.MaSp && t.MaLoaiNavigation != null && t.MaLoaiNavigation.TenLoai.Contains(loai)));
+                var thuocQ = _context.Thuocs.AsQueryable();
+                var vatTuQ = _context.VatTuYtes.AsQueryable();
+
+                // FIX LOGIC: Tìm trong cả bảng Thuốc VÀ bảng Vật Tư Y Tế
+                query = query.Where(sp =>
+                    (sp.LoaiSp == "THUOC" && thuocQ.Any(t => t.MaSp == sp.MaSp && t.MaLoaiNavigation != null && t.MaLoaiNavigation.TenLoai.Contains(loai))) ||
+                    (sp.LoaiSp == "VATTU" && vatTuQ.Any(v => v.MaSp == sp.MaSp && v.MaLoaiVtNavigation != null && v.MaLoaiVtNavigation.TenLoaiVt.Contains(loai)))
+                );
             }
 
             return query.OrderBy(sp => sp.TenSp).ToList();
@@ -41,25 +54,51 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
                 .FirstOrDefault();
         }
 
-        // Đã thêm tham số ghiChuThanhToan để lưu phương thức (Tiền mặt/Chuyển khoản...)
         public string ThanhToanDonHang(List<CartItem> cart, string maNV, string ghiChuThanhToan)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                string maHD = "HD" + DateTime.Now.ToString("yyMMddHHmmss");
+                // ========================================================
+                // 1. TẠO MÃ HÓA ĐƠN TỰ ĐỘNG BỌC THÉP
+                // ========================================================
+                string maHD = "HD0001";
+                var maxHD = _context.HoaDons.OrderByDescending(x => x.MaHd).FirstOrDefault();
+
+                if (maxHD != null)
+                {
+                    // Tự động nhặt tất cả các số có trong chuỗi (Chống lỗi Substring)
+                    string numbers = new string(maxHD.MaHd.Where(char.IsDigit).ToArray());
+                    if (int.TryParse(numbers, out int currentMaxHD))
+                    {
+                        maHD = "HD" + (currentMaxHD + 1).ToString("D4");
+                        // Nếu lỡ số quá to thì ép cứng về 10 ký tự cho khỏi lỗi SQL
+                        if (maHD.Length > 10) maHD = maHD.Substring(0, 10);
+                    }
+                }
 
                 var hoaDon = new HoaDon
                 {
                     MaHd = maHD,
                     NgayBan = DateTime.Now,
                     MaNv = maNV,
-                    GhiChu = ghiChuThanhToan // Lưu Enum vào đây
+                    GhiChu = ghiChuThanhToan
                 };
                 _context.HoaDons.Add(hoaDon);
                 _context.SaveChanges();
 
-                int stt = 1;
+                // ========================================================
+                // 2. TẠO MÃ CHI TIẾT HÓA ĐƠN BỌC THÉP
+                // ========================================================
+                int currentMaxCthd = 0;
+                var maxCthd = _context.ChiTietHoaDons.OrderByDescending(x => x.MaCthd).FirstOrDefault();
+
+                if (maxCthd != null)
+                {
+                    string numbers = new string(maxCthd.MaCthd.Where(char.IsDigit).ToArray());
+                    int.TryParse(numbers, out currentMaxCthd);
+                }
+
                 foreach (var item in cart)
                 {
                     var loHangs = _context.LoHangs
@@ -75,9 +114,13 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
 
                         int soLuongXuatTuLo = Math.Min(lo.SoLuongConLai, soLuongThieu);
 
+                        currentMaxCthd++;
+                        string maCthd = "CTHD" + currentMaxCthd.ToString("D4");
+                        if (maCthd.Length > 10) maCthd = maCthd.Substring(0, 10);
+
                         var cthd = new ChiTietHoaDon
                         {
-                            MaCthd = maHD + "-" + stt.ToString("D2"),
+                            MaCthd = maCthd,
                             MaHd = maHD,
                             SoLo = lo.SoLo,
                             SoLuong = soLuongXuatTuLo,
@@ -86,7 +129,6 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Business
                         _context.ChiTietHoaDons.Add(cthd);
 
                         soLuongThieu -= soLuongXuatTuLo;
-                        stt++;
                     }
 
                     if (soLuongThieu > 0)
