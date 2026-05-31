@@ -1,42 +1,53 @@
-﻿<div class="modal fade" id="modalThemNCC" tabindex="-1">
+<div class="modal fade" id="modalThemNCC" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
             <div class="modal-header border-0 p-4 pb-0">
-                <h5 class="fw-bold mb-0">Thêm nhà cung cấp mới</h5>
-                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                <h5 class="fw-bold mb-0 text-dark">Thêm nhà cung cấp mới</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-                <form id="formAddNCC">
+
+            <form asp-action="Create" asp-controller="NhaCungCaps" method="post">
+                <div class="modal-body p-4">
                     <div class="row g-3">
+                        <!-- Tên NCC -->
                         <div class="col-md-12">
                             <label class="form-label small fw-bold text-muted">Tên nhà cung cấp <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập tên nhà cung cấp">
+                            <input name="TenNcc" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập tên nhà cung cấp">
                         </div>
+
+                        <!-- SĐT -->
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Số điện thoại</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="09xx xxx xxx">
+                            <label class="form-label small fw-bold text-muted">Số điện thoại <span class="text-danger">*</span></label>
+                            <input name="SoDienThoai" class="form-control bg-light border-0 py-2 shadow-none" placeholder="09xx xxx xxx">
                         </div>
+
+                        <!-- Email -->
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">Email liên hệ</label>
-                            <input type="email" class="form-control bg-light border-0 py-2 shadow-none" placeholder="email@domain.com">
+                            <input name="Email" type="email" class="form-control bg-light border-0 py-2 shadow-none" placeholder="email@domain.com">
                         </div>
+
+                        <!-- Tỉnh/Thành phố -->
                         <div class="col-md-12">
-                            <label class="form-label small fw-bold text-muted">Tỉnh/Thành phố</label>
-                            <select class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.TinhThanh">
-                                <option>Chọn Tỉnh/Thành phố</option>
+                            <label class="form-label small fw-bold text-muted">Tỉnh/Thành phố <span class="text-danger">*</span></label>
+                            <select name="MaTinhThanh" class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.MaTinhThanh">
+                                <option value="">Chọn Tỉnh/Thành phố</option>
                             </select>
                         </div>
+
+                        <!-- Địa chỉ chi tiết -->
                         <div class="col-md-12">
                             <label class="form-label small fw-bold text-muted">Địa chỉ chi tiết</label>
-                            <textarea class="form-control bg-light border-0 shadow-none" rows="3" placeholder="Nhập số nhà, tên đường, phường/xã..."></textarea>
+                            <textarea name="DiaChiChiTiet" class="form-control bg-light border-0 shadow-none" rows="3" placeholder="Nhập số nhà, tên đường, phường/xã..."></textarea>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer border-0 p-4 pt-0 mt-3">
-                <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
-                <button type="button" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">Lưu thông tin</button>
-            </div>
+                </div>
+
+                <div class="modal-footer border-0 p-4 pt-0 mt-2">
+                    <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">Lưu thông tin</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

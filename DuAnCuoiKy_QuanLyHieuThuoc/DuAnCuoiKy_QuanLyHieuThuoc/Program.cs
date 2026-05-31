@@ -1,28 +1,49 @@
-using DuAnCuoiKy_QuanLyHieuThuoc.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. THÊM DỊCH VỤ SESSION VÀO ĐÂY ---
-builder.Services.AddDistributedMemoryCache(); // Cần thiết để lưu session vào bộ nhớ
+builder.Services.AddControllersWithViews();
+
+// ── DATABASE ──────────────────────────────────────────────
+builder.Services.AddDbContext<HieuThuocDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// ── AUTHENTICATION (Cookie) ───────────────────────────────
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Home/Login";
+        options.LogoutPath = "/Home/Logout";
+        options.AccessDeniedPath = "/Home/Login";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.Cookie.HttpOnly = true;
+    });
+
+// Dùng chung (Login/Logout)
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+//Phân hệ Admin - Tín đảm nhận
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+
+// ── SESSION (dùng cho giỏ hàng của Tường) ────────────────
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.IdleTimeout = TimeSpan.FromHours(8);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<HieuThuocDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => { options.LoginPath = "/Home/Login"; });
-
+// ── BUILD ─────────────────────────────────────────────────
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -30,12 +51,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Đảm bảo đã có dòng này thay vì chỉ dùng MapStaticAssets
-
+app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();        
-app.UseAuthentication(); 
-app.UseAuthorization();  
+
+app.UseSession();           // Phải trước UseAuthentication
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
