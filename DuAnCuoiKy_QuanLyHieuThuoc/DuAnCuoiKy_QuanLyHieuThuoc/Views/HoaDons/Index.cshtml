@@ -75,11 +75,23 @@
                             <!-- Thời gian -->
                             <td>@item.NgayBan.ToString("HH:mm dd/MM/yyyy")</td>
                             
-                            <!-- Danh sách thuốc (Tạm lấy từ Ghi Chú) -->
-                            <td class="text-muted text-truncate" style="max-width: 280px;" title="@item.GhiChu">
-                                @if (!string.IsNullOrEmpty(item.GhiChu))
+                            <!-- Danh sách thuốc (Bóc tách dữ liệu thật) -->
+                            <td class="text-muted text-truncate" style="max-width: 280px;">
+                                @{
+                                    var danhSachThuoc = item.ChiTietHoaDons != null
+                                        ? item.ChiTietHoaDons
+                                            .Where(ct => ct.SoLoNavigation?.MaSpNavigation != null)
+                                            .Select(ct => ct.SoLoNavigation.MaSpNavigation.TenSp)
+                                            .Distinct()
+                                            .ToList()
+                                        : new List<string>();
+                                        
+                                    string chuoiThuoc = string.Join(", ", danhSachThuoc);
+                                }
+                                
+                                @if (danhSachThuoc.Any())
                                 {
-                                    @item.GhiChu
+                                    <span title="@chuoiThuoc">@chuoiThuoc</span>
                                 }
                                 else
                                 {
@@ -90,7 +102,7 @@
                             <!-- Tổng tiền -->
                             <td class="fw-semibold text-dark">@((item.TongTien ?? 0).ToString("N0")) đ</td>
                             
-                            <!-- Thanh toán (Fix cứng theo thiết kế) -->
+                            <!-- Thanh toán (Hiện fix cứng Tiền mặt, có thể mở rộng sau) -->
                             <td><span class="text-secondary">Tiền mặt</span></td>
                             
                             <!-- Trạng thái -->
@@ -126,16 +138,53 @@
 
     <!-- 4. PHÂN TRANG -->
     <div class="history-footer">
+        @{
+            int currentPage = ViewBag.CurrentPage;
+            int totalPages = ViewBag.TotalPages;
+            int totalCount = ViewBag.TotalCount;
+            int pageSize = ViewBag.PageSize;
+
+            int startItem = totalCount == 0 ? 0 : (currentPage - 1) * pageSize + 1;
+            int endItem = Math.Min(currentPage * pageSize, totalCount);
+        }
+
         <div class="results-count">
-            Hiển thị 1 đến @(Model?.Count() ?? 0) trong số @(Model?.Count() ?? 0) kết quả
+            Hiển thị @startItem đến @endItem trong số @totalCount kết quả
         </div>
+
         <div class="pagination-buttons">
-            <button class="pag-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="pag-btn active">1</button>
-            <button class="pag-btn">2</button>
-            <button class="pag-btn">3</button>
-            <button class="pag-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            @if (currentPage > 1)
+            {
+                <a href="@Url.Action("Index", new { searchKeyword = ViewBag.SearchKeyword, timeFilter = ViewBag.TimeFilter, statusFilter = ViewBag.StatusFilter, page = currentPage - 1 })" class="pag-btn" style="text-decoration: none;">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            }
+            else
+            {
+                <button class="pag-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
+            }
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                if (i == currentPage)
+                {
+                    <button class="pag-btn active">@i</button>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", new { searchKeyword = ViewBag.SearchKeyword, timeFilter = ViewBag.TimeFilter, statusFilter = ViewBag.StatusFilter, page = i })" class="pag-btn" style="text-decoration: none;">@i</a>
+                }
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <a href="@Url.Action("Index", new { searchKeyword = ViewBag.SearchKeyword, timeFilter = ViewBag.TimeFilter, statusFilter = ViewBag.StatusFilter, page = currentPage + 1 })" class="pag-btn" style="text-decoration: none;">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            }
+            else
+            {
+                <button class="pag-btn" disabled><i class="fa-solid fa-chevron-right"></i></button>
+            }
         </div>
     </div>
-
-</div>

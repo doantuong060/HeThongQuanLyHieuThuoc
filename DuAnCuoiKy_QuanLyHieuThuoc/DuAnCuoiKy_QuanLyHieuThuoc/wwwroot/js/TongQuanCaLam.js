@@ -67,3 +67,53 @@ function initHoaDonChart(labels, data) {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Vẽ biểu đồ (nếu có canvas)
+    const ctx = document.getElementById('chartHoaDonTheoGio');
+    if (ctx && typeof initHoaDonChart !== 'undefined') {
+        // Gọi hàm initHoaDonChart với biến labelsJson/dataJson từ Razor truyền qua
+    }
+
+    // 2. AJAX cho nút Xem tất cả
+    const btnXemTatCa = document.getElementById('btnXemTatCa');
+    if (btnXemTatCa) {
+        btnXemTatCa.addEventListener('click', function () {
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            fetch('/TongQuanCaLam/GetTatCaHoaDon')
+                .then(res => res.json())
+                .then(res => {
+                    const tbody = document.querySelector('.tq-table tbody');
+                    tbody.innerHTML = res.data.map(hd => `
+                        <tr>
+                            <td><span class="tq-hd-code">${hd.maHD}</span></td>
+                            <td><span class="tq-hd-time">${hd.thoiGian}</span></td>
+                            <td class="right"><span class="tq-hd-amount">${hd.tongTien.toLocaleString('vi-VN')}đ</span></td>
+                            <td><span class="tq-badge tq-badge-success">${hd.trangThai}</span></td>
+                            <td><button class="tq-btn-eye btn-view-detail" data-mahd="${hd.maHD}"><i class="fa-regular fa-eye"></i></button></td>
+                        </tr>`).join('');
+                    document.getElementById('txtTieuDeBang').innerText = 'Toàn bộ hóa đơn trong ca';
+                    this.style.display = 'none';
+                });
+        });
+    }
+
+    // 3. AJAX Modal chi tiết
+    document.body.addEventListener('click', function (e) {
+        const btn = e.target.closest('.btn-view-detail');
+        if (btn) {
+            const maHD = btn.getAttribute('data-mahd');
+            fetch(`/TongQuanCaLam/GetChiTiet?maHD=${maHD}`)
+                .then(res => res.json())
+                .then(res => {
+                    document.getElementById('modalMaHD').innerText = 'Chi tiết: ' + res.data.maHD;
+                    document.getElementById('modalNgayBan').innerText = 'Thời gian: ' + res.data.ngayBan;
+                    document.getElementById('modalTongTien').innerText = res.data.tongTien.toLocaleString('vi-VN') + 'đ';
+                    document.getElementById('modalTbody').innerHTML = res.data.chiTiet.map(item => `
+                        <tr><td>${item.tenSP}<br><small>${item.dvt}</small></td><td class="text-center">${item.soLuong}</td><td class="text-end">${item.donGia.toLocaleString('vi-VN')}đ</td><td class="text-end">${item.thanhTien.toLocaleString('vi-VN')}đ</td></tr>`
+                    ).join('');
+                    new bootstrap.Modal(document.getElementById('modalChiTietHoaDon')).show();
+                });
+        }
+    });
+});
