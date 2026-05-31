@@ -1,62 +1,337 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class PhieuNhapsController : Controller
     {
-        public IActionResult Index()
-        {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+        private readonly HieuThuocDbContext _context;
 
-            // Danh sách phiếu nhập mẫu
-            var dsPhieu = new List<dynamic> {
-                new { Ma = "PN-20231024-01", Ngay = "24/10/2023 09:30", NCC = "Công ty Dược phẩm Trung ương I", SoMatHang = 15, TongTien = "125,400,000", Status = "Đã nhập kho", Class = "success" },
-                new { Ma = "PN-20231024-02", Ngay = "24/10/2023 14:15", NCC = "Nhà phân phối Thuốc Việt", SoMatHang = 8, TongTien = "45,200,000", Status = "Chờ duyệt", Class = "warning" },
-                new { Ma = "PN-20231023-01", Ngay = "23/10/2023 10:00", NCC = "Dược Hậu Giang", SoMatHang = 42, TongTien = "310,500,000", Status = "Đã nhập kho", Class = "success" },
-                new { Ma = "PN-20231022-03", Ngay = "22/10/2023 16:45", NCC = "Công ty TNHH Dược phẩm Đông Á", SoMatHang = 5, TongTien = "12,000,000", Status = "Đã hủy", Class = "danger" },
-                new { Ma = "PN-20231021-01", Ngay = "21/10/2023 08:15", NCC = "Traphaco", SoMatHang = 20, TongTien = "89,600,000", Status = "Đã nhập kho", Class = "success" }
-            };
+        public PhieuNhapsController(HieuThuocDbContext context)
+        {
+            _context = context;
+        }
+
+        // =====================================================
+        // DANH SÁCH PHIẾU NHẬP
+        // =====================================================
+        public IActionResult Index(
+            string? maNcc,
+            DateTime? tuNgay,
+            DateTime? denNgay)
+        {
+            var query = _context.PhieuNhaps
+                .Include(x => x.MaNccNavigation)
+                .Include(x => x.LoHangs)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(maNcc))
+            {
+                query = query.Where(x => x.MaNcc == maNcc);
+            }
+
+            if (tuNgay.HasValue)
+            {
+                query = query.Where(x => x.NgayNhap >= tuNgay.Value);
+            }
+
+            if (denNgay.HasValue)
+            {
+                query = query.Where(x => x.NgayNhap <= denNgay.Value);
+            }
+
+            var dsPhieu = query
+                .OrderByDescending(x => x.NgayNhap)
+                .Select(x => new
+                {
+                    MaPhieu = x.MaPhieuNhap,
+                    NgayNhap = x.NgayNhap,
+                    TenNcc = x.MaNccNavigation.TenNcc,
+                    SoMatHang = x.LoHangs.Count,
+                    TongTien = x.TongTien ?? 0
+                })
+                .ToList();
 
             ViewBag.DsPhieuNhap = dsPhieu;
 
-            // Dữ liệu cho các bộ lọc (Filter)
-            ViewBag.NhaCungCap = new SelectList(new[] { "Tất cả NCC", "Dược phẩm TW1", "Dược Hậu Giang", "Traphaco" });
-            ViewBag.TrangThai = new SelectList(new[] { "Tất cả trạng thái", "Đã nhập kho", "Chờ duyệt", "Đã hủy" });
+            ViewBag.DsNCC = new SelectList(
+                _context.NhaCungCaps.ToList(),
+                "MaNcc",
+                "TenNcc",
+                maNcc);
+
+            ViewBag.TuNgay = tuNgay?.ToString("yyyy-MM-dd");
+            ViewBag.DenNgay = denNgay?.ToString("yyyy-MM-dd");
 
             return View();
         }
 
+        // =====================================================
+        // GET CREATE
+        // =====================================================
+        [HttpGet]
         public IActionResult Create()
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            var vm = TaoViewModel();
 
-            // 1. Danh sách Nhà cung cấp để chọn
-            ViewBag.MaNCC = new SelectList(new[] {
-                new { Ma = "NCC001", Ten = "Dược phẩm Trung ương 1" },
-                new { Ma = "NCC002", Ten = "Dược Hậu Giang" },
-                new { Ma = "NCC003", Ten = "Traphaco" }
-            }, "Ma", "Ten");
+            vm.DanhSachLoHang.Add(new LoHangNhapVM
+            {
+                HanSuDung = DateOnly.FromDateTime(
+                    DateTime.Now.AddMonths(6))
+            });
 
-            // 2. Danh sách sản phẩm mẫu để chọn nhập
-            ViewBag.DsSanPham = new List<dynamic> {
-                new { Ma = "TH-0001", Ten = "Amoxicillin 500mg", DVT = "Hộp 10 vỉ x 10 viên" },
-                new { Ma = "TH-0002", Ten = "Paracetamol 500mg", DVT = "Vỉ 10 viên" }
-            };
-
-            // 3. Danh sách phiếu nhập gần đây (Cột bên phải Ảnh 15)
-            ViewBag.PhieuGanDay = new List<dynamic> {
-                new { Ma = "PN-231024-01", NCC = "Dược phẩm TW1", Ngay = "24/10", Status = "HOÀN THÀNH" },
-                new { Ma = "PN-231022-03", NCC = "Dược Hậu Giang", Ngay = "22/10", Status = "HOÀN THÀNH" }
-            };
-
-            /* [NOTE SQL]: 
-               ViewBag.MaNCC = new SelectList(_context.NhaCungCaps, "MaNCC", "TenNCC");
-               ViewBag.MaNV = User.FindFirst("MaNV")?.Value;
-            */
-
-            return View();
+            return View(vm);
         }
+
+        // =====================================================
+        // POST CREATE
+        // =====================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(PhieuNhapCreateViewModel vm)
+        {
+            vm = NapLaiCombobox(vm);
+
+            if (vm.DanhSachLoHang == null ||
+                vm.DanhSachLoHang.Count == 0)
+            {
+                ModelState.AddModelError("",
+                    "Phải nhập ít nhất 1 mặt hàng.");
+            }
+
+            foreach (var item in vm.DanhSachLoHang)
+            {
+                if (item.HanSuDung <=
+                    DateOnly.FromDateTime(DateTime.Now))
+                {
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Hạn sử dụng phải lớn hơn ngày hiện tại.");
+                }
+
+                if (item.GiaNhap <= 0)
+                {
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Giá nhập phải lớn hơn 0.");
+                }
+
+                if (item.SoLuongNhap <= 0)
+                {
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Số lượng phải lớn hơn 0.");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            // Lấy phiếu nhập lớn nhất hiện tại
+var maCuoi = _context.PhieuNhaps
+    .AsEnumerable()
+    .OrderByDescending(x =>
+        int.Parse(x.MaPhieuNhap.Substring(2)))
+    .FirstOrDefault();
+
+int soMoi = 1;
+
+if (maCuoi != null)
+{
+    soMoi =
+        int.Parse(maCuoi.MaPhieuNhap.Substring(2)) + 1;
+}
+
+string maPhieu = $"PN{soMoi:0000}";
+
+            decimal tongTien = vm.DanhSachLoHang
+                .Sum(x => x.GiaNhap * x.SoLuongNhap);
+
+            // ===== LAY NHAN VIEN DA TON TAI =====
+            string? maNv = _context.NhanViens
+                .Select(x => x.MaNv)
+                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(maNv))
+            {
+                ModelState.AddModelError("",
+                    "Không tìm thấy nhân viên trong hệ thống.");
+
+                return View(vm);
+            }
+
+            var phieuNhap = new PhieuNhap
+            {
+                MaPhieuNhap = maPhieu,
+                NgayNhap = DateTime.Now,
+                MaNcc = vm.MaNcc,
+                MaNv = maNv,
+                TongTien = tongTien,
+                GhiChu = ""
+            };
+
+            _context.PhieuNhaps.Add(phieuNhap);
+
+            foreach (var item in vm.DanhSachLoHang)
+            {
+                var lo = new LoHang
+                {
+                    SoLo = item.SoLo,
+                    MaSp = item.MaSp,
+                    MaPhieuNhap = maPhieu,
+                    GiaNhap = item.GiaNhap,
+                    HanSuDung = item.HanSuDung,
+                    SoLuongNhap = item.SoLuongNhap,
+                    SoLuongConLai = item.SoLuongNhap
+                };
+
+                _context.LoHangs.Add(lo);
+            }
+
+            _context.SaveChanges();
+
+            TempData["Success"] =
+                "Tạo phiếu nhập thành công.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // =====================================================
+// CHI TIẾT PHIẾU NHẬP
+// =====================================================
+public IActionResult Details(string id)
+{
+    var phieu = _context.PhieuNhaps
+        .Include(x => x.MaNccNavigation)
+        .Include(x => x.LoHangs)
+            .ThenInclude(x => x.MaSpNavigation)
+        .FirstOrDefault(x => x.MaPhieuNhap == id);
+
+    if (phieu == null)
+    {
+        return NotFound();
+    }
+
+    return View(phieu);
+}
+
+// =====================================================
+// TỒN KHO & CẢNH BÁO
+// =====================================================
+public IActionResult TonKho()
+{
+    var dsTonKho = _context.LoHangs
+        .Include(x => x.MaSpNavigation)
+        .ToList()
+        .GroupBy(x => x.MaSp)
+        .Select(g =>
+        {
+            var sp = g.First().MaSpNavigation;
+
+            int ton = g.Sum(x => x.SoLuongConLai);
+
+            var loGanHetHan = g
+                .OrderBy(x => x.HanSuDung)
+                .FirstOrDefault();
+
+            string status;
+            string css;
+
+            if (ton <= sp.MucCanhBao)
+            {
+                status = "Sắp hết";
+                css = "warning";
+            }
+            else
+            {
+                status = "An toàn";
+                css = "success";
+            }
+
+            return new
+            {
+                Ma = sp.MaSp,
+                Ten = sp.TenSp,
+                Loai = sp.LoaiSp,
+                DVT = sp.MaDvt,
+                Ton = ton,
+                Nguong = sp.MucCanhBao,
+                Progress = Math.Min(
+                    (int)((double)ton / Math.Max(sp.MucCanhBao, 1) * 100),
+                    100),
+                Class = css,
+                Status = status,
+                LoGanHSD =
+                    loGanHetHan != null
+                        ? $"{loGanHetHan.SoLo} ({loGanHetHan.HanSuDung:dd/MM/yyyy})"
+                        : ""
+            };
+        })
+        .ToList();
+
+    ViewBag.DsTonKho = dsTonKho;
+
+    ViewBag.TongMaThuoc = dsTonKho.Count;
+
+    ViewBag.AnToanCount =
+        dsTonKho.Count(x => x.Class == "success");
+
+    ViewBag.SapHetHangCount =
+        dsTonKho.Count(x => x.Class == "warning");
+
+    ViewBag.NguyCapCount =
+        dsTonKho.Count(x => x.Class == "danger");
+
+    return View();
+}
+        // =====================================================
+        // HELPER
+        // =====================================================
+        private PhieuNhapCreateViewModel TaoViewModel()
+        {
+            return new PhieuNhapCreateViewModel
+            {
+                DsNhaCungCap = _context.NhaCungCaps
+                    .Select(x => new SelectListItem
+                    {
+                        Value = x.MaNcc,
+                        Text = x.TenNcc
+                    })
+                    .ToList(),
+
+                DsSanPham = _context.SanPhams
+                    .Select(x => new SelectListItem
+                    {
+                        Value = x.MaSp,
+                        Text = x.TenSp
+                    })
+                    .ToList()
+            };
+        }
+
+        private PhieuNhapCreateViewModel NapLaiCombobox(
+            PhieuNhapCreateViewModel vm)
+        {
+            vm.DsNhaCungCap = _context.NhaCungCaps
+                .Select(x => new SelectListItem
+                {
+                    Value = x.MaNcc,
+                    Text = x.TenNcc
+                })
+                .ToList();
+
+            vm.DsSanPham = _context.SanPhams
+                .Select(x => new SelectListItem
+                {
+                    Value = x.MaSp,
+                    Text = x.TenSp
+                })
+                .ToList();
+
+            return vm;
+        }
+
     }
 }

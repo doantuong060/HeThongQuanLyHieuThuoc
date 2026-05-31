@@ -1,17 +1,35 @@
+<<<<<<< HEAD
 ﻿@{
     // Lấy tên Controller và Action hiện tại để xử lý trạng thái Active cho menu
     var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
     var action = ViewContext.RouteData.Values["Action"]?.ToString();
+=======
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Extensions
+@{
+    var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["Action"]?.ToString();
+    
+    // Lấy tên thật của nhân viên kho đang đăng nhập từ Claims
+    string tenNhanVien = User.Identity.IsAuthenticated ? User.GetHoTen() : "Ngô Thanh Nguyên";
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
 }
 
 <div class="sidebar-wrapper d-flex flex-column justify-content-between bg-white border-end p-3 shadow-sm">
     <div>
+<<<<<<< HEAD
         <!-- Card Thông tin Nhân viên Kho (Phạm Văn Bình - Ảnh 14) -->
         <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded-3 sidebar-user-card" style="background-color: #fff7ed;">
             <img src="https://ui-avatars.com/api/?name=Pham+Binh&background=ea580c&color=fff"
                  alt="Warehouse Avatar" width="45" height="45" class="rounded-circle border border-2 border-warning border-opacity-25 shadow-sm">
             <div class="overflow-hidden">
                 <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">Phạm Văn Bình</h6>
+=======
+        <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded-3 sidebar-user-card" style="background-color: #fff7ed;">
+            <img src="https://ui-avatars.com/api/?name=@System.Net.WebUtility.UrlEncode(tenNhanVien)&background=10b981&color=fff"
+                 alt="Warehouse Avatar" width="45" height="45" class="rounded-circle border border-2 border-warning border-opacity-25 shadow-sm">
+            <div class="overflow-hidden">
+                <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">@tenNhanVien</h6>
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
                 <small class="text-muted d-block text-truncate" style="font-size: 0.75rem;">Nhân viên kho</small>
             </div>
         </div>

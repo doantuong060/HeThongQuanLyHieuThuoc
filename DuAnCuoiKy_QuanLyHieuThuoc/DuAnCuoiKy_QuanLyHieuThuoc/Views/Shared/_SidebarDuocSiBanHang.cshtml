@@ -1,16 +1,34 @@
+<<<<<<< HEAD
 ﻿@{
     // Lấy tên Controller hiện tại để tự động tô màu xanh (active) cho menu tương ứng
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+=======
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Extensions
+@{
+    // Xóa khai báo cũ đi, chỉ để 1 dòng khai báo currentController duy nhất
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    
+    // Fix cảnh báo vàng (Thêm dấu ? để check Null an toàn)
+    string tenNhanVien = (User?.Identity?.IsAuthenticated == true) ? User.GetHoTen() : "Ngô Thanh Nguyên";
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
 }
 
 <div class="sidebar-wrapper d-flex flex-column justify-content-between bg-white border-end p-3">
     <div>
         <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded-3 sidebar-user-card">
+<<<<<<< HEAD
             <img src="https://img.freepik.com/free-photo/handsome-smiling-medical-professional-examining-with-stethoscope_1150-10335.jpg?w=150"
                  alt="Staff Avatar" width="45" height="45" class="rounded-circle border border-2 border-primary border-opacity-10 shadow-sm" style="object-fit: cover;">
             <div class="overflow-hidden">
                 <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">Trần Văn Hùng</h6>
                 <small class="text-muted d-block text-truncate" style="font-size: 0.75rem;">Nhân viên bán hàng</small>
+=======
+            <img src="https://ui-avatars.com/api/?name=@System.Net.WebUtility.UrlEncode(tenNhanVien)&background=10b981&color=fff"
+                 alt="Staff Avatar" width="45" height="45" class="rounded-circle border border-2 border-success border-opacity-10 shadow-sm">
+            <div class="overflow-hidden">
+                <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">@tenNhanVien</h6>
+                <small class="text-muted d-block text-truncate" style="font-size: 0.75rem;">Dược sĩ bán hàng</small>
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
             </div>
         </div>
 

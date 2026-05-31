@@ -1,6 +1,8 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+<<<<<<< HEAD
     "C:\\Users\\ACER\\Desktop\\C#\\DuAnCuoiKy_QuanLyHieuThuoc1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj": {}
   },
   "projects": {
@@ -12,12 +14,36 @@
         "projectPath": "C:\\Users\\ACER\\Desktop\\C#\\DuAnCuoiKy_QuanLyHieuThuoc1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj",
         "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ACER\\Desktop\\C#\\DuAnCuoiKy_QuanLyHieuThuoc1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\obj\\",
+=======
+    "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj": {}
+=======
+    "D:\\New folder\\hello\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj": {}
+>>>>>>> 1f06801 (Cap nhat va hoan thien trang ton kho canh bao)
+  },
+  "projects": {
+    "D:\\New folder\\hello\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\New folder\\hello\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj",
+        "projectName": "DuAnCuoiKy_QuanLyHieuThuoc",
+        "projectPath": "D:\\New folder\\hello\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj",
+        "packagesPath": "C:\\Users\\PC MSI\\.nuget\\packages\\",
+<<<<<<< HEAD
+        "outputPath": "C:\\Users\\PC MSI\\AppData\\Local\\Temp\\Zalo Temp\\TempDownloads\\1\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\obj\\",
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
+=======
+        "outputPath": "D:\\New folder\\hello\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\obj\\",
+>>>>>>> 1f06801 (Cap nhat va hoan thien trang ton kho canh bao)
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\PC MSI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,12 +52,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+<<<<<<< HEAD
           "C:\\Program Files\\dotnet\\library-packs": {},
+=======
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+<<<<<<< HEAD
             "framework": "net10.0",
+=======
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -46,11 +78,18 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
+<<<<<<< HEAD
         "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
           "framework": "net10.0",
+=======
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net10.0": {
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
@@ -97,7 +136,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

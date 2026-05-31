@@ -1,11 +1,22 @@
+<<<<<<< HEAD
 ﻿@{
     // Lấy tên Controller và Action hiện tại từ hệ thống để so khớp menu
     var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
     var action = ViewContext.RouteData.Values["Action"]?.ToString();
+=======
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Extensions
+@{
+    var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["Action"]?.ToString();
+    
+    // Lấy tên thật của nhân viên đang đăng nhập từ Claims
+    string tenNhanVien = User.Identity.IsAuthenticated ? User.GetHoTen() : "Ngô Thanh Nguyên";
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
 }
 
 <div class="sidebar-wrapper d-flex flex-column justify-content-between bg-white border-end p-3 shadow-sm">
     <div>
+<<<<<<< HEAD
         <!-- Card Thông tin Admin -->
         <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded-3 sidebar-user-card" style="background-color: #f0f7ff;">
             <img src="https://ui-avatars.com/api/?name=Nguyen+Mai&background=0d6efd&color=fff"
@@ -13,6 +24,14 @@
             <div class="overflow-hidden">
                 <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">Nguyễn Thị Mai</h6>
                 <small class="text-muted d-block text-truncate" style="font-size: 0.75rem;">Quản lý hệ thống</small>
+=======
+        <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded-3 sidebar-user-card" style="background-color: #f0f7ff;">
+            <img src="https://ui-avatars.com/api/?name=@System.Net.WebUtility.UrlEncode(tenNhanVien)&background=10b981&color=fff"
+                 alt="Admin Avatar" width="45" height="45" class="rounded-circle border border-2 border-primary border-opacity-10 shadow-sm">
+            <div class="overflow-hidden">
+                <h6 class="fw-bold text-dark mb-0 text-truncate fs-6">@tenNhanVien</h6>
+                <small class="text-muted d-block text-truncate" style="font-size: 0.75rem;">Quản lý</small>
+>>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
             </div>
         </div>
 

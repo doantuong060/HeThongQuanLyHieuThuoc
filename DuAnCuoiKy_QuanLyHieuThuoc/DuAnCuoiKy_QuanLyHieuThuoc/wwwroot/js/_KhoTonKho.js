@@ -1,7 +1,6 @@
 ﻿// _KhoTonKho.js
-
 $(document).ready(function () {
-    // 1. Tìm kiếm thuốc trong kho
+    // 1. Tìm kiếm thuốc trong kho (client-side, dùng khi không submit form)
     $("#inventorySearch").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $(".table-inventory tbody tr").filter(function () {
@@ -9,10 +8,7 @@ $(document).ready(function () {
         });
     });
 
-    // 2. Chuyển đổi trạng thái Tab (Giao diện)
-    $(".inventory-tabs .nav-link").click(function (e) {
-        e.preventDefault();
-        $(".inventory-tabs .nav-link").removeClass("active");
-        $(this).addClass("active");
-    });
+    // 2. Chuyển đổi trạng thái Tab
+    // ✅ Bỏ e.preventDefault() để link navigate lên server
+    // Active tab đã được xử lý bên Razor (activeTab), không cần JS set nữa
 });
