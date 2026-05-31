@@ -1,0 +1,351 @@
+﻿@model List<DuAnCuoiKy_QuanLyHieuThuoc.Models.SanPhamDemo>
+@using DuAnCuoiKy_QuanLyHieuThuoc.Models
+
+@{
+    ViewData["Title"] = "Bán hàng";
+    var cart = ViewBag.Cart as List<CartItem>;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/_BanHang.css" asp-append-version="true" />
+}
+
+<div class="pos-wrapper">
+
+    <div class="pos-products">
+
+        <div class="pos-breadcrumb">
+            <a href="#">Bán hàng</a>
+            <span class="sep">›</span>
+            <span>Quầy bán lẻ</span>
+        </div>
+
+        <div class="pos-toolbar">
+            <form method="get" id="searchForm">
+
+                <div class="search-row">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text"
+                               name="keyword"
+                               id="searchInput"
+                               value="@ViewBag.Keyword"
+                               placeholder="Tìm tên thuốc..." />
+                    </div>
+
+                    <select class="select-category" id="categorySelect" name="loai">
+                        <option value="" selected="@(string.IsNullOrEmpty(ViewBag.SelectedLoai))">Tất cả danh mục</option>
+                        <option value="Kháng sinh" selected="@(ViewBag.SelectedLoai == "Kháng sinh")">Kháng sinh</option>
+                        <option value="Giảm đau" selected="@(ViewBag.SelectedLoai == "Giảm đau")">Giảm đau</option>
+                        <option value="Hô hấp" selected="@(ViewBag.SelectedLoai == "Hô hấp")">Hô hấp</option>
+                        <option value="Tiêu hóa" selected="@(ViewBag.SelectedLoai == "Tiêu hóa")">Tiêu hóa</option>
+                        <option value="Vitamin" selected="@(ViewBag.SelectedLoai == "Vitamin")">Vitamin</option>
+                    </select>
+                </div>
+
+                <div class="filter-tags mt-2">
+                    <a href="#" class="filter-tag @(string.IsNullOrEmpty(ViewBag.SelectedLoai) ? "active" : "")" data-category="">Tất cả</a>
+                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Kháng sinh" ? "active" : "")" data-category="Kháng sinh">Kháng sinh</a>
+                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Giảm đau" ? "active" : "")" data-category="Giảm đau">Giảm đau</a>
+                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Hô hấp" ? "active" : "")" data-category="Hô hấp">Hô hấp</a>
+                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Tiêu hóa" ? "active" : "")" data-category="Tiêu hóa">Tiêu hóa</a>
+                    <a href="#" class="filter-tag @(ViewBag.SelectedLoai == "Vitamin" ? "active" : "")" data-category="Vitamin">Vitamin</a>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="products-grid">
+            @foreach (var item in Model)
+            {
+                var outOfStock = item.TonKho <= 0;
+                <div class="product-card @(outOfStock ? "out-of-stock" : "")">
+
+                    @if (item.CanToa)
+                    {
+                        <div class="badge-toa">TOA</div>
+                    }
+
+                    <div class="product-img">
+                        <i class="fa-solid fa-pills"></i>
+                    </div>
+
+                    <div class="product-name">@item.TenSP</div>
+                    <div class="product-desc">@item.MoTa</div>
+                    
+                    <div class="product-stock @(outOfStock ? "empty" : "ok")">
+                        @(outOfStock ? "Hết hàng" : $"Tồn: {item.TonKho} {item.DonVi.ToLower()}")
+                    </div>
+
+                    <div class="product-footer">
+                        <div class="product-price">@item.GiaBan.ToString("N0")đ</div>
+                        
+                        @if (!outOfStock)
+                        {
+                            <a asp-action="AddToCart"
+                                   asp-route-id="@item.MaSP"
+                                   asp-route-keyword="@ViewBag.Keyword"
+                                   asp-route-loai="@ViewBag.SelectedLoai"
+                                   class="btn-add-cart">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn-add-cart disabled">
+                                <i class="fa-solid fa-cart-arrow-down"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="pos-cart">
+
+        <div class="cart-header">
+            <div class="cart-title">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Giỏ hàng (@(cart?.Sum(x => x.SoLuong) ?? 0))
+            </div>
+            <a asp-action="ClearCart"
+               asp-route-keyword="@ViewBag.Keyword"
+               asp-route-loai="@ViewBag.SelectedLoai"
+               class="btn-clear-cart">Xóa tất cả</a>
+        </div>
+
+        <div class="cart-customer">
+            <div class="customer-row">
+                <div class="customer-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="customer-info">
+                    <div class="customer-name">Khách lẻ (Default)</div>
+                    <div class="customer-sub">Thêm thông tin khách hàng</div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-muted" style="font-size: 12px;"></i>
+            </div>
+        </div>
+
+        <div class="cart-items">
+            @if (cart != null && cart.Count > 0)
+            {
+                foreach (var item in cart)
+                {
+                    <div class="cart-item">
+                        <div class="cart-item-icon">
+                            <i class="fa-solid fa-prescription-bottle-medical"></i>
+                        </div>
+
+                        <div>
+                            <div class="cart-item-name">@item.TenSP</div>
+                            <div class="cart-item-price">@item.GiaBan.ToString("N0")đ/Hộp</div>
+
+                            <div class="qty-control">
+                                <a asp-action="DecreaseQuantity"
+                                   asp-route-id="@item.MaSP"
+                                   asp-route-keyword="@ViewBag.Keyword"
+                                   asp-route-loai="@ViewBag.SelectedLoai"
+                                   class="qty-btn">-</a>
+                                <div class="qty-value">@item.SoLuong</div>
+                                <a asp-action="IncreaseQuantity"
+                                   asp-route-id="@item.MaSP"
+                                   asp-route-keyword="@ViewBag.Keyword"
+                                   asp-route-loai="@ViewBag.SelectedLoai"
+                                   class="qty-btn">+</a>
+                            </div>
+                        </div>
+
+                        <div class="cart-item-right">
+                            <a asp-action="RemoveItem"
+                                   asp-route-id="@item.MaSP"
+                                   asp-route-keyword="@ViewBag.Keyword"
+                                   asp-route-loai="@ViewBag.SelectedLoai"
+                                   class="btn-remove-item">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                            <div class="cart-item-subtotal">@item.ThanhTien.ToString("N0")đ</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="cart-empty">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <p>Chưa có sản phẩm nào trong giỏ hàng</p>
+                </div>
+            }
+        </div>
+
+        <div class="cart-note mt-2">
+            <a href="#"><i class="fa-solid fa-pen"></i> Thêm ghi chú đơn hàng</a>
+        </div>
+
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Tạm tính</span>
+                <span class="val">@((ViewBag.TongTien ?? 0).ToString("N0"))đ</span>
+            </div>
+            <div class="summary-row">
+                <span>Thuế VAT (0%)</span>
+                <span class="val">0đ</span>
+            </div>
+            <div class="summary-row">
+                <span>Chiết khấu</span>
+                <span class="val danger">- 0đ</span>
+            </div>
+
+            <div class="summary-total">
+                <div class="label">TỔNG CỘNG</div>
+                <div class="amount">@((ViewBag.TongTien ?? 0).ToString("N0"))đ</div>
+            </div>
+        </div>
+
+        <div class="cart-actions">
+            <div class="btn-row">
+                <a asp-action="ClearCart"
+                       asp-route-keyword="@ViewBag.Keyword"
+                       asp-route-loai="@ViewBag.SelectedLoai"
+                       class="btn-pos btn-pos-danger" style="text-decoration:none;">
+                    <i class="fa-regular fa-trash-can"></i> Xóa hóa đơn
+                </a>
+                <button type="button" class="btn-pos btn-pos-secondary">
+                    <i class="fa-regular fa-floppy-disk"></i> Lưu nháp
+                </button>
+            </div>
+            
+            <form asp-action="Checkout" method="post" class="mt-2 w-100" id="checkoutForm">
+                <button type="button" class="btn-pos btn-pos-success w-100" id="btnOpenPayment"
+                        data-cart-count="@(cart?.Count ?? 0)">
+                    <i class="fa-solid fa-money-bill-wave"></i> THANH TOÁN
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     TOAST THÔNG BÁO (SUCCESS / ERROR)
+     ============================================ -->
+@if (TempData["Success"] != null)
+{
+    <div class="pos-toast pos-toast-success show" id="posToastServer">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="pos-toast pos-toast-error show" id="posToastServer">
+        <i class="fa-solid fa-circle-xmark"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<!-- Toast động từ JS -->
+<div class="pos-toast" id="posToastDynamic">
+    <i id="posToastIcon"></i>
+    <span id="posToastMsg"></span>
+</div>
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered pay-modal-dialog">
+        <div class="modal-content pay-modal-content">
+
+            <!-- HEADER -->
+            <div class="pay-modal-header">
+                <span class="pay-modal-title">Thanh toán</span>
+                <button type="button" class="pay-modal-close" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- RECEIPT CARD -->
+            <div class="pay-receipt-card">
+                <div class="pay-receipt-pharmacy">MEDVAULT PHARMACY</div>
+                <div class="pay-receipt-info">123 Nguyễn Văn Linh, Quận 7, TP.HCM</div>
+                <div class="pay-receipt-info">@DateTime.Now.ToString("dd/MM/yyyy – HH:mm") &nbsp;|&nbsp; Thu ngân: Trần Văn Hùng</div>
+                <div class="pay-receipt-divider"></div>
+
+                <div class="pay-receipt-items">
+                    @if (cart != null && cart.Count > 0)
+                    {
+                        foreach (var item in cart)
+                        {
+                            <div class="pay-receipt-item">
+                                <span>@item.SoLuong x @item.TenSP</span>
+                                <span>@item.ThanhTien.ToString("N0")</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="pay-receipt-item text-muted">
+                            <span>Giỏ hàng trống</span><span>0</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="pay-receipt-divider"></div>
+                <div class="pay-receipt-total-row">
+                    <span>Tổng cộng</span>
+                    <span class="pay-receipt-total-amount"
+                          id="modalTotalAmount"
+                          data-amount="@((long)(ViewBag.TongTien ?? 0))">
+                        @((ViewBag.TongTien ?? 0).ToString("N0"))đ
+                    </span>
+                </div>
+            </div>
+
+            <!-- PAYMENT METHOD -->
+            <div class="pay-section">
+                <div class="pay-label">Phương thức thanh toán</div>
+                <div class="pay-method-group">
+                    <button type="button" class="pay-method-btn active" data-method="Tiền mặt">
+                        <i class="fa-regular fa-credit-card"></i>
+                        <span>Tiền mặt</span>
+                    </button>
+                    <button type="button" class="pay-method-btn" data-method="Chuyển khoản">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>Chuyển khoản</span>
+                    </button>
+                    <button type="button" class="pay-method-btn" data-method="Ví điện tử">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <span>Ví điện tử</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- KHÁCH ĐƯA -->
+            <div class="pay-cash-row">
+                <span class="pay-label">Khách đưa</span>
+                <div class="pay-cash-input-wrap">
+                    <input type="number" id="customerCash" class="pay-cash-input" placeholder="0" min="0" />
+                    <span class="pay-cash-suffix">đ</span>
+                </div>
+            </div>
+
+            <!-- TIỀN THỐI -->
+            <div class="pay-change-row">
+                <span class="pay-label">Tiền thối</span>
+                <span class="pay-change-amount" id="changeAmount">0đ</span>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="pay-modal-footer">
+                <button type="button" class="pay-btn-cancel" data-bs-dismiss="modal">Hủy</button>
+                <form asp-action="Checkout" method="post" id="checkoutForm" style="display:inline; margin:0;">
+                    <button type="button" class="pay-btn-confirm" id="btnConfirmPayment">
+                        <i class="fa-solid fa-print"></i> In &amp; Xác nhận
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/BanHang.js" asp-append-version="true"></script>
+}

@@ -1,26 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\",
+  "WorkspaceRootPath": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hethongquanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hientai\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\wwwroot\\js\\nhanvien.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\wwwroot\\js\\nhanvien.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hethongquanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hientai\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hientai\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hethongquanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hientai\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\models\\hieuthuocdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\models\\hieuthuocdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hethongquanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\nhanviens\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\nhanviens\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hientai\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hethongquanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\nhacungcaps\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|c:\\users\\acer\\desktop\\c#\\hientai\\duancuoiky_quanlyhieuthuoc\\duancuoiky_quanlyhieuthuoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1032AF29-1A06-11B5-A2FC-86346BFF36F4}|DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc.csproj|solutionrelative:duancuoiky_quanlyhieuthuoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -55,66 +59,79 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-29T11:34:18.023Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T11:31:48.637Z",
+              "Title": "nhanvien.js",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\nhanvien.js",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\nhanvien.js",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\nhanvien.js",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\wwwroot\\js\\nhanvien.js",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAAwHwAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-05-31T11:22:27.061Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\SanPhams\\Index.cshtml",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\SanPhams\\Index.cshtml",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\SanPhams\\Index.cshtml",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\SanPhams\\Index.cshtml",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAswHAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-29T11:29:32.459Z",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-31T10:25:22.041Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\Index.cshtml",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\Index.cshtml",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\Index.cshtml",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhanViens\\Index.cshtml",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAswGwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-29T11:29:05.737Z",
+              "Title": "HieuThuocDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Models\\HieuThuocDbContext.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-31T10:24:49.675Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\Index.cshtml",
-              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\Index.cshtml",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HeThongQuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\Index.cshtml",
-              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\NhaCungCaps\\Index.cshtml",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAswG4AAAABAAAAAAAAAA==",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\appsettings.json",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\appsettings.json",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\appsettings.json",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-31T10:24:24.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-29T11:28:33.327Z",
+              "WhenOpened": "2026-05-31T10:21:28.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\C#\\HienTai\\DuAnCuoiKy_QuanLyHieuThuoc\\DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "DuAnCuoiKy_QuanLyHieuThuoc\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAgwCUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-31T10:20:34.378Z",
               "EditorCaption": ""
             }
           ]

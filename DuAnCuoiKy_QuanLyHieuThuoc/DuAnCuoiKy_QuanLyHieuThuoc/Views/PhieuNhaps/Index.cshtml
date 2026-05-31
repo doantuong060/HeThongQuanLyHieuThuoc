@@ -1,59 +1,103 @@
-﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.PhieuNhap>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Lịch sử phiếu nhập";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GhiChu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TongTien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaNccNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaNvNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GhiChu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TongTien)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaNccNavigation.MaNcc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaNvNavigation.MaNv)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaPhieuNhap">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaPhieuNhap">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaPhieuNhap">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/_KhoLichSuPhieu.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+<div class="history-container p-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb small">
+                    <li class="breadcrumb-item">Quản lý kho</a></li>
+                    <li class="breadcrumb-item active fw-bold">Lịch sử phiếu nhập</li>
+                </ol>
+            </nav>
+            <h3 class="fw-bold text-dark">Lịch sử phiếu nhập</h3>
+            <p class="text-muted small">Quản lý và tra cứu các phiếu nhập kho từ nhà cung cấp.</p>
+        </div>
+        <a href="/PhieuNhaps/Create" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">
+            <i class="bi bi-plus-lg me-2"></i>Tạo phiếu mới
+        </a>
+    </div>
+
+    <!-- Filter Bar (Ảnh 16) -->
+    <div class="card border-0 shadow-sm p-3 mb-4 rounded-4">
+        <div class="row g-2">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0 px-3"><i class="bi bi-search text-muted small"></i></span>
+                    <input type="text" id="searchPhieu" class="form-control bg-light border-0 py-2 small shadow-none" placeholder="Tìm mã phiếu...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select bg-light border-0 py-2 shadow-none small" asp-items="ViewBag.NhaCungCap"></select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select bg-light border-0 py-2 shadow-none small">
+                    <option>Tháng này</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select bg-light border-0 py-2 shadow-none small" asp-items="ViewBag.TrangThai"></select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table List -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover table-history">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Mã phiếu</th>
+                        <th>Ngày nhập</th>
+                        <th>Nhà cung cấp</th>
+                        <th class="text-center">Số mặt hàng</th>
+                        <th class="text-end">Tổng tiền</th>
+                        <th class="text-center">Trạng thái</th>
+                        <th class="text-center pe-4">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in ViewBag.DsPhieuNhap)
+                    {
+                        <tr>
+                            <td class="ps-4 text-primary fw-bold small">@p.Ma</td>
+                            <td class="small text-muted">@p.Ngay</td>
+                            <td class="fw-bold small text-dark">@p.NCC</td>
+                            <td class="text-center small">@p.SoMatHang</td>
+                            <td class="text-end fw-bold text-dark">@p.TongTien đ</td>
+                            <td class="text-center">
+                                <span class="badge bg-@p.Class bg-opacity-10 text-@p.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@p.Status</span>
+                            </td>
+                            <td class="text-center pe-4">
+                                <button class="btn btn-sm btn-light rounded-circle btn-view-detail"><i class="bi bi-eye text-muted"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="p-3 bg-white border-top d-flex justify-content-between align-items-center">
+            <span class="small text-muted">Hiển thị 1-5 của 42 phiếu nhập</span>
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item active"><a class="page-link border-0 rounded-3 mx-1" href="#">1</a></li>
+                <li class="page-item"><a class="page-link border-0 rounded-3 mx-1" href="#">2</a></li>
+                <li class="page-item"><a class="page-link border-0 rounded-3 mx-1" href="#">3</a></li>
+                <li class="page-item"><a class="page-link border-0 px-2" href="#"><i class="bi bi-chevron-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Modal chi tiết -->
+<partial name="_ModalChiTietPhieu" />
+
+@section Scripts {
+    <script src="~/js/_KhoLichSuPhieu.js" asp-append-version="true"></script>
+}

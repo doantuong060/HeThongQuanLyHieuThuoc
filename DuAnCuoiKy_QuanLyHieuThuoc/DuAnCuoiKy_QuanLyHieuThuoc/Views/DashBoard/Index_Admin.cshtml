@@ -1,0 +1,174 @@
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Helpers
+@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Quản lý";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="p-4">
+    <div class="mb-4">
+        <h3 class="fw-bold text-dark">Chào mừng trở lại, @User.Identity!.Name!</h3>
+        <p class="text-muted small">
+            Hôm nay (@DateTime.Today.ToString("dd/MM/yyyy")) có
+            <strong>@Model.SoHoaDonHomNay</strong> hóa đơn được ghi nhận.
+        </p>
+    </div>
+
+    <!-- Hàng 1: Thẻ thống kê -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card shadow-sm">
+                <div class="stat-icon icon-revenue mb-2">💰</div>
+                <div class="stat-label text-muted small fw-bold">DOANH THU HÔM NAY</div>
+                <div class="stat-value text-primary">@CurrencyHelper.ToVnd(Model.DoanhThuHomNay)</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card shadow-sm">
+                <div class="stat-icon icon-orders mb-2">🧾</div>
+                <div class="stat-label text-muted small fw-bold">SỐ HÓA ĐƠN</div>
+                <div class="stat-value">@Model.SoHoaDonHomNay</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card shadow-sm border-start border-4 border-warning">
+                <div class="stat-icon icon-low-stock mb-2">⚠️</div>
+                <div class="stat-label text-muted small fw-bold">THUỐC SẮP HẾT</div>
+                <div class="stat-value text-warning">@Model.ThuocSapHetHang</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card shadow-sm border-start border-4 border-danger">
+                <div class="stat-icon icon-expiring mb-2">📅</div>
+                <div class="stat-label text-muted small fw-bold">LÔ SẮP HẾT HẠN</div>
+                <div class="stat-value text-danger">@Model.LoSapHetHan</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hàng 2: Biểu đồ & Cảnh báo -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-8">
+            <div class="content-card shadow-sm">
+                <h5 class="fw-bold mb-4">Doanh thu 6 tháng gần nhất (Triệu đồng)</h5>
+                <div style="position: relative; height: 320px;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="content-card shadow-sm">
+                <h5 class="fw-bold mb-3 text-danger">⚠ Cần nhập hàng gấp</h5>
+                @if (!Model.DanhSachCanhBao.Any())
+                {
+                    <p class="text-muted small fst-italic">Không có mặt hàng nào cần nhập gấp.</p>
+                }
+                else
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var item in Model.DanhSachCanhBao)
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2 border-bottom">
+                                <span class="small fw-bold">@item.TenSp</span>
+                                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill">
+                                    Tồn: @item.SoLuongTon / @item.MucCanhBao
+                                </span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Hàng 3: Hóa đơn mới nhất -->
+    <div class="content-card shadow-sm">
+        <h5 class="fw-bold mb-4">Hóa đơn mới phát sinh</h5>
+        @if (!Model.HoaDonMoiNhat.Any())
+        {
+            <p class="text-muted fst-italic">Chưa có hóa đơn nào hôm nay.</p>
+        }
+        else
+        {
+            <table class="table align-middle table-hover table-dashboard">
+                <thead class="table-light">
+                    <tr>
+                        <th>MÃ HĐ</th>
+                        <th>THỜI GIAN</th>
+                        <th>THU NGÂN</th>
+                        <th>KHÁCH HÀNG</th>
+                        <th class="text-end">TỔNG TIỀN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hd in Model.HoaDonMoiNhat)
+                    {
+                        <tr>
+                            <td class="fw-bold text-primary">@hd.MaHd</td>
+                            <td class="small text-muted">@hd.NgayBan.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td>@hd.TenNhanVien</td>
+                            <td class="small">@(hd.TenKhachHang ?? "Khách lẻ")</td>
+                            <td class="text-end fw-bold">@CurrencyHelper.ToVnd(hd.TongTien)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // BUG FIX #6: File dashboard.js (hardcode) và inline script đều khởi tạo Chart
+        // trên cùng canvas "revenueChart" -> lỗi "Canvas is already in use".
+        // Giải pháp: KHÔNG load dashboard.js nữa, chỉ dùng inline script với dữ liệu thật từ C#.
+
+        const labels = @Html.Raw(Json.Serialize(Model.LabelsBieuDo));
+        const dataValues = @Html.Raw(Json.Serialize(Model.DataBieuDo));
+
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: labels,
+        datasets: [{
+        label: 'Doanh thu (triệu đồng)',
+        data: dataValues,
+        backgroundColor: 'rgba(13, 110, 253, 0.85)',
+        borderRadius: 10,
+        barThickness: 40
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+        legend: { display: false },
+        tooltip: {
+        callbacks: {
+        label: ctx => ctx.parsed.y.toFixed(1) + ' triệu'
+        }
+        }
+        },
+        scales: {
+        y: {
+        beginAtZero: true,
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: {
+        callback: val => val + 'M'
+        }
+        },
+        x: {
+        grid: { display: false }
+        }
+        }
+        }
+        });
+    </script>
+}

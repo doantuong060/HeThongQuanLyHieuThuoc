@@ -1,169 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class LoHangsController : Controller
     {
-        private readonly HieuThuocDbContext _context;
-
-        public LoHangsController(HieuThuocDbContext context)
+        public IActionResult Index()
         {
-            _context = context;
-        }
+            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
 
-        // GET: LoHangs
-        public async Task<IActionResult> Index()
-        {
-            var hieuThuocDbContext = _context.LoHangs.Include(l => l.MaPhieuNhapNavigation).Include(l => l.MaSpNavigation);
-            return View(await hieuThuocDbContext.ToListAsync());
-        }
+            // 1. Thống kê tổng quan tồn kho (Cột phải Ảnh 18)
+            ViewBag.TongMaThuoc = "1,248";
+            ViewBag.AnToanCount = 1016;
+            ViewBag.SapHetHangCount = 24;
+            ViewBag.NguyCapCount = 08;
 
-        // GET: LoHangs/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            // 2. Danh sách sản phẩm tồn kho (Bảng trái Ảnh 18)
+            var dsTonKho = new List<dynamic> {
+                new { Ma = "MED-001", Ten = "Panadol Extra", Loai = "Thuốc", DVT = "Hộp", Ton = 120, Nguong = 50, Progress = 100, LoGanHSD = "B-2023-X1 15/12/2025", Status = "An toàn", Class = "success" },
+                new { Ma = "MED-042", Ten = "Augmentin 1g", Loai = "Kháng sinh", DVT = "Hộp", Ton = 25, Nguong = 30, Progress = 60, LoGanHSD = "C-2024-Y2 20/08/2024", Status = "Thấp", Class = "warning" },
+                new { Ma = "MED-089", Ten = "Vitamin C 500mg", Loai = "Thực phẩm CN", DVT = "Lọ", Ton = 5, Nguong = 20, Progress = 20, LoGanHSD = "A-2022-Z3 05/11/2023", Status = "Sắp hết hạn", Class = "danger" }
+            };
 
-            var loHang = await _context.LoHangs
-                .Include(l => l.MaPhieuNhapNavigation)
-                .Include(l => l.MaSpNavigation)
-                .FirstOrDefaultAsync(m => m.SoLo == id);
-            if (loHang == null)
-            {
-                return NotFound();
-            }
+            ViewBag.DsTonKho = dsTonKho;
 
-            return View(loHang);
-        }
+            /* [NOTE SQL]:
+               var inventory = _context.VwTonKhoSanPhams.ToList();
+               ViewBag.AnToanCount = inventory.Count(x => x.SoLuongTon > x.MucCanhBao);
+            */
 
-        // GET: LoHangs/Create
-        public IActionResult Create()
-        {
-            ViewData["MaPhieuNhap"] = new SelectList(_context.PhieuNhaps, "MaPhieuNhap", "MaPhieuNhap");
-            ViewData["MaSp"] = new SelectList(_context.SanPhams, "MaSp", "MaSp");
             return View();
-        }
-
-        // POST: LoHangs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SoLo,MaSp,MaPhieuNhap,GiaNhap,HanSuDung,SoLuongNhap,SoLuongConLai")] LoHang loHang)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(loHang);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaPhieuNhap"] = new SelectList(_context.PhieuNhaps, "MaPhieuNhap", "MaPhieuNhap", loHang.MaPhieuNhap);
-            ViewData["MaSp"] = new SelectList(_context.SanPhams, "MaSp", "MaSp", loHang.MaSp);
-            return View(loHang);
-        }
-
-        // GET: LoHangs/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loHang = await _context.LoHangs.FindAsync(id);
-            if (loHang == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaPhieuNhap"] = new SelectList(_context.PhieuNhaps, "MaPhieuNhap", "MaPhieuNhap", loHang.MaPhieuNhap);
-            ViewData["MaSp"] = new SelectList(_context.SanPhams, "MaSp", "MaSp", loHang.MaSp);
-            return View(loHang);
-        }
-
-        // POST: LoHangs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("SoLo,MaSp,MaPhieuNhap,GiaNhap,HanSuDung,SoLuongNhap,SoLuongConLai")] LoHang loHang)
-        {
-            if (id != loHang.SoLo)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(loHang);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LoHangExists(loHang.SoLo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaPhieuNhap"] = new SelectList(_context.PhieuNhaps, "MaPhieuNhap", "MaPhieuNhap", loHang.MaPhieuNhap);
-            ViewData["MaSp"] = new SelectList(_context.SanPhams, "MaSp", "MaSp", loHang.MaSp);
-            return View(loHang);
-        }
-
-        // GET: LoHangs/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loHang = await _context.LoHangs
-                .Include(l => l.MaPhieuNhapNavigation)
-                .Include(l => l.MaSpNavigation)
-                .FirstOrDefaultAsync(m => m.SoLo == id);
-            if (loHang == null)
-            {
-                return NotFound();
-            }
-
-            return View(loHang);
-        }
-
-        // POST: LoHangs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var loHang = await _context.LoHangs.FindAsync(id);
-            if (loHang != null)
-            {
-                _context.LoHangs.Remove(loHang);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool LoHangExists(string id)
-        {
-            return _context.LoHangs.Any(e => e.SoLo == id);
         }
     }
 }

@@ -1,32 +1,66 @@
 using Microsoft.AspNetCore.Mvc;
-using DuAnCuoiKy_QuanLyHieuThuoc.Models; // Namespace mới
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
+using DuAnCuoiKy_QuanLyHieuThuoc.Business; // Dùng Business layer
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index_Admin()
+        private readonly IAccountService _accountService; // Tiêm Service vào
+
+        public HomeController(IAccountService accountService)
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
-            ViewBag.DoanhThuHomNay = "24.500.000";
-            ViewBag.SoHoaDon = 142;
-            ViewBag.ThuocSapHet = 12;
-            ViewBag.LoSapHetHan = 05;
+            _accountService = accountService;
+        }
 
-            ViewBag.CanhBaoTonKho = new List<dynamic>
+        [HttpGet]
+        public IActionResult Login() => View();
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            // [GỌI BUSINESS LAYER]
+            var taiKhoan = await _accountService.AuthenticateAsync(model.TenDangNhap, model.MatKhau);
+
+            if (taiKhoan != null)
             {
-                new { Ten = "Panadol Extra", Ton = "5 hộp", Mau = "danger" },
-                new { Ten = "Siro ho Prospan", Ton = "12 lọ", Mau = "warning" },
-                new { Ten = "Amoxicillin 500mg", Ton = "2 vỉ", Mau = "danger" }
-            };
+                if (taiKhoan.MaNvNavigation.TrangThai == false)
+                {
+                    ModelState.AddModelError("", "Tài khoản bị khóa.");
+                    return View(model);
+                }
 
-            ViewBag.RecentInvoices = new List<dynamic>
-            {
-                new { MaHD = "HD-20231025-01", Gio = "10:15 - 25/10", ThuNgan = "Trần Văn Hùng", Tong = "350.000", Status = "HOÀN THÀNH", StatusClass = "success" },
-                new { MaHD = "HD-20231025-02", Gio = "09:42 - 25/10", ThuNgan = "Lê Thị Lan", Tong = "1.250.000", Status = "ĐANG XỬ LÝ", StatusClass = "warning" }
-            };
+                // Thiết lập Claims
+                var claims = new List<Claim> {
+                    new Claim(ClaimTypes.Name, taiKhoan.MaNvNavigation.HoTen),
+                    new Claim(ClaimTypes.Role, taiKhoan.MaVaiTroNavigation.TenVaiTro),
+                    new Claim("MaNV", taiKhoan.MaNv)
+                };
 
-            return View("Index_Admin");
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)));
+
+                // Cập nhật login qua Service
+                await _accountService.UpdateLastLoginAsync(taiKhoan.MaNv);
+
+                // Điều hướng theo Role
+                string role = taiKhoan.MaVaiTroNavigation.TenVaiTro;
+                return role switch
+                {
+                    "QuanLy" => RedirectToAction("Index_Admin", "Dashboard"),
+                    "NhanVienKho" => RedirectToAction("Index", "TongQuanKho"),
+                    _ => RedirectToAction("Index", "TongQuanCaLam")
+                };
+            }
+
+            ModelState.AddModelError("", "Sai tài khoản hoặc mật khẩu.");
+            return View(model);
         }
     }
 }

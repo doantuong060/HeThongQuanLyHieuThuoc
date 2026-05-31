@@ -1,70 +1,255 @@
-﻿<div class="modal fade" id="modalThemNV" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="modalThemNV" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
             <div class="modal-header border-0 p-4 pb-0">
-                <h5 class="fw-bold mb-0">Thêm nhân viên mới</h5>
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-person-plus me-2 text-primary"></i>Thêm nhân viên mới
+                </h5>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-4">
-                <form id="formAddStaff">
-                    <!-- Ảnh đại diện -->
-                    <div class="text-center mb-4">
-                        <div class="upload-placeholder mx-auto">
-                            <i class="bi bi-camera-fill fs-4"></i>
-                            <span style="font-size: 10px;">Ảnh đại diện</span>
+            <form asp-action="Create" asp-controller="NhanViens" method="post" id="formThemNV">
+                @Html.AntiForgeryToken()
+                <div class="modal-body p-4">
+
+                    <!-- Thông tin cá nhân -->
+                    <div class="p-3 mb-3" style="background-color:#f8f9fa; border-radius:12px;">
+                        <div class="text-muted fw-bold small mb-3">
+                            <i class="bi bi-person me-2"></i>THÔNG TIN CÁ NHÂN
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">
+                                    Họ tên nhân viên <span class="text-danger">*</span>
+                                </label>
+                                <input name="HoTen" id="nv-hoten"
+                                       class="form-control bg-white border-0 py-2 shadow-none"
+                                       placeholder="Nhập họ và tên đầy đủ">
+                                <div class="invalid-feedback">Họ tên không được để trống.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Giới tính</label>
+                                <select name="GioiTinh" class="form-select bg-white border-0 py-2 shadow-none">
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Ngày sinh</label>
+                                <input name="NgaySinh" id="nv-ngaysinh" type="date"
+                                       class="form-control bg-white border-0 py-2 shadow-none">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">
+                                    Số điện thoại <span class="text-danger">*</span>
+                                </label>
+                                <input name="SoDienThoai" id="nv-sdt"
+                                       class="form-control bg-white border-0 py-2 shadow-none"
+                                       placeholder="VD: 0901234567">
+                                <div class="invalid-feedback">SĐT phải từ 10–11 chữ số.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Email</label>
+                                <input name="Email" id="nv-email" type="email"
+                                       class="form-control bg-white border-0 py-2 shadow-none"
+                                       placeholder="email@domain.com">
+                                <div class="invalid-feedback">Email không đúng định dạng.</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">
+                                    Vai trò <span class="text-danger">*</span>
+                                </label>
+                                <select name="MaVaiTro" id="nv-vaitro"
+                                        class="form-select bg-white border-0 py-2 shadow-none"
+                                        asp-items="ViewBag.MaVaiTro">
+                                    <option value="">-- Chọn vai trò --</option>
+                                </select>
+                                <div class="invalid-feedback">Vui lòng chọn vai trò.</div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <label class="form-label small fw-bold text-muted">Họ tên nhân viên *</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập họ và tên">
+                    <!-- Thông tin tài khoản -->
+                    <div class="p-3" style="background-color:#f0f7ff; border-radius:12px;">
+                        <div class="text-primary fw-bold small mb-3">
+                            <i class="bi bi-shield-lock me-2"></i>THÔNG TIN TÀI KHOẢN HỆ THỐNG
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Ngày sinh</label>
-                            <input type="date" class="form-control bg-light border-0 py-2 shadow-none">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">SĐT *</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Số điện thoại">
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label small fw-bold text-muted">Email công việc</label>
-                            <input type="email" class="form-control bg-light border-0 py-2 shadow-none" placeholder="email@company.com">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label small fw-bold text-muted">Vai trò hệ thống *</label>
-                            <select class="form-select bg-light border-0 py-2 shadow-none" asp-items="ViewBag.VaiTro">
-                                <option>Chọn vai trò</option>
-                            </select>
-                        </div>
-
-                        <!-- Thông tin tài khoản -->
-                        <div class="col-12">
-                            <div class="account-info-header text-uppercase">
-                                <i class="bi bi-shield-lock me-2"></i>Thông tin tài khoản
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">
+                                    Tên đăng nhập <span class="text-danger">*</span>
+                                </label>
+                                <input name="TenDangNhap" id="nv-tendangnhap"
+                                       class="form-control bg-white border-0 py-2 shadow-none"
+                                       placeholder="Chỉ dùng chữ cái và số, không dấu cách. VD: nguyenmai"
+                                       autocomplete="off">
+                                <div class="invalid-feedback">
+                                    Tên đăng nhập không được để trống và chỉ gồm chữ cái, số.
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label small fw-bold text-muted">Tên đăng nhập *</label>
-                            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" placeholder="VD: nguyenmai">
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label small fw-bold text-muted">Mật khẩu ban đầu *</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control bg-light border-0 py-2 shadow-none" placeholder="Nhập mật khẩu">
-                                <span class="input-group-text bg-light border-0 toggle-password" style="cursor:pointer">
-                                    <i class="bi bi-eye-slash"></i>
-                                </span>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">
+                                    Mật khẩu ban đầu <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input name="MatKhau" id="nv-matkhau" type="password"
+                                           class="form-control bg-white border-0 py-2 shadow-none"
+                                           placeholder="VD: Abc@123"
+                                           autocomplete="new-password">
+                                    <button type="button" class="btn btn-light border-0 toggle-password"
+                                            tabindex="-1">
+                                        <i class="bi bi-eye-slash"></i>
+                                    </button>
+                                </div>
+                                <!-- Gợi ý rule mật khẩu - khớp với SQL constraint -->
+                                <div class="mt-1 small text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Phải có <strong>chữ HOA</strong>, <strong>chữ thường</strong>
+                                    và ký tự <strong>@@</strong>. Ví dụ: <code>Abc@@123</code>
+                                </div>
+                                <div class="invalid-feedback" id="matkhau-error"></div>
                             </div>
                         </div>
                     </div>
-                </form>
+
+                </div>
+                <div class="modal-footer border-0 p-4 pt-2">
+                    <button type="button" class="btn btn-light px-4 rounded-3 fw-bold"
+                            data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm"
+                            id="btnLuuNV">
+                        <i class="bi bi-check-lg me-1"></i>Lưu nhân viên
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     MODAL CHỈNH SỬA NHÂN VIÊN
+====================================================== -->
+<div class="modal fade" id="modalSuaNV" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-pencil-square me-2 text-warning"></i>Chỉnh sửa nhân viên
+                </h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-footer border-0 p-4 pt-0">
-                <button type="button" class="btn btn-light px-4 rounded-3 fw-bold" data-bs-dismiss="modal">Hủy bỏ</button>
-                <button type="button" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">Lưu nhân viên</button>
-            </div>
+            <form asp-action="Edit" asp-controller="NhanViens" method="post" id="formSuaNV">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="MaNv" id="edit-manv" />
+
+                <div class="modal-body p-4">
+
+                    <!-- Loading spinner khi đang fetch data -->
+                    <div id="edit-loading" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <div class="mt-2 text-muted small">Đang tải thông tin...</div>
+                    </div>
+
+                    <!-- Nội dung form (ẩn khi đang load) -->
+                    <div id="edit-content" style="display:none;">
+
+                        <!-- Thông tin cá nhân -->
+                        <div class="p-3 mb-3" style="background-color:#f8f9fa; border-radius:12px;">
+                            <div class="text-muted fw-bold small mb-3">
+                                <i class="bi bi-person me-2"></i>THÔNG TIN CÁ NHÂN
+                                <span class="badge bg-primary bg-opacity-10 text-primary ms-2"
+                                      id="edit-badge-manv"></span>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label small fw-bold text-muted">
+                                        Họ tên <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="HoTen" id="edit-hoten"
+                                           class="form-control bg-white border-0 py-2 shadow-none"
+                                           placeholder="Họ và tên đầy đủ">
+                                    <div class="invalid-feedback">Họ tên không được để trống.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Giới tính</label>
+                                    <select name="GioiTinh" id="edit-gioitinh"
+                                            class="form-select bg-white border-0 py-2 shadow-none">
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Ngày sinh</label>
+                                    <input name="NgaySinh" id="edit-ngaysinh" type="date"
+                                           class="form-control bg-white border-0 py-2 shadow-none">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">
+                                        Số điện thoại <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="SoDienThoai" id="edit-sdt"
+                                           class="form-control bg-white border-0 py-2 shadow-none"
+                                           placeholder="VD: 0901234567">
+                                    <div class="invalid-feedback">SĐT phải từ 10–11 chữ số.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Email</label>
+                                    <input name="Email" id="edit-email" type="email"
+                                           class="form-control bg-white border-0 py-2 shadow-none"
+                                           placeholder="email@domain.com">
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label small fw-bold text-muted">
+                                        Vai trò <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="MaVaiTro" id="edit-vaitro"
+                                            class="form-select bg-white border-0 py-2 shadow-none"
+                                            asp-items="ViewBag.MaVaiTro">
+                                        <option value="">-- Chọn vai trò --</option>
+                                    </select>
+                                    <div class="invalid-feedback">Vui lòng chọn vai trò.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Đổi mật khẩu (tùy chọn) -->
+                        <div class="p-3" style="background-color:#fff8e1; border-radius:12px;">
+                            <div class="text-warning fw-bold small mb-3">
+                                <i class="bi bi-key me-2"></i>ĐỔI MẬT KHẨU
+                                <span class="text-muted fw-normal">(để trống nếu không muốn thay)</span>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">Mật khẩu mới</label>
+                                <div class="input-group">
+                                    <input name="MatKhauMoi" id="edit-matkhaumoi" type="password"
+                                           class="form-control bg-white border-0 py-2 shadow-none"
+                                           placeholder="Để trống = giữ nguyên mật khẩu cũ"
+                                           autocomplete="new-password">
+                                    <button type="button"
+                                            class="btn btn-light border-0 toggle-password" tabindex="-1">
+                                        <i class="bi bi-eye-slash"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-1 small text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Phải có <strong>chữ HOA</strong>, <strong>chữ thường</strong>
+                                    và ký tự <strong>@@</strong>. Ví dụ: <code>Abc@@123</code>
+                                </div>
+                                <div class="invalid-feedback" id="edit-matkhau-error"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0 p-4 pt-2">
+                    <button type="button" class="btn btn-light px-4 rounded-3 fw-bold"
+                            data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-warning px-4 rounded-3 fw-bold shadow-sm"
+                            id="btnLuuSua" style="display:none;">
+                        <i class="bi bi-check-lg me-1"></i>Lưu thay đổi
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

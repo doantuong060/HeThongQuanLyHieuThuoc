@@ -1,65 +1,142 @@
-﻿@model IEnumerable<DuAnCuoiKy_QuanLyHieuThuoc.Models.LoHang>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Tồn kho & Cảnh báo";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HanSuDung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoLuongNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoLuongConLai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaPhieuNhapNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaSpNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HanSuDung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoLuongNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoLuongConLai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaPhieuNhapNavigation.MaPhieuNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaSpNavigation.MaSp)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SoLo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SoLo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SoLo">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/_KhoTonKho.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+<div class="inventory-container p-4">
+    <!-- Header -->
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="/TongQuanKho" class="text-decoration-none text-muted">Quản lý kho</a></li>
+                <li class="breadcrumb-item active fw-bold">Tình trạng tồn kho</li>
+            </ol>
+        </nav>
+        <h3 class="fw-bold text-dark">Tồn kho & Cảnh báo</h3>
+    </div>
+
+    <div class="row g-4">
+        <!-- CỘT TRÁI (9 phần): DANH SÁCH THUỐC -->
+        <div class="col-md-9">
+            <!-- Tabs Lọc (Ảnh 18) -->
+            <ul class="nav inventory-tabs mb-3 border-bottom">
+                <li class="nav-item"><a class="nav-link active" href="#">Tất cả thuốc</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Sắp hết hàng (24)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Sắp hết hạn (08)</a></li>
+            </ul>
+
+            <!-- Toolbar Search -->
+            <div class="d-flex justify-content-between mb-3">
+                <div class="input-group shadow-sm" style="max-width: 400px;">
+                    <span class="input-group-text bg-white border-0 ps-3"><i class="bi bi-search text-muted small"></i></span>
+                    <input type="text" id="inventorySearch" class="form-control border-0 py-2 small shadow-none" placeholder="Tìm kiếm theo mã, tên thuốc...">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-white bg-white border shadow-sm px-3 small"><i class="bi bi-filter me-2"></i>Lọc</button>
+                    <button class="btn btn-white bg-white border shadow-sm px-3 small"><i class="bi bi-upload me-2"></i>Xuất file</button>
+                </div>
+            </div>
+
+            <!-- Bảng dữ liệu -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0 table-hover table-inventory">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">MÃ</th>
+                                <th>TÊN THUỐC</th>
+                                <th>LOẠI</th>
+                                <th>ĐVT</th>
+                                <th>TỒN KHO / NGƯỠNG</th>
+                                <th>LÔ GẦN HSD</th>
+                                <th>TRẠNG THÁI</th>
+                                <th class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.DsTonKho)
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-bold text-muted small">@item.Ma</td>
+                                    <td class="fw-bold text-dark">@item.Ten</td>
+                                    <td class="small text-muted">@item.Loai</td>
+                                    <td class="small text-dark">@item.DVT</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2 mb-1">
+                                            <span class="fw-bold text-dark small">@item.Ton</span>
+                                            <span class="text-muted small">/ @item.Nguong</span>
+                                        </div>
+                                        <div class="progress progress-ton">
+                                            <div class="progress-bar bg-@item.Class" style="width: @item.Progress%"></div>
+                                        </div>
+                                    </td>
+                                    <td class="small text-muted">
+                                        @if (item.Class == "danger")
+                                        {
+                                            <span class="text-danger"><i class="bi bi-clock-history me-1"></i>@item.LoGanHSD</span>
+                                        }
+                                        else
+                                        {
+
+                                            <span>@item.LoGanHSD</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-@item.Class bg-opacity-10 text-@item.Class px-3 rounded-pill fw-bold" style="font-size: 10px;">@item.Status</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-link text-muted p-0"><i class="bi bi-three-dots-vertical"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-3 bg-white border-top text-muted small">
+                    Hiển thị 1-3 trong 150 kết quả
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI (3 phần): TỔNG QUAN TỒN KHO -->
+        <div class="col-md-3">
+            <div class="summary-card shadow-sm p-4">
+                <h6 class="fw-bold mb-4"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Tổng quan tồn kho</h6>
+
+                <div class="p-3 mb-4 rounded-4" style="background-color: #f8faff;">
+                    <div class="text-muted small fw-bold">TỔNG MÃ THUỐC</div>
+                    <div class="h2 fw-bold text-dark mb-0">@ViewBag.TongMaThuoc</div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-2 small">
+                        <span><span class="status-indicator bg-success"></span>An toàn</span>
+                        <span class="fw-bold">@ViewBag.AnToanCount</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 small">
+                        <span><span class="status-indicator bg-warning"></span>Sắp hết hàng</span>
+                        <span class="fw-bold">@ViewBag.SapHetHangCount</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 small">
+                        <span><span class="status-indicator bg-danger"></span>Nguy cấp</span>
+                        <span class="fw-bold">@ViewBag.NguyCapCount</span>
+                    </div>
+                </div>
+
+                <hr class="my-4 opacity-50">
+
+                <a href="/PhieuNhaps/Create" class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm">
+                    <i class="bi bi-plus-lg me-2"></i>Tạo phiếu nhập
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/_KhoTonKho.js" asp-append-version="true"></script>
+}

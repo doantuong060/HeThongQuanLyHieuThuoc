@@ -1,4 +1,7 @@
-﻿@model IEnumerable<dynamic>
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Helpers
+@using DuAnCuoiKy_QuanLyHieuThuoc.Enums
+@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.ProductIndexViewModel
+
 @{
     ViewData["Title"] = "Danh mục sản phẩm";
     Layout = "_Layout";
@@ -8,52 +11,77 @@
     <link rel="stylesheet" href="~/css/sanpham.css" asp-append-version="true" />
 }
 
+@* Thông báo kết quả *@
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mx-4 mt-3 mb-0">
+        <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mx-4 mt-3 mb-0">
+        <i class="bi bi-exclamation-triangle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
 <div class="p-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fw-bold">Danh mục sản phẩm</h3>
-        <button class="btn btn-primary px-4 rounded-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalThemSP">
+        <button class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm"
+                data-bs-toggle="modal" data-bs-target="#modalThemSP">
             <i class="bi bi-plus-lg me-2"></i>Thêm sản phẩm
         </button>
     </div>
 
-    <!-- Stats Cards -->
+    @* Thống kê *@
     <div class="row g-3 mb-4">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white">
+            <div class="card border-0 shadow-sm p-3 rounded-4">
                 <div class="text-muted small fw-bold">TỔNG SẢN PHẨM</div>
-                <div class="h2 fw-bold">@ViewBag.TongThuoc</div>
+                <div class="h2 fw-bold text-dark">@Model.TongSanPham</div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-warning">
+            <div class="card border-0 shadow-sm p-3 rounded-4 border-start border-4 border-warning">
                 <div class="text-muted small fw-bold">SẮP HẾT HÀNG</div>
-                <div class="h2 fw-bold text-warning">@ViewBag.SapHetHang</div>
+                <div class="h2 fw-bold text-warning">@Model.SoLuongSapHet</div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-danger">
-                <div class="text-muted small fw-bold">HẾT HẠN (30 NGÀY)</div>
-                <div class="h2 fw-bold text-danger">@ViewBag.HetHan30Ngay</div>
+            <div class="card border-0 shadow-sm p-3 rounded-4 border-start border-4 border-danger">
+                <div class="text-muted small fw-bold">CẬN HẠN SỬ DỤNG</div>
+                <div class="h2 fw-bold text-danger">@Model.SoLuongSapHetHan</div>
             </div>
         </div>
     </div>
 
-    <!-- Bảng sản phẩm -->
+    @* Bộ lọc tìm kiếm *@
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="p-3 bg-white border-bottom">
+        <form method="get" asp-action="Index" class="p-3 bg-white border-bottom">
             <div class="row g-2">
                 <div class="col-md-4">
-                    <input type="text" id="searchInput" class="form-control border-light bg-light py-2" placeholder="Tìm tên, mã sản phẩm...">
+                    <input type="text" name="search" value="@ViewBag.CurrentSearch"
+                           class="form-control border-light bg-light"
+                           placeholder="Tìm tên, mã sản phẩm...">
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select border-light bg-light py-2">
-                        <option>Tất cả loại</option>
-                        <option>THUỐC</option>
-                        <option>VẬT TƯ</option>
+                    <select name="loai" class="form-select border-light bg-light" onchange="this.form.submit()">
+                        <option value="Tất cả">Tất cả loại</option>
+                        <option value="THUOC" selected="@(ViewBag.CurrentLoai == "THUOC")">THUỐC</option>
+                        <option value="VATTU" selected="@(ViewBag.CurrentLoai == "VATTU")">VẬT TƯ</option>
                     </select>
                 </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="bi bi-search me-1"></i>Tìm
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table align-middle mb-0 table-hover">
                 <thead class="bg-light text-muted small">
@@ -61,41 +89,64 @@
                         <th class="ps-4">MÃ</th>
                         <th>TÊN SẢN PHẨM</th>
                         <th>PHÂN LOẠI</th>
-                        <th>CHI TIẾT</th>
                         <th>GIÁ BÁN</th>
                         <th>TỒN KHO</th>
-                        <th class="text-center">CẦN TOA</th>
+                        <th class="text-center">TRẠNG THÁI</th>
                         <th class="text-end pe-4">THAO TÁC</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in ViewBag.DanhSachSP)
+                    @foreach (var item in Model.Products)
                     {
                         <tr>
-                            <td class="ps-4 fw-bold text-primary small">@item.Ma</td>
-                            <td class="fw-bold">@item.Ten</td>
+                            <td class="ps-4 fw-bold text-primary small">@item.MaSp</td>
+                            <td class="fw-bold">@item.TenSp</td>
                             <td>
-                                <span class="badge @(item.PhânLoai == "THUỐC" ? "bg-info" : "bg-secondary") bg-opacity-10 text-@(item.PhânLoai == "THUỐC" ? "info" : "secondary") rounded-pill px-3">
-                                    @item.PhânLoai
+                                <span class="badge @(item.LoaiSp == "THUOC" ? "bg-info" : "bg-secondary") bg-opacity-10 text-@(item.LoaiSp == "THUOC" ? "info" : "secondary") rounded-pill px-3">
+                                    @item.LoaiSp
                                 </span>
                             </td>
-                            <td class="small text-muted">@item.ChiTiet</td>
-                            <td class="fw-bold">@item.Gia đ</td>
+                            <td class="fw-bold">@CurrencyHelper.ToVnd(item.GiaBan)</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="status-dot bg-@item.Status"></div>
-                                    <span class="fw-bold">@item.Ton</span>
+                                    <div class="status-dot @(item.SoLuongTon <= item.MucCanhBao ? "bg-danger" : "bg-success")"></div>
+                                    <span class="fw-bold">@item.SoLuongTon</span>
                                 </div>
                             </td>
                             <td class="text-center">
-                                @if (item.CanToa)
-                                {
-                                    <i class="bi bi-file-earmark-medical text-danger fs-5"></i>
-                                }
+                                <span class="badge @(item.TrangThai ? "bg-success" : "bg-danger") bg-opacity-10 text-@(item.TrangThai ? "success" : "danger") px-2 py-1 rounded">
+                                    @(item.TrangThai ? "Đang bán" : "Ngừng")
+                                </span>
                             </td>
                             <td class="text-end pe-4">
-                                <button class="btn btn-sm btn-light rounded-circle me-1"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-light rounded-circle text-danger"><i class="bi bi-trash"></i></button>
+                                @* Nút Sửa: gọi AJAX lấy dữ liệu rồi mở modal sửa *@
+                                <button type="button"
+                                        class="btn btn-sm btn-light rounded-circle me-1 btn-sua-sp"
+                                        title="Sửa sản phẩm"
+                                        data-id="@item.MaSp">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+
+                                @* Nút Xóa: submit form POST *@
+                                <form asp-action="Delete" asp-route-id="@item.MaSp"
+                                      method="post" class="d-inline"
+                                      onsubmit="return confirm('Xác nhận xóa sản phẩm \'@item.TenSp\'?\nHành động này không thể hoàn tác.');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit"
+                                            class="btn btn-sm btn-light rounded-circle text-danger"
+                                            title="Xóa sản phẩm">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Products.Any())
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-5">
+                                <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                                Không tìm thấy sản phẩm nào.
                             </td>
                         </tr>
                     }
@@ -105,8 +156,113 @@
     </div>
 </div>
 
-<!-- Modal thêm sản phẩm mẫu -->
+@* Modal Thêm mới *@
 <partial name="_ModalThemSanPham" />
+
+@* Modal Sửa *@
+<div class="modal fade" id="modalSuaSP" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h5 class="fw-bold mb-0">Chỉnh sửa sản phẩm</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Edit" method="post" id="formSuaSP">
+                @Html.AntiForgeryToken()
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <input type="hidden" name="MaSp" id="edit_MaSp">
+
+                        <div class="col-md-8">
+                            <label class="form-label small fw-bold text-muted">Tên sản phẩm *</label>
+                            <input name="TenSp" id="edit_TenSp"
+                                   class="form-control bg-light border-0 py-2 shadow-none"
+                                   placeholder="Tên sản phẩm">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Phân loại</label>
+                            <input id="edit_LoaiSp_display"
+                                   class="form-control bg-light border-0 py-2 shadow-none"
+                                   readonly>
+                        </div>
+
+                        @* Vùng THUỐC *@
+                        <div id="editDivThuoc" class="row g-3 p-0 m-0">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Loại thuốc</label>
+                                <select name="MaLoai" id="edit_MaLoai"
+                                        class="form-select bg-light border-0 py-2 shadow-none"
+                                        asp-items="ViewBag.MaLoai">
+                                    <option value="">Chọn loại thuốc</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center mt-4">
+                                <div class="form-check form-switch mt-2">
+                                    <input name="CanToa" id="edit_CanToa" type="checkbox"
+                                           class="form-check-input" value="true">
+                                    <input name="CanToa" type="hidden" value="false">
+                                    <label class="form-check-label small fw-bold">Cần đơn thuốc</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">Ghi chú</label>
+                                <input name="GhiChu" id="edit_GhiChu"
+                                       class="form-control bg-light border-0 py-2 shadow-none"
+                                       placeholder="Ghi chú thêm">
+                            </div>
+                        </div>
+
+                        @* Vùng VẬT TƯ *@
+                        <div id="editDivVatTu" class="row g-3 p-0 m-0 d-none">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Loại vật tư</label>
+                                <select name="MaLoaiVt" id="edit_MaLoaiVt"
+                                        class="form-select bg-light border-0 py-2 shadow-none"
+                                        asp-items="ViewBag.MaLoaiVt">
+                                    <option value="">Chọn loại vật tư</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Nhà sản xuất</label>
+                                <input name="NhaSanXuat" id="edit_NhaSanXuat"
+                                       class="form-control bg-light border-0 py-2 shadow-none"
+                                       placeholder="Nhập hãng SX">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Đơn vị tính</label>
+                            <select name="MaDvt" id="edit_MaDvt"
+                                    class="form-select bg-light border-0 py-2 shadow-none"
+                                    asp-items="ViewBag.MaDvt">
+                                <option value="">Chọn đơn vị</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Giá bán (đ) *</label>
+                            <input name="GiaBan" id="edit_GiaBan" type="number"
+                                   class="form-control bg-light border-0 py-2 shadow-none">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Ngưỡng cảnh báo</label>
+                            <input name="MucCanhBao" id="edit_MucCanhBao" type="number"
+                                   class="form-control bg-light border-0 py-2 shadow-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light px-4 rounded-3 fw-bold"
+                            data-bs-dismiss="modal">
+                        Hủy bỏ
+                    </button>
+                    <button type="submit" class="btn btn-primary px-4 rounded-3 fw-bold shadow-sm">
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/sanpham.js" asp-append-version="true"></script>
