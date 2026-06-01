@@ -284,24 +284,6 @@
 
                 </div>
 
-                <div class="card shadow-sm border-0">
-
-                    <div class="card-body">
-
-                        <h6 class="text-danger fw-bold">
-                            Cảnh báo
-                        </h6>
-
-                        <ul class="small mb-0">
-                            <li>Hạn sử dụng phải lớn hơn ngày hiện tại.</li>
-                            <li>Giá nhập phải lớn hơn 0.</li>
-                            <li>Số lượng phải lớn hơn 0.</li>
-                        </ul>
-
-                    </div>
-
-                </div>
-
             </div>
 
         </div>
@@ -310,88 +292,15 @@
 
 </div>
 
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-
-        let index =
-        document.querySelectorAll('#chiTietBody tr').length;
-
-        document
-        .getElementById('btnThemDong')
-        .addEventListener('click', function () {
-
-            let row = `
-            <tr>
-
-                <td>
-                    <select name="DanhSachLoHang[${index}].MaSp"
-                            class="form-select">
-
-                        <option value="">
-                            Chọn thuốc
-                        </option>
-
-                        @foreach (var item in Model.DsSanPham)
-                        {
-                                <text>
-                                <option value="@item.Value">
-                                    @item.Text
-                                </option>
-                                </text>
-                        }
-
-                    </select>
-                </td>
-
-                <td>
-                    <input name="DanhSachLoHang[${index}].SoLuongNhap"
-                           class="form-control" />
-                </td>
-
-                <td>
-                    <input name="DanhSachLoHang[${index}].GiaNhap"
-                           class="form-control" />
-                </td>
-
-                <td>
-                    <input name="DanhSachLoHang[${index}].SoLo"
-                           class="form-control" />
-                </td>
-
-                <td>
-                    <input name="DanhSachLoHang[${index}].HanSuDung"
-                           type="date"
-                           class="form-control" />
-                </td>
-
-                <td class="text-center">
-                    <button type="button"
-                            class="btn btn-danger btn-sm btn-remove">
-                        X
-                    </button>
-                </td>
-
-            </tr>
-            `;
-
-            document
-            .getElementById('chiTietBody')
-            .insertAdjacentHTML('beforeend', row);
-
-            index++;
-        });
-
-        document.addEventListener('click', function (e) {
-
-            if (e.target.classList.contains('btn-remove'))
-            {
-                e.target.closest('tr').remove();
-            }
-
-        });
-
+        window.__dsSanPham = @Html.Raw(
+                                    System.Text.Json.JsonSerializer.Serialize(
+                                                    Model.DsSanPham.Select(x => new { value = x.Value, text = x.Text })
+                                    )
+                    );
     </script>
+    <script src="~/js/PhieuNhaps.js"></script>
 }

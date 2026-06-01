@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-using DuAnCuoiKy_QuanLyHieuThuoc.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// --- 1. THÊM DỊCH VỤ SESSION VÀO ĐÂY ---
-builder.Services.AddDistributedMemoryCache(); // Cần thiết để lưu session vào bộ nhớ
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
-builder.Services.AddControllersWithViews();
-=======
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
@@ -25,33 +7,53 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
->>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
+// ── DATABASE ──────────────────────────────────────────────
 builder.Services.AddDbContext<HieuThuocDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// ── AUTHENTICATION (Cookie) ───────────────────────────────
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-<<<<<<< HEAD
-    .AddCookie(options => { options.LoginPath = "/Home/Login"; });
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-=======
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/Login";          // Đường dẫn trang đăng nhập
-        options.LogoutPath = "/Home/Logout";        // Đường dẫn trang đăng xuất
-        options.AccessDeniedPath = "/Home/Login";   // Trang hiện ra khi vào phần không có quyền
-        options.ExpireTimeSpan = TimeSpan.FromHours(8); // Cookie có hiệu lực trong 8 tiếng
-        options.Cookie.HttpOnly = true;             // Bảo mật cookie khỏi script lạ
+        options.LoginPath = "/Home/Login";
+        options.LogoutPath = "/Home/Logout";
+        options.AccessDeniedPath = "/Home/Login";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.Cookie.HttpOnly = true;
     });
 
+// ── DEPENDENCY INJECTION ──────────────────────────────────
+// Dùng chung (Login/Logout)
 builder.Services.AddScoped<IAccountService, AccountService>();
 
+// Phân hệ Admin - Tín đảm nhận
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
 
+// Phân hệ Quầy bán hàng - Tường đảm nhận
+builder.Services.AddScoped<BanHangsBusiness>();
+builder.Services.AddScoped<LichSuHoaDonBusiness>();
+builder.Services.AddScoped<TongQuanCaLamBusiness>();
+
+// Phân hệ Kho - Hải đảm nhận
+builder.Services.AddScoped<KhoHangBusiness>();
+builder.Services.AddScoped<TongQuanKhoBusiness>();
+
+// ── SESSION (dùng cho giỏ hàng của Tường) ────────────────
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(8);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// ── BUILD ─────────────────────────────────────────────────
 var app = builder.Build();
 
->>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -59,21 +61,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-<<<<<<< HEAD
-app.UseStaticFiles(); // Đảm bảo đã có dòng này thay vì chỉ dùng MapStaticAssets
-
-app.UseRouting();
-app.UseSession();        
-app.UseAuthentication(); 
-app.UseAuthorization();  
-=======
 app.UseStaticFiles();
-
 app.UseRouting();
 
+app.UseSession();           // Phải trước UseAuthentication
 app.UseAuthentication();
 app.UseAuthorization();
->>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
 
 app.MapControllerRoute(
     name: "default",

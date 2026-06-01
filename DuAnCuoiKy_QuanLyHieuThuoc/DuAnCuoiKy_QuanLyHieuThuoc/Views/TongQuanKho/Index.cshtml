@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-﻿@{
-=======
 ﻿@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.TongQuanKhoViewModel
 
 @{
->>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)
     ViewData["Title"] = "Tổng quan kho - MedVault";
     Layout = "_Layout";
 }
@@ -14,131 +10,6 @@
 }
 
 <div class="p-4" style="background-color: #f8f9fa; min-height: 100vh;">
-<<<<<<< HEAD
-    <!-- Tiêu đề trang -->
-    <div class="mb-4">
-        <h3 class="fw-bold text-dark">Tổng quan kho</h3>
-        <p class="text-muted small">Phạm Văn Bình • Nhân viên kho</p>
-    </div>
-
-    <!-- HÀNG 1: 3 THẺ THỐNG KÊ (ĐÃ FIX LỖI VÒNG TRÒN) -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="kho-stat-card shadow-sm h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="text-muted small fw-bold"><i class="bi bi-box-seam me-2"></i>Tổng mặt hàng</div>
-                        <div class="h2 fw-bold mt-2 mb-0">@ViewBag.TongMatHang <span class="fs-6 fw-normal text-muted">loại</span></div>
-                    </div>
-                    <span class="badge-pill-kho bg-primary-light">Tất cả</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="kho-stat-card shadow-sm border-start border-4 border-warning h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="text-muted small fw-bold"><i class="bi bi-graph-down-arrow me-2"></i>Sắp hết hàng</div>
-                        <div class="h2 fw-bold mt-2 mb-0 text-warning">@ViewBag.SapHetHang <span class="fs-6 fw-normal text-muted">mặt hàng</span></div>
-                    </div>
-                    <span class="badge-pill-kho bg-warning-light">Cảnh báo</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="kho-stat-card shadow-sm border-start border-4 border-danger h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="text-muted small fw-bold"><i class="bi bi-calendar-x me-2"></i>Hết hạn ≤ 30 ngày</div>
-                        <div class="h2 fw-bold mt-2 mb-0 text-danger">@ViewBag.SapHetHan <span class="fs-6 fw-normal text-muted">lô</span></div>
-                    </div>
-                    <span class="badge-pill-kho bg-danger-light">Nguy cấp</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- HÀNG 2: DANH SÁCH CHI TIẾT -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
-                <h6 class="fw-bold mb-4"><i class="bi bi-cart-plus me-2 text-warning"></i>Thuốc cần nhập ngay</h6>
-                <table class="table align-middle table-kho">
-                    <tbody>
-                        @foreach (var item in ViewBag.DsCanNhap)
-                        {
-                            <tr>
-                                <td class="fw-bold small">@item.Ten</td>
-                                <td class="text-danger fw-bold text-center">@item.Ton</td>
-                                <td class="text-end"><button class="btn btn-sm btn-primary rounded-3 px-3">Tạo phiếu</button></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
-                <h6 class="fw-bold mb-4"><i class="bi bi-calendar-event me-2 text-danger"></i>Lô hàng sắp hết hạn</h6>
-                <table class="table align-middle table-kho">
-                    <tbody>
-                        @foreach (var item in ViewBag.DsHetHan)
-                        {
-                            <tr>
-                                <td class="fw-bold small">@item.Ten</td>
-                                <td class="small text-muted">@item.HSD</td>
-                                <td class="text-end"><span class="badge bg-@item.Class bg-opacity-10 text-@item.Class rounded-pill">@item.Status</span></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- HÀNG 3: PHIẾU NHẬP GẦN ĐÂY (FIX LỖI DÍNH CHỮ Đ) -->
-    <div class="card border-0 shadow-sm p-4 rounded-4">
-        <h6 class="fw-bold mb-4">Phiếu nhập kho gần đây</h6>
-        <div class="table-responsive">
-            <table class="table align-middle table-hover">
-                <thead class="bg-light">
-                    <tr>
-                        <th class="ps-3 border-0 small">MÃ PHIẾU</th>
-                        <th class="border-0 small">NGÀY NHẬP</th>
-                        <th class="border-0 small">NHÀ CUNG CẤP</th>
-                        <th class="border-0 small text-end pe-3">TỔNG TIỀN</th>
-                        <th class="border-0 small text-center">CHI TIẾT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var p in ViewBag.DsPhieuNhap)
-                    {
-                        <tr>
-                            <td class="ps-3 text-primary fw-bold">@p.Ma</td>
-                            <td class="small text-muted">@p.Ngay</td>
-                            <td class="small fw-bold">@p.NCC</td>
-                            <!-- FIX LỖI TẠI ĐÂY: @p.Tong kèm span đ -->
-                            <td class="text-end pe-3 fw-bold">@p.Tong<span>đ</span></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-light rounded-circle btn-view-detail" data-bs-toggle="modal" data-bs-target="#modalChiTietPhieu">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- GỌI MODAL TỪ FILE PARTIAL (PHẢI TẠO FILE NÀY) -->
-<partial name="~/Views/PhieuNhaps/_ModalChiTietPhieu.cshtml" />
-
-@section Scripts {
-    <script src="~/js/_KhoTongQuan.js" asp-append-version="true"></script>
-}
-=======
 
     <div class="mb-4">
         <h3 class="fw-bold text-dark">Tổng quan kho</h3>
@@ -274,8 +145,8 @@
                                 <td class="text-end">
 
                                     <a asp-controller="PhieuNhaps"
-                                       asp-action="Create"
-                                       class="btn btn-sm btn-primary rounded-3 px-3">
+                                           asp-action="Create"
+                                           class="btn btn-sm btn-primary rounded-3 px-3">
 
                                         Tạo phiếu
 
@@ -416,4 +287,3 @@
     </div>
 
 </div>
->>>>>>> a1acad9 (Hoan thien giao dien tong quan kho)

@@ -382,3 +382,13 @@
     .tq-legend-dot.past {
         background: var(--tq-gray-300);
     }
+
+/* Tùy chỉnh thanh cuộn cho bảng hóa đơn */
+.tq-card > div[style*="overflow-y: auto"]::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tq-card > div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
+    background-color: var(--tq-gray-300);
+    border-radius: 10px;
+}

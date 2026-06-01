@@ -1,7 +1,7 @@
-﻿using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+﻿using DuAnCuoiKy_QuanLyHieuThuoc.Helpers;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
@@ -19,7 +19,7 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
         // DANH SÁCH PHIẾU NHẬP
         // =====================================================
         public IActionResult Index(
-            string? maNcc,
+            string? keyword,
             DateTime? tuNgay,
             DateTime? denNgay)
         {
@@ -28,20 +28,14 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
                 .Include(x => x.LoHangs)
                 .AsQueryable();
 
-            if (!string.IsNullOrEmpty(maNcc))
-            {
-                query = query.Where(x => x.MaNcc == maNcc);
-            }
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.MaPhieuNhap.Contains(keyword));
 
             if (tuNgay.HasValue)
-            {
                 query = query.Where(x => x.NgayNhap >= tuNgay.Value);
-            }
 
             if (denNgay.HasValue)
-            {
-                query = query.Where(x => x.NgayNhap <= denNgay.Value);
-            }
+                query = query.Where(x => x.NgayNhap <= denNgay.Value.AddDays(1));
 
             var dsPhieu = query
                 .OrderByDescending(x => x.NgayNhap)
@@ -57,15 +51,6 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 
             ViewBag.DsPhieuNhap = dsPhieu;
 
-            ViewBag.DsNCC = new SelectList(
-                _context.NhaCungCaps.ToList(),
-                "MaNcc",
-                "TenNcc",
-                maNcc);
-
-            ViewBag.TuNgay = tuNgay?.ToString("yyyy-MM-dd");
-            ViewBag.DenNgay = denNgay?.ToString("yyyy-MM-dd");
-
             return View();
         }
 
@@ -75,12 +60,11 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var vm = TaoViewModel();
+            var vm = PhieuNhapHelper.TaoViewModel(_context);
 
             vm.DanhSachLoHang.Add(new LoHangNhapVM
             {
-                HanSuDung = DateOnly.FromDateTime(
-                    DateTime.Now.AddMonths(6))
+                HanSuDung = DateOnly.FromDateTime(DateTime.Now.AddMonths(6))
             });
 
             return View(vm);
@@ -93,245 +77,183 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(PhieuNhapCreateViewModel vm)
         {
-            vm = NapLaiCombobox(vm);
+            vm = PhieuNhapHelper.NapLaiCombobox(_context, vm);
 
-            if (vm.DanhSachLoHang == null ||
-                vm.DanhSachLoHang.Count == 0)
+            if (vm.DanhSachLoHang == null || vm.DanhSachLoHang.Count == 0)
             {
-                ModelState.AddModelError("",
-                    "Phải nhập ít nhất 1 mặt hàng.");
-            }
-
-            foreach (var item in vm.DanhSachLoHang)
-            {
-                if (item.HanSuDung <=
-                    DateOnly.FromDateTime(DateTime.Now))
-                {
-                    ModelState.AddModelError("",
-                        $"Lô {item.SoLo}: Hạn sử dụng phải lớn hơn ngày hiện tại.");
-                }
-
-                if (item.GiaNhap <= 0)
-                {
-                    ModelState.AddModelError("",
-                        $"Lô {item.SoLo}: Giá nhập phải lớn hơn 0.");
-                }
-
-                if (item.SoLuongNhap <= 0)
-                {
-                    ModelState.AddModelError("",
-                        $"Lô {item.SoLo}: Số lượng phải lớn hơn 0.");
-                }
-            }
-
-            if (!ModelState.IsValid)
-            {
+                ModelState.AddModelError("", "Phải nhập ít nhất 1 mặt hàng.");
                 return View(vm);
             }
 
-            // Lấy phiếu nhập lớn nhất hiện tại
-var maCuoi = _context.PhieuNhaps
-    .AsEnumerable()
-    .OrderByDescending(x =>
-        int.Parse(x.MaPhieuNhap.Substring(2)))
-    .FirstOrDefault();
+            // 1. KIỂM TRA TRÙNG SỐ LÔ NGAY TRONG FORM (Người dùng nhập trùng 2 dòng trên giao diện)
+            var cacSoLoBiTrungTrongForm = vm.DanhSachLoHang
+                .GroupBy(x => x.SoLo)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
 
-int soMoi = 1;
+            if (cacSoLoBiTrungTrongForm.Any())
+            {
+                ModelState.AddModelError("", $"Số lô không được trùng nhau trong cùng một phiếu nhập: {string.Join(", ", cacSoLoBiTrungTrongForm)}");
+            }
 
-if (maCuoi != null)
-{
-    soMoi =
-        int.Parse(maCuoi.MaPhieuNhap.Substring(2)) + 1;
-}
+            // Kiểm tra các điều kiện logic khác của từng lô hàng
+            foreach (var item in vm.DanhSachLoHang)
+            {
+                if (item.HanSuDung <= DateOnly.FromDateTime(DateTime.Now))
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Hạn sử dụng phải lớn hơn ngày hiện tại.");
 
-string maPhieu = $"PN{soMoi:0000}";
+                if (item.GiaNhap <= 0)
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Giá nhập phải lớn hơn 0.");
+
+                if (item.SoLuongNhap <= 0)
+                    ModelState.AddModelError("",
+                        $"Lô {item.SoLo}: Số lượng phải lớn hơn 0.");
+
+                // 2. KIỂM TRA TRÙNG SỐ LÔ VỚI DATABASE (Số lô này đã từng được nhập trước đây)
+                bool daTonTaiTrongDb = _context.LoHangs.Any(x => x.SoLo == item.SoLo);
+                if (daTonTaiTrongDb)
+                {
+                    ModelState.AddModelError("", $"Số lô '{item.SoLo}' đã tồn tại trong hệ thống. Vui lòng đặt ký hiệu Số lô khác.");
+                }
+            }
+
+            // Nếu có bất kỳ lỗi nào ở trên, trả về View hiển thị danh sách lỗi cho người dùng
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            string maPhieu = PhieuNhapHelper.SinhMaPhieu(_context);
 
             decimal tongTien = vm.DanhSachLoHang
                 .Sum(x => x.GiaNhap * x.SoLuongNhap);
 
-            // ===== LAY NHAN VIEN DA TON TAI =====
             string? maNv = _context.NhanViens
                 .Select(x => x.MaNv)
                 .FirstOrDefault();
 
             if (string.IsNullOrEmpty(maNv))
             {
-                ModelState.AddModelError("",
-                    "Không tìm thấy nhân viên trong hệ thống.");
-
+                ModelState.AddModelError("", "Không tìm thấy nhân viên trong hệ thống.");
                 return View(vm);
             }
 
-            var phieuNhap = new PhieuNhap
+            // Dùng Transaction để đảm bảo an toàn dữ liệu khi lưu nhiều bảng
+            using var transaction = _context.Database.BeginTransactionAsync();
+            try
             {
-                MaPhieuNhap = maPhieu,
-                NgayNhap = DateTime.Now,
-                MaNcc = vm.MaNcc,
-                MaNv = maNv,
-                TongTien = tongTien,
-                GhiChu = ""
-            };
-
-            _context.PhieuNhaps.Add(phieuNhap);
-
-            foreach (var item in vm.DanhSachLoHang)
-            {
-                var lo = new LoHang
+                var phieuNhap = new PhieuNhap
                 {
-                    SoLo = item.SoLo,
-                    MaSp = item.MaSp,
                     MaPhieuNhap = maPhieu,
-                    GiaNhap = item.GiaNhap,
-                    HanSuDung = item.HanSuDung,
-                    SoLuongNhap = item.SoLuongNhap,
-                    SoLuongConLai = item.SoLuongNhap
+                    NgayNhap = DateTime.Now,
+                    MaNcc = vm.MaNcc,
+                    MaNv = maNv,
+                    TongTien = tongTien,
+                    GhiChu = ""
                 };
+                _context.PhieuNhaps.Add(phieuNhap);
 
-                _context.LoHangs.Add(lo);
+                foreach (var item in vm.DanhSachLoHang)
+                {
+                    _context.LoHangs.Add(new LoHang
+                    {
+                        SoLo = item.SoLo,
+                        MaSp = item.MaSp,
+                        MaPhieuNhap = maPhieu,
+                        GiaNhap = item.GiaNhap,
+                        HanSuDung = item.HanSuDung,
+                        SoLuongNhap = item.SoLuongNhap,
+                        SoLuongConLai = item.SoLuongNhap
+                    });
+                }
+
+                _context.SaveChanges();
+                _context.Database.CommitTransaction(); // Hoàn tất lưu dữ liệu an toàn
+            }
+            catch (Exception ex)
+            {
+                _context.Database.RollbackTransaction(); // Hủy bỏ nếu có lỗi phát sinh đột xuất
+                ModelState.AddModelError("", "Lỗi hệ thống khi lưu phiếu nhập: " + (ex.InnerException?.Message ?? ex.Message));
+                return View(vm);
             }
 
-            _context.SaveChanges();
-
-            TempData["Success"] =
-                "Tạo phiếu nhập thành công.";
-
+            TempData["Success"] = "Tạo phiếu nhập thành công.";
             return RedirectToAction(nameof(Index));
         }
 
         // =====================================================
-// CHI TIẾT PHIẾU NHẬP
-// =====================================================
-public IActionResult Details(string id)
-{
-    var phieu = _context.PhieuNhaps
-        .Include(x => x.MaNccNavigation)
-        .Include(x => x.LoHangs)
-            .ThenInclude(x => x.MaSpNavigation)
-        .FirstOrDefault(x => x.MaPhieuNhap == id);
-
-    if (phieu == null)
-    {
-        return NotFound();
-    }
-
-    return View(phieu);
-}
-
-// =====================================================
-// TỒN KHO & CẢNH BÁO
-// =====================================================
-public IActionResult TonKho()
-{
-    var dsTonKho = _context.LoHangs
-        .Include(x => x.MaSpNavigation)
-        .ToList()
-        .GroupBy(x => x.MaSp)
-        .Select(g =>
-        {
-            var sp = g.First().MaSpNavigation;
-
-            int ton = g.Sum(x => x.SoLuongConLai);
-
-            var loGanHetHan = g
-                .OrderBy(x => x.HanSuDung)
-                .FirstOrDefault();
-
-            string status;
-            string css;
-
-            if (ton <= sp.MucCanhBao)
-            {
-                status = "Sắp hết";
-                css = "warning";
-            }
-            else
-            {
-                status = "An toàn";
-                css = "success";
-            }
-
-            return new
-            {
-                Ma = sp.MaSp,
-                Ten = sp.TenSp,
-                Loai = sp.LoaiSp,
-                DVT = sp.MaDvt,
-                Ton = ton,
-                Nguong = sp.MucCanhBao,
-                Progress = Math.Min(
-                    (int)((double)ton / Math.Max(sp.MucCanhBao, 1) * 100),
-                    100),
-                Class = css,
-                Status = status,
-                LoGanHSD =
-                    loGanHetHan != null
-                        ? $"{loGanHetHan.SoLo} ({loGanHetHan.HanSuDung:dd/MM/yyyy})"
-                        : ""
-            };
-        })
-        .ToList();
-
-    ViewBag.DsTonKho = dsTonKho;
-
-    ViewBag.TongMaThuoc = dsTonKho.Count;
-
-    ViewBag.AnToanCount =
-        dsTonKho.Count(x => x.Class == "success");
-
-    ViewBag.SapHetHangCount =
-        dsTonKho.Count(x => x.Class == "warning");
-
-    ViewBag.NguyCapCount =
-        dsTonKho.Count(x => x.Class == "danger");
-
-    return View();
-}
+        // CHI TIẾT PHIẾU NHẬP
         // =====================================================
-        // HELPER
-        // =====================================================
-        private PhieuNhapCreateViewModel TaoViewModel()
+        public IActionResult Details(string id)
         {
-            return new PhieuNhapCreateViewModel
-            {
-                DsNhaCungCap = _context.NhaCungCaps
-                    .Select(x => new SelectListItem
-                    {
-                        Value = x.MaNcc,
-                        Text = x.TenNcc
-                    })
-                    .ToList(),
+            var phieu = _context.PhieuNhaps
+                .Include(x => x.MaNccNavigation)
+                .Include(x => x.LoHangs)
+                    .ThenInclude(x => x.MaSpNavigation)
+                .FirstOrDefault(x => x.MaPhieuNhap == id);
 
-                DsSanPham = _context.SanPhams
-                    .Select(x => new SelectListItem
-                    {
-                        Value = x.MaSp,
-                        Text = x.TenSp
-                    })
-                    .ToList()
-            };
+            if (phieu == null)
+                return NotFound();
+
+            return View(phieu);
         }
 
-        private PhieuNhapCreateViewModel NapLaiCombobox(
-            PhieuNhapCreateViewModel vm)
+        // =====================================================
+        // TỒN KHO & CẢNH BÁO
+        // =====================================================
+        public IActionResult TonKho()
         {
-            vm.DsNhaCungCap = _context.NhaCungCaps
-                .Select(x => new SelectListItem
+            var dsTonKho = _context.LoHangs
+                .Include(x => x.MaSpNavigation)
+                .ToList()
+                .GroupBy(x => x.MaSp)
+                .Select(g =>
                 {
-                    Value = x.MaNcc,
-                    Text = x.TenNcc
+                    var sp = g.First().MaSpNavigation;
+                    int ton = g.Sum(x => x.SoLuongConLai);
+
+                    var loGanHetHan = g.OrderBy(x => x.HanSuDung).FirstOrDefault();
+
+                    string status, css;
+
+                    if (ton <= sp.MucCanhBao)
+                    {
+                        status = "Sắp hết";
+                        css = "warning";
+                    }
+                    else
+                    {
+                        status = "An toàn";
+                        css = "success";
+                    }
+
+                    return new
+                    {
+                        Ma = sp.MaSp,
+                        Ten = sp.TenSp,
+                        Loai = sp.LoaiSp,
+                        DVT = sp.MaDvt,
+                        Ton = ton,
+                        Nguong = sp.MucCanhBao,
+                        Progress = Math.Min(
+                            (int)((double)ton / Math.Max(sp.MucCanhBao, 1) * 100), 100),
+                        Class = css,
+                        Status = status,
+                        LoGanHSD = loGanHetHan != null
+                            ? $"{loGanHetHan.SoLo} ({loGanHetHan.HanSuDung:dd/MM/yyyy})"
+                            : ""
+                    };
                 })
                 .ToList();
 
-            vm.DsSanPham = _context.SanPhams
-                .Select(x => new SelectListItem
-                {
-                    Value = x.MaSp,
-                    Text = x.TenSp
-                })
-                .ToList();
+            ViewBag.DsTonKho = dsTonKho;
+            ViewBag.TongMaThuoc = dsTonKho.Count;
+            ViewBag.AnToanCount = dsTonKho.Count(x => x.Class == "success");
+            ViewBag.SapHetHangCount = dsTonKho.Count(x => x.Class == "warning");
+            ViewBag.NguyCapCount = dsTonKho.Count(x => x.Class == "danger");
 
-            return vm;
+            return View();
         }
-
     }
 }

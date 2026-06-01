@@ -2,6 +2,7 @@
     ViewData["Title"] = "Tồn kho & Cảnh báo";
     Layout = "_Layout";
     string activeTab = ViewBag.ActiveTab ?? "all";
+    string activeLoai = ViewBag.ActiveLoai ?? "all";
 }
 
 @section Styles {
@@ -9,7 +10,8 @@
 }
 
 <div class="inventory-container p-4">
-    <!-- Header -->
+
+    <!-- Breadcrumb + tiêu đề -->
     <div class="mb-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb small">
@@ -19,72 +21,101 @@
                 <li class="breadcrumb-item active fw-bold">Tình trạng tồn kho</li>
             </ol>
         </nav>
-        <h3 class="fw-bold text-dark">Tồn kho & Cảnh báo</h3>
+        <h3 class="fw-bold text-dark">Tồn kho &amp; Cảnh báo</h3>
     </div>
 
     <div class="row g-4">
-        <!-- CỘT TRÁI -->
+
+        <!-- ═══════════════════════ CỘT TRÁI ═══════════════════════ -->
         <div class="col-md-9">
 
-            <!-- Tabs Lọc -->
+            <!-- Tab trạng thái -->
             <ul class="nav inventory-tabs mb-3 border-bottom">
                 <li class="nav-item">
                     <a class="nav-link @(activeTab == "all" ? "active" : "")"
-                       href="@Url.Action("Index", new { tab = "all", keyword = ViewBag.Keyword })">
+                           href="@Url.Action("Index", new { tab = "all", loai = activeLoai, keyword = ViewBag.Keyword })">
                         Tất cả thuốc
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @(activeTab == "saphet" ? "active" : "")"
-                       href="@Url.Action("Index", new { tab = "saphet", keyword = ViewBag.Keyword })">
+                    <a class="nav-link tab-warn @(activeTab == "saphet" ? "active" : "")"
+                           href="@Url.Action("Index", new { tab = "saphet", loai = activeLoai, keyword = ViewBag.Keyword })">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
                         Sắp hết hàng (@ViewBag.SapHetHangCount)
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @(activeTab == "saphetan" ? "active" : "")"
-                       href="@Url.Action("Index", new { tab = "saphetan", keyword = ViewBag.Keyword })">
+                    <a class="nav-link tab-danger @(activeTab == "saphetan" ? "active" : "")"
+                           href="@Url.Action("Index", new { tab = "saphetan", loai = activeLoai, keyword = ViewBag.Keyword })">
+                        <i class="bi bi-calendar-x me-1"></i>
                         Sắp hết hạn (@ViewBag.NguyCapCount)
                     </a>
                 </li>
             </ul>
 
-            <!-- Toolbar Search -->
-            <form method="get" asp-action="Index">
+            <!-- Toolbar: search + lọc loại + nút -->
+            <form method="get" asp-action="Index" id="form-filter">
                 <input type="hidden" name="tab" value="@activeTab" />
-                <div class="d-flex justify-content-between mb-3">
-                    <div class="input-group shadow-sm" style="max-width: 400px;">
-                        <span class="input-group-text bg-white border-0 ps-3">
+                <input type="hidden" name="loai" id="hidden-loai" value="@activeLoai" />
+
+                <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+
+                    <!-- Ô tìm kiếm -->
+                    <div class="input-group shadow-sm flex-grow-1" style="max-width:360px;">
+                        <span class="input-group-text bg-white border-end-0 ps-3">
                             <i class="bi bi-search text-muted small"></i>
                         </span>
                         <input type="text"
+                               id="inventorySearch"
                                name="keyword"
                                value="@ViewBag.Keyword"
-                               class="form-control border-0 py-2 small shadow-none"
+                               class="form-control border-start-0 py-2 small shadow-none"
                                placeholder="Tìm kiếm theo mã, tên thuốc..." />
-                        <button type="submit" class="btn btn-white bg-white border shadow-sm px-3 small">
+                        <button type="submit"
+                                class="btn btn-white bg-white border shadow-sm px-3 small">
                             Tìm
                         </button>
                     </div>
-                    <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-white bg-white border shadow-sm px-3 small">
-                            <i class="bi bi-filter me-2"></i>Lọc
+
+                    <!-- Lọc loại SP: Tất cả / Thuốc / Vật tư -->
+                    <div class="loai-filter-group d-flex gap-1">
+                        <button type="button"
+                                class="btn loai-btn @(activeLoai == "all" ? "active" : "")"
+                                onclick="setLoai('all')">
+                            Tất cả
                         </button>
-                        <button type="button" class="btn btn-white bg-white border shadow-sm px-3 small">
-                            <i class="bi bi-upload me-2"></i>Xuất file
+                        <button type="button"
+                                class="btn loai-btn loai-thuoc @(activeLoai == "THUOC" ? "active" : "")"
+                                onclick="setLoai('THUOC')">
+                            <i class="bi bi-capsule me-1"></i>Thuốc
+                        </button>
+                        <button type="button"
+                                class="btn loai-btn loai-vattu @(activeLoai == "VATTU" ? "active" : "")"
+                                onclick="setLoai('VATTU')">
+                            <i class="bi bi-box-seam me-1"></i>Vật tư
                         </button>
                     </div>
+
+                    <!-- Nút Xuất file → gọi xuatExcel() trong JS -->
+                    <button type="button"
+                            class="btn btn-white bg-white border shadow-sm px-3 small"
+                            onclick="xuatExcel()">
+                        <i class="bi bi-file-earmark-excel me-1 text-success"></i>Xuất file
+                    </button>
+
                 </div>
             </form>
 
             <!-- Bảng dữ liệu -->
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="table-responsive">
-                    <table class="table align-middle mb-0 table-hover table-inventory">
+                    <table class="table align-middle mb-0 table-hover table-inventory"
+                           id="table-tonkho">
                         <thead>
                             <tr>
                                 <th class="ps-4">MÃ</th>
-                                <th>TÊN THUỐC</th>
-                                <th>LOẠI</th>
+                                <th>TÊN SẢN PHẨM</th>
+                                <th>PHÂN LOẠI</th>
                                 <th>ĐVT</th>
                                 <th>TỒN KHO / NGƯỠNG</th>
                                 <th>LÔ GẦN HSD</th>
@@ -95,11 +126,29 @@
                         <tbody>
                             @foreach (var item in ViewBag.DsTonKho)
                             {
-                                <tr>
+                                <tr data-loai="@item.LoaiSP">
                                     <td class="ps-4 fw-bold text-muted small">@item.Ma</td>
                                     <td class="fw-bold text-dark">@item.Ten</td>
-                                    <td class="small text-muted">@item.Loai</td>
+
+                                    <!-- Badge phân loại -->
+                                    <td>
+                                        @if (item.LoaiSP == "THUOC")
+                                        {
+                                            <span class="loai-badge loai-thuoc">
+                                                <i class="bi bi-capsule me-1"></i>Thuốc
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="loai-badge loai-vattu">
+                                                <i class="bi bi-box-seam me-1"></i>Vật tư
+                                            </span>
+                                        }
+                                    </td>
+
                                     <td class="small text-dark">@item.DVT</td>
+
+                                    <!-- Thanh tiến trình tồn kho -->
                                     <td>
                                         <div class="d-flex align-items-center gap-2 mb-1">
                                             <span class="fw-bold text-dark small">@item.Ton</span>
@@ -107,9 +156,11 @@
                                         </div>
                                         <div class="progress progress-ton">
                                             <div class="progress-bar bg-@item.Class"
-                                                 style="width: @item.Progress%"></div>
+                                                 style="width:@item.Progress%"></div>
                                         </div>
                                     </td>
+
+                                    <!-- Lô gần HSD -->
                                     <td class="small text-muted">
                                         @if (item.Class == "danger")
                                         {
@@ -122,12 +173,16 @@
                                             <span>@item.LoGanHSD</span>
                                         }
                                     </td>
+
+                                    <!-- Trạng thái -->
                                     <td>
-                                        <span class="badge bg-@item.Class bg-opacity-10 text-@item.Class px-3 rounded-pill fw-bold"
-                                              style="font-size: 10px;">
+                                        <span class="badge bg-@item.Class bg-opacity-10
+                                            text-@item.Class px-3 rounded-pill fw-bold"
+                                              style="font-size:10px;">
                                             @item.Status
                                         </span>
                                     </td>
+
                                     <td class="text-center">
                                         <button class="btn btn-link text-muted p-0">
                                             <i class="bi bi-three-dots-vertical"></i>
@@ -138,24 +193,42 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Đếm kết quả -->
                 <div class="p-3 bg-white border-top text-muted small">
                     Hiển thị @ViewBag.DsTonKho.Count kết quả
                 </div>
             </div>
+
         </div>
 
-        <!-- CỘT PHẢI -->
+        <!-- ═══════════════════════ CỘT PHẢI ═══════════════════════ -->
         <div class="col-md-3">
             <div class="summary-card shadow-sm p-4">
+
                 <h6 class="fw-bold mb-4">
                     <i class="bi bi-bar-chart-fill text-primary me-2"></i>Tổng quan tồn kho
                 </h6>
 
-                <div class="p-3 mb-4 rounded-4" style="background-color: #f8faff;">
-                    <div class="text-muted small fw-bold">TỔNG MÃ THUỐC</div>
+                <!-- Tổng mã sản phẩm -->
+                <div class="p-3 mb-3 rounded-4" style="background-color:#f8faff;">
+                    <div class="text-muted small fw-bold">TỔNG MÃ SẢN PHẨM</div>
                     <div class="h2 fw-bold text-dark mb-0">@ViewBag.TongMaThuoc</div>
                 </div>
 
+                <!-- Phân loại Thuốc / Vật tư -->
+                <div class="mb-3 p-3 rounded-4" style="background-color:#f0fdf4;">
+                    <div class="d-flex justify-content-between small mb-2">
+                        <span><i class="bi bi-capsule me-1 text-success"></i>Thuốc</span>
+                        <span class="fw-bold text-success">@ViewBag.SoThuoc</span>
+                    </div>
+                    <div class="d-flex justify-content-between small">
+                        <span><i class="bi bi-box-seam me-1 text-primary"></i>Vật tư y tế</span>
+                        <span class="fw-bold text-primary">@ViewBag.SoVatTu</span>
+                    </div>
+                </div>
+
+                <!-- Trạng thái tồn kho -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2 small">
                         <span><span class="status-indicator bg-success"></span>An toàn</span>
@@ -163,21 +236,24 @@
                     </div>
                     <div class="d-flex justify-content-between mb-2 small">
                         <span><span class="status-indicator bg-warning"></span>Sắp hết hàng</span>
-                        <span class="fw-bold">@ViewBag.SapHetHangCount</span>
+                        <span class="fw-bold text-warning">@ViewBag.SapHetHangCount</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2 small">
-                        <span><span class="status-indicator bg-danger"></span>Nguy cấp</span>
-                        <span class="fw-bold">@ViewBag.NguyCapCount</span>
+                        <span><span class="status-indicator bg-danger"></span>Hết hàng / Sắp HSD</span>
+                        <span class="fw-bold text-danger">@ViewBag.NguyCapCount</span>
                     </div>
                 </div>
 
-                <hr class="my-4 opacity-50">
+                <hr class="my-4 opacity-50" />
 
-                <a href="/PhieuNhaps/Create" class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm">
+                <a href="/PhieuNhaps/Create"
+                       class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm">
                     <i class="bi bi-plus-lg me-2"></i>Tạo phiếu nhập
                 </a>
+
             </div>
         </div>
+
     </div>
 </div>
 

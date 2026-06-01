@@ -1,35 +1,130 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using DuAnCuoiKy_QuanLyHieuThuoc.Business;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
+    [Authorize(Roles = "QuanLy")]
     public class NhaCungCapsController : Controller
     {
-        public IActionResult Index()
+        private readonly ISupplierService _supplierService;
+        private readonly HieuThuocDbContext _context;
+
+        public NhaCungCapsController(ISupplierService supplierService, HieuThuocDbContext context)
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            _supplierService = supplierService;
+            _context = context;
+        }
 
-            // 1. Dữ liệu 3 thẻ đối tác nổi bật (Ảnh 6)
-            ViewBag.FeaturedNCC = new List<dynamic>
+        // ============================================================
+        // 1. TRANG DANH SÁCH
+        // ============================================================
+        public async Task<IActionResult> Index(string search)
+        {
+            var data = await _supplierService.GetIndexDataAsync(search);
+            ViewBag.CurrentSearch = search;
+            ViewData["MaTinhThanh"] = new SelectList(_context.TinhThanhs, "MaTinhThanh", "TenTinhThanh");
+            return View(data);
+        }
+
+        // ============================================================
+        // 2. LẤY CHI TIẾT NCC (AJAX - trả JSON cho modal xem/sửa)
+        // ============================================================
+        [HttpGet]
+        public async Task<IActionResult> GetDetail(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return Json(new { success = false, message = "Mã không hợp lệ." });
+
+            var ncc = await _context.NhaCungCaps
+                .Include(n => n.MaPhuongXaNavigation)
+                    .ThenInclude(p => p.MaTinhThanhNavigation)
+                .FirstOrDefaultAsync(n => n.MaNcc == id);
+
+            if (ncc == null)
+                return Json(new { success = false, message = "Không tìm thấy nhà cung cấp." });
+
+            return Json(new
             {
-                new { Ma = "NCC-TRP-01", Ten = "Dược phẩm Traphaco", Loai = "Chiến lược", Status = "Hoạt động", Icon = "building", ColorClass = "primary" },
-                new { Ma = "NCC-DHG-02", Ten = "Dược Hậu Giang (DHG)", Loai = "Nội địa", Status = "Hoạt động", Icon = "hospital", ColorClass = "primary" },
-                new { Ma = "NCC-VTYT-08", Ten = "Vật tư Y tế Bình Minh", Loai = "Cần rà soát", Status = "Tạm ngưng", Icon = "box-seam", ColorClass = "danger" }
-            };
+                success = true,
+                maNcc = ncc.MaNcc,
+                tenNcc = ncc.TenNcc,
+                soDienThoai = ncc.SoDienThoai,
+                email = ncc.Email,
+                diaChi = ncc.DiaChi,
+                trangThai = ncc.TrangThai,
+                tenTinhThanh = ncc.MaPhuongXaNavigation?.MaTinhThanhNavigation?.TenTinhThanh ?? "Chưa rõ"
+            });
+        }
 
-            // 2. Danh sách chi tiết nhà cung cấp
-            ViewBag.DanhSachNCC = new List<dynamic>
+        // ============================================================
+        // 3. THÊM MỚI
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddSupplierViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                new { Ma = "NCC-TRP-01", Ten = "Công ty CP Traphaco", TinhThanh = "Hà Nội", SDT = "024.3681.1111", Status = "Hoạt động", Class = "success" },
-                new { Ma = "NCC-DHG-02", Ten = "Dược Hậu Giang", TinhThanh = "Cần Thơ", SDT = "0292.3891.433", Status = "Hoạt động", Class = "success" },
-                new { Ma = "NCC-VTYT-08", Ten = "Vật tư Y tế Bình Minh", TinhThanh = "Đà Nẵng", SDT = "0236.3821.555", Status = "Tạm ngưng", Class = "danger" },
-                new { Ma = "NCC-OPC-04", Ten = "Công ty CP Dược phẩm OPC", TinhThanh = "TP. HCM", SDT = "028.3875.2048", Status = "Hoạt động", Class = "success" }
-            };
+                string loiValidation = string.Join("; ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                TempData["Error"] = "Dữ liệu không hợp lệ: " + loiValidation;
+                return RedirectToAction(nameof(Index));
+            }
 
-            ViewBag.TinhThanh = new SelectList(new[] { "Hà Nội", "TP. Hồ Chí Minh", "Đà Nẵng", "Cần Thơ", "Hải Phòng" });
+            bool ketQua = await _supplierService.AddSupplierAsync(model);
 
-            return View();
+            if (ketQua)
+                TempData["Success"] = $"Thêm nhà cung cấp '{model.TenNcc}' thành công!";
+            else
+                TempData["Error"] = "Lỗi hệ thống: Không thể lưu nhà cung cấp vào Database.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ============================================================
+        // 4. CẬP NHẬT
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditSupplierViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            bool ketQua = await _supplierService.UpdateSupplierAsync(model);
+
+            if (ketQua)
+                TempData["Success"] = $"Cập nhật nhà cung cấp '{model.TenNcc}' thành công!";
+            else
+                TempData["Error"] = "Không tìm thấy nhà cung cấp hoặc lỗi hệ thống.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ============================================================
+        // 5. XÓA
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id)
+        {
+            bool ketQua = await _supplierService.DeleteSupplierAsync(id);
+
+            if (ketQua)
+                TempData["Success"] = "Đã xóa nhà cung cấp khỏi hệ thống.";
+            else
+                TempData["Error"] = "Không thể xóa: Nhà cung cấp đã có phiếu nhập liên quan hoặc không tồn tại.";
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

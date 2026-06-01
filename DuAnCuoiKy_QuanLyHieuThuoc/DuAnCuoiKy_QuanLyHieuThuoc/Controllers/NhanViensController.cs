@@ -1,40 +1,141 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using DuAnCuoiKy_QuanLyHieuThuoc.Models;
+using DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels;
+using DuAnCuoiKy_QuanLyHieuThuoc.Business;
+using DuAnCuoiKy_QuanLyHieuThuoc.Enums;
 
 namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 {
+    [Authorize(Roles = "QuanLy")]
     public class NhanViensController : Controller
     {
-        public IActionResult Index()
+        private readonly IStaffService _staffService;
+        private readonly HieuThuocDbContext _context;
+
+        public NhanViensController(IStaffService staffService, HieuThuocDbContext context)
         {
-            // --- [VỊ TRÍ HARDCODE HỆ THỐNG] ---
+            _staffService = staffService;
+            _context = context;
+        }
 
-            // 1. Dữ liệu 4 thẻ thống kê (Ảnh 4)
-            ViewBag.TongNhanSu = 24;
-            ViewBag.DangLamViec = 18;
-            ViewBag.DuocSiChinh = 5;
-            ViewBag.NghiPhep = 3;
+        // ============================================================
+        // 1. TRANG DANH SÁCH
+        // ============================================================
+        [HttpGet]
+        public async Task<IActionResult> Index(string search)
+        {
+            var data = await _staffService.GetStaffIndexDataAsync(search);
+            ViewBag.CurrentSearch = search;
+            ViewData["MaVaiTro"] = new SelectList(_context.VaiTros, "MaVaiTro", "TenVaiTro");
+            return View(data);
+        }
 
-            // 2. Danh sách nhân viên mẫu
-            var dsNhanVien = new List<dynamic>
+        // ============================================================
+        // 2. THÊM NHÂN VIÊN MỚI
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddStaffViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                new { Ma = "NV001", Ten = "Lê Văn An", Email = "an.le@medvault.com", GioiTinh = "Nam", SDT = "0901234567", VaiTro = "Dược sĩ trưởng", NgayVao = "15/03/2021", Status = "Hoạt động", Class = "success", Initial = "LA" },
-                new { Ma = "NV002", Ten = "Trần Thị Bình", Email = "binh.tran@medvault.com", GioiTinh = "Nữ", SDT = "0912345678", VaiTro = "Nhân viên kho", NgayVao = "10/06/2022", Status = "Nghỉ phép", Class = "secondary", Initial = "TB" },
-                new { Ma = "NV003", Ten = "Phạm Văn Cường", Email = "cuong.pham@medvault.com", GioiTinh = "Nam", SDT = "0987654321", VaiTro = "Bán hàng", NgayVao = "01/11/2023", Status = "Tạm nghỉ", Class = "warning", Initial = "PC" },
-                new { Ma = "NV004", Ten = "Hoàng Mỹ Linh", Email = "linh.hoang@medvault.com", GioiTinh = "Nữ", SDT = "0934567890", VaiTro = "Bán hàng", NgayVao = "20/01/2024", Status = "Hoạt động", Class = "success", Initial = "HL" }
-            };
-            ViewBag.DanhSachNV = dsNhanVien;
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+                TempData["Error"] = string.Join(" | ", errors);
+                return RedirectToAction(nameof(Index));
+            }
 
-            // Dữ liệu cho Dropdown Vai trò trong Modal
-            ViewBag.VaiTro = new SelectList(new[] { "Quản lý", "Dược sĩ trưởng", "Bán hàng", "Nhân viên kho" });
+            bool isUsernameTaken = await _context.TaiKhoans
+                .AnyAsync(t => t.TenDangNhap == model.TenDangNhap);
+            if (isUsernameTaken)
+            {
+                TempData["Error"] = "Tên đăng nhập này đã được sử dụng.";
+                return RedirectToAction(nameof(Index));
+            }
 
-            /* [NOTE LINQ]: 
-               ViewBag.TongNhanSu = _context.NhanViens.Count();
-               var nhanviens = _context.NhanViens.Include(n => n.TaiKhoan).ToList();
-            */
+            bool isPhoneTaken = await _context.NhanViens
+                .AnyAsync(n => n.SoDienThoai == model.SoDienThoai);
+            if (isPhoneTaken)
+            {
+                TempData["Error"] = "Số điện thoại này đã tồn tại trên hệ thống.";
+                return RedirectToAction(nameof(Index));
+            }
 
-            return View();
+            bool result = await _staffService.AddStaffAsync(model);
+            TempData[result ? "Success" : "Error"] = result
+                ? $"Thêm nhân viên {model.HoTen} thành công!"
+                : "Lỗi lưu Database. Kiểm tra mật khẩu phải có CHỮ HOA + chữ thường + ký tự @.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ============================================================
+        // 3. LẤY DỮ LIỆU NHÂN VIÊN CHO MODAL SỬA (AJAX GET)
+        // ============================================================
+        [HttpGet]
+        public async Task<IActionResult> GetForEdit(string id)
+        {
+            var model = await _staffService.GetStaffForEditAsync(id);
+            if (model == null) return NotFound();
+            return Json(model);
+        }
+
+        // ============================================================
+        // 4. LƯU CHỈNH SỬA NHÂN VIÊN
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditStaffViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+                TempData["Error"] = string.Join(" | ", errors);
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Kiểm tra trùng SĐT (trừ chính nhân viên đang sửa)
+            bool isPhoneTaken = await _context.NhanViens
+                .AnyAsync(n => n.SoDienThoai == model.SoDienThoai && n.MaNv != model.MaNv);
+            if (isPhoneTaken)
+            {
+                TempData["Error"] = "Số điện thoại này đã được dùng bởi nhân viên khác.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            bool result = await _staffService.UpdateStaffAsync(model);
+            TempData[result ? "Success" : "Error"] = result
+                ? $"Cập nhật nhân viên {model.HoTen} thành công!"
+                : "Lỗi lưu Database. Kiểm tra mật khẩu mới phải có CHỮ HOA + chữ thường + ký tự @.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ============================================================
+        // 5. KHÓA / MỞ KHÓA
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleStatus(string id)
+        {
+            var nv = await _context.NhanViens.FindAsync(id);
+            if (nv != null)
+            {
+                nv.TrangThai = !nv.TrangThai;
+                await _context.SaveChangesAsync();
+                TempData["Success"] = $"Đã {(nv.TrangThai ? "mở khóa" : "khóa")} tài khoản nhân viên thành công.";
+            }
+            else
+            {
+                TempData["Error"] = "Không tìm thấy nhân viên.";
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

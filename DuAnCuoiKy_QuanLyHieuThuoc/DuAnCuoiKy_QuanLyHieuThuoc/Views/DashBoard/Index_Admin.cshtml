@@ -1,158 +1,174 @@
-﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Models
+﻿@using DuAnCuoiKy_QuanLyHieuThuoc.Helpers
+@model DuAnCuoiKy_QuanLyHieuThuoc.Models.ViewModels.AdminDashboardViewModel
+
 @{
-    ViewData["Title"] = "Dashboard - Tổng quan";
+    ViewData["Title"] = "Dashboard Quản lý";
     Layout = "_Layout";
 }
 
 @section Styles {
-    <!-- Kết nối file CSS đã tách riêng cho Dashboard -->
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
 }
 
-<div class="p-4" style="background-color: #f8f9fa; min-height: 100vh;">
-
-    <!-- Tiêu đề và Lời chào (Ảnh 2) -->
+<div class="p-4">
     <div class="mb-4">
-        <h3 class="fw-bold text-dark">Chào mừng trở lại, Nguyễn Thị Mai!</h3>
-        <p class="text-muted small">Hệ thống đang hoạt động ổn định. Kiểm tra báo cáo hiệu thuốc của bạn hôm nay.</p>
+        <h3 class="fw-bold text-dark">Chào mừng trở lại, @User.Identity!.Name!</h3>
+        <p class="text-muted small">
+            Hôm nay (@DateTime.Today.ToString("dd/MM/yyyy")) có
+            <strong>@Model.SoHoaDonHomNay</strong> hóa đơn được ghi nhận.
+        </p>
     </div>
 
-    <!-- Hàng 1: 4 Thẻ thống kê (Ảnh 2) -->
+    <!-- Hàng 1: Thẻ thống kê -->
     <div class="row g-3 mb-4">
-        <!-- Thẻ Doanh thu -->
         <div class="col-md-3">
             <div class="stat-card shadow-sm">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div class="stat-icon icon-revenue"><i class="bi bi-cash-stack"></i></div>
-                    <div class="text-success small fw-bold"><i class="bi bi-graph-up"></i> +12.5%</div>
-                </div>
-                <div class="stat-label text-muted small fw-bold mt-2">DOANH THU HÔM NAY</div>
-                <div class="stat-value text-dark">@ViewBag.DoanhThuHomNay<span class="fs-6 fw-normal">đ</span></div>
+                <div class="stat-icon icon-revenue mb-2">💰</div>
+                <div class="stat-label text-muted small fw-bold">DOANH THU HÔM NAY</div>
+                <div class="stat-value text-primary">@CurrencyHelper.ToVnd(Model.DoanhThuHomNay)</div>
             </div>
         </div>
-
-        <!-- Thẻ Hóa đơn -->
         <div class="col-md-3">
             <div class="stat-card shadow-sm">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div class="stat-icon icon-orders"><i class="bi bi-receipt"></i></div>
-                    <div class="text-primary small fw-bold">+8 đơn mới</div>
-                </div>
-                <div class="stat-label text-muted small fw-bold mt-2">SỐ HÓA ĐƠN</div>
-                <div class="stat-value text-dark">@ViewBag.SoHoaDon</div>
+                <div class="stat-icon icon-orders mb-2">🧾</div>
+                <div class="stat-label text-muted small fw-bold">SỐ HÓA ĐƠN</div>
+                <div class="stat-value">@Model.SoHoaDonHomNay</div>
             </div>
         </div>
-
-        <!-- Thẻ Thuốc sắp hết -->
         <div class="col-md-3">
             <div class="stat-card shadow-sm border-start border-4 border-warning">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div class="stat-icon icon-low-stock"><i class="bi bi-exclamation-triangle"></i></div>
-                    <div class="text-danger small fw-bold">Cần nhập kho</div>
-                </div>
-                <div class="stat-label text-muted small fw-bold mt-2">THUỐC SẮP HẾT</div>
-                <div class="stat-value text-warning">@ViewBag.ThuocSapHet <span class="fs-6 fw-normal text-muted">mặt hàng</span></div>
+                <div class="stat-icon icon-low-stock mb-2">⚠️</div>
+                <div class="stat-label text-muted small fw-bold">THUỐC SẮP HẾT</div>
+                <div class="stat-value text-warning">@Model.ThuocSapHetHang</div>
             </div>
         </div>
-
-        <!-- Thẻ Lô cận hạn -->
         <div class="col-md-3">
             <div class="stat-card shadow-sm border-start border-4 border-danger">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div class="stat-icon icon-expiring"><i class="bi bi-calendar-x"></i></div>
-                    <div class="text-muted small fw-bold">Hạn < 30 ngày</div>
-                </div>
-                <div class="stat-label text-muted small fw-bold mt-2">LÔ SẮP HẾT HẠN</div>
-                <div class="stat-value text-danger">@ViewBag.LoSapHetHan <span class="fs-6 fw-normal text-muted">lô</span></div>
+                <div class="stat-icon icon-expiring mb-2">📅</div>
+                <div class="stat-label text-muted small fw-bold">LÔ SẮP HẾT HẠN</div>
+                <div class="stat-value text-danger">@Model.LoSapHetHan</div>
             </div>
         </div>
     </div>
 
-    <!-- Hàng 2: Biểu đồ và Cảnh báo tồn kho -->
+    <!-- Hàng 2: Biểu đồ & Cảnh báo -->
     <div class="row g-4 mb-4">
-        <!-- Biểu đồ doanh thu 6 tháng -->
         <div class="col-md-8">
             <div class="content-card shadow-sm">
-                <div class="card-title">
-                    <span class="fw-bold">Doanh thu 6 tháng</span>
-                    <a href="/BaoCao/Index" class="btn btn-sm btn-light text-primary fw-bold rounded-pill px-3">Chi tiết</a>
-                </div>
-                <!-- Div Container fix lỗi tuột biểu đồ -->
-                <div class="chart-container" style="position: relative; height: 320px; width: 100%;">
+                <h5 class="fw-bold mb-4">Doanh thu 6 tháng gần nhất (Triệu đồng)</h5>
+                <div style="position: relative; height: 320px;">
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
         </div>
-
-        <!-- Cảnh báo tồn kho (Bên phải) -->
         <div class="col-md-4">
             <div class="content-card shadow-sm">
-                <div class="card-title">
-                    <span class="fw-bold">Cảnh báo tồn kho</span>
-                    <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">12 mục</span>
-                </div>
-                <div class="list-group list-group-flush mt-3">
-                    @foreach (var item in ViewBag.CanhBaoTonKho)
-                    {
-                        <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3 border-bottom">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="p-2 bg-light rounded-3 text-primary"><i class="bi bi-capsule"></i></div>
-                                <div>
-                                    <div class="fw-bold small text-dark">@item.Ten</div>
-                                    <div class="text-@item.Mau small" style="font-size: 11px;">Tồn thực tế: @item.Ton</div>
-                                </div>
+                <h5 class="fw-bold mb-3 text-danger">⚠ Cần nhập hàng gấp</h5>
+                @if (!Model.DanhSachCanhBao.Any())
+                {
+                    <p class="text-muted small fst-italic">Không có mặt hàng nào cần nhập gấp.</p>
+                }
+                else
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var item in Model.DanhSachCanhBao)
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2 border-bottom">
+                                <span class="small fw-bold">@item.TenSp</span>
+                                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill">
+                                    Tồn: @item.SoLuongTon / @item.MucCanhBao
+                                </span>
                             </div>
-                            <button class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" style="font-size: 11px;">Nhập hàng</button>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>
 
-    <!-- Hàng 3: Bảng 5 hóa đơn mới nhất -->
+    <!-- Hàng 3: Hóa đơn mới nhất -->
     <div class="content-card shadow-sm">
-        <div class="card-title">
-            <span class="fw-bold">5 hóa đơn mới nhất</span>
-            <a href="/HoaDons/Index" class="text-primary text-decoration-none small fw-bold">Xem tất cả <i class="bi bi-arrow-right"></i></a>
-        </div>
-        <div class="table-responsive mt-2">
-            <table class="table align-middle table-hover mb-0">
-                <thead class="bg-light">
+        <h5 class="fw-bold mb-4">Hóa đơn mới phát sinh</h5>
+        @if (!Model.HoaDonMoiNhat.Any())
+        {
+            <p class="text-muted fst-italic">Chưa có hóa đơn nào hôm nay.</p>
+        }
+        else
+        {
+            <table class="table align-middle table-hover table-dashboard">
+                <thead class="table-light">
                     <tr>
-                        <th class="ps-3 border-0 text-muted small fw-bold">MÃ HĐ</th>
-                        <th class="border-0 text-muted small fw-bold">THỜI GIAN</th>
-                        <th class="border-0 text-muted small fw-bold">THU NGÂN</th>
-                        <th class="border-0 text-muted small fw-bold text-end">TỔNG TIỀN</th>
-                        <th class="border-0 text-muted small fw-bold text-center">TRẠNG THÁI</th>
-                        <th class="border-0 text-muted small fw-bold text-center">HÀNH ĐỘNG</th>
+                        <th>MÃ HĐ</th>
+                        <th>THỜI GIAN</th>
+                        <th>THU NGÂN</th>
+                        <th>KHÁCH HÀNG</th>
+                        <th class="text-end">TỔNG TIỀN</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var hd in ViewBag.RecentInvoices)
+                    @foreach (var hd in Model.HoaDonMoiNhat)
                     {
                         <tr>
-                            <td class="ps-3 fw-bold text-primary border-0 small">@hd.MaHD</td>
-                            <td class="text-muted border-0 small">@hd.Gio</td>
-                            <td class="fw-bold border-0 small text-dark">@hd.ThuNgan</td>
-                            <td class="fw-bold border-0 text-end text-dark">@hd.Tong<span class="small text-muted ms-1">đ</span></td>
-                            <td class="text-center border-0">
-                                <span class="badge bg-@hd.StatusClass bg-opacity-10 text-@hd.StatusClass px-3 rounded-pill fw-bold" style="font-size: 10px;">@hd.Status</span>
-                            </td>
-                            <td class="text-center border-0">
-                                <button class="btn btn-sm btn-light rounded-circle text-muted"><i class="bi bi-eye"></i></button>
-                            </td>
+                            <td class="fw-bold text-primary">@hd.MaHd</td>
+                            <td class="small text-muted">@hd.NgayBan.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td>@hd.TenNhanVien</td>
+                            <td class="small">@(hd.TenKhachHang ?? "Khách lẻ")</td>
+                            <td class="text-end fw-bold">@CurrencyHelper.ToVnd(hd.TongTien)</td>
                         </tr>
                     }
                 </tbody>
             </table>
-        </div>
+        }
     </div>
 </div>
 
 @section Scripts {
-    <!-- Thư viện biểu đồ Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Kết nối file JS đã tách để vẽ biểu đồ -->
-    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    <script>
+        // BUG FIX #6: File dashboard.js (hardcode) và inline script đều khởi tạo Chart
+        // trên cùng canvas "revenueChart" -> lỗi "Canvas is already in use".
+        // Giải pháp: KHÔNG load dashboard.js nữa, chỉ dùng inline script với dữ liệu thật từ C#.
+
+        const labels = @Html.Raw(Json.Serialize(Model.LabelsBieuDo));
+        const dataValues = @Html.Raw(Json.Serialize(Model.DataBieuDo));
+
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: labels,
+        datasets: [{
+        label: 'Doanh thu (triệu đồng)',
+        data: dataValues,
+        backgroundColor: 'rgba(13, 110, 253, 0.85)',
+        borderRadius: 10,
+        barThickness: 40
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+        legend: { display: false },
+        tooltip: {
+        callbacks: {
+        label: ctx => ctx.parsed.y.toFixed(1) + ' triệu'
+        }
+        }
+        },
+        scales: {
+        y: {
+        beginAtZero: true,
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: {
+        callback: val => val + 'M'
+        }
+        },
+        x: {
+        grid: { display: false }
+        }
+        }
+        }
+        });
+    </script>
 }

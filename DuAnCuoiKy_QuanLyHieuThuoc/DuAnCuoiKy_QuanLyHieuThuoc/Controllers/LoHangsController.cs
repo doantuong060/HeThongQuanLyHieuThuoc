@@ -13,11 +13,12 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string? tab, string? keyword)
+        // Thêm tham số loai để lọc THUOC / VATTU
+        public IActionResult Index(string? tab, string? keyword, string? loai)
         {
             var dsLoHang = _context.LoHangs
                 .Include(x => x.MaSpNavigation)
-                .ThenInclude(x => x.MaDvtNavigation)
+                    .ThenInclude(x => x.MaDvtNavigation)
                 .ToList();
 
             var ngayCanhBaoHSD = DateOnly.FromDateTime(DateTime.Now.AddMonths(1));
@@ -48,6 +49,9 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
                 {
                     Ma = x.MaSp,
                     Ten = x.MaSpNavigation?.TenSp ?? "",
+                    // LoaiSP dùng để lọc Thuốc / Vật tư ("THUOC" hoặc "VATTU")
+                    LoaiSP = x.MaSpNavigation?.LoaiSp ?? "",
+                    // Loai là nhóm chi tiết (Kháng sinh, Băng gạc...)
                     Loai = x.MaSpNavigation?.LoaiSp ?? "",
                     DVT = x.MaSpNavigation?.MaDvtNavigation?.TenDvt ?? "",
                     Ton = soLuongCon,
@@ -59,20 +63,35 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
                 };
             }).ToList();
 
-            // Đếm cho sidebar (luôn tính trên toàn bộ, không bị ảnh hưởng bởi filter)
+            // ── Đếm cho sidebar (tính trên toàn bộ, không bị filter ảnh hưởng) ──
             ViewBag.TongMaThuoc = result.Select(x => x.Ma).Distinct().Count();
             ViewBag.AnToanCount = result.Count(x => x.Status == "An toàn");
             ViewBag.SapHetHangCount = result.Count(x => x.Status == "Sắp hết");
             ViewBag.NguyCapCount = result.Count(x => x.Status == "Sắp hết hạn");
 
-            // Lọc theo tab
+            // ── Đếm riêng Thuốc / Vật tư ──
+            ViewBag.SoThuoc = result
+                .DistinctBy(x => x.Ma)
+                .Count(x => x.LoaiSP == "THUOC");
+            ViewBag.SoVatTu = result
+                .DistinctBy(x => x.Ma)
+                .Count(x => x.LoaiSP == "VATTU");
+
+            // ── Lọc theo tab (trạng thái) ──
             var filtered = result.AsEnumerable();
+
             if (tab == "saphet")
                 filtered = filtered.Where(x => x.Status == "Sắp hết");
             else if (tab == "saphetan")
                 filtered = filtered.Where(x => x.Status == "Sắp hết hạn");
 
-            // Lọc theo keyword
+            // ── Lọc theo loại SP ──
+            if (loai == "THUOC")
+                filtered = filtered.Where(x => x.LoaiSP == "THUOC");
+            else if (loai == "VATTU")
+                filtered = filtered.Where(x => x.LoaiSP == "VATTU");
+
+            // ── Lọc theo keyword ──
             if (!string.IsNullOrWhiteSpace(keyword))
                 filtered = filtered.Where(x =>
                     x.Ma.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
@@ -80,6 +99,7 @@ namespace DuAnCuoiKy_QuanLyHieuThuoc.Controllers
 
             ViewBag.DsTonKho = filtered.ToList();
             ViewBag.ActiveTab = tab ?? "all";
+            ViewBag.ActiveLoai = loai ?? "all";
             ViewBag.Keyword = keyword ?? "";
 
             return View();
